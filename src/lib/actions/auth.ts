@@ -13,6 +13,22 @@ export async function signInWithPassword(email: string, password: string): Promi
   return { success: true };
 }
 
+export async function signUpWithPassword(
+  fullName: string,
+  email: string,
+  password: string,
+): Promise<ActionResult> {
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: { data: { full_name: fullName } },
+  });
+
+  if (error) return { success: false, error: error.message };
+  return { success: true };
+}
+
 export async function signOut() {
   const supabase = await createClient();
   await supabase.auth.signOut();
