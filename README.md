@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Amir Engineering
 
-## Getting Started
+Public website, e-commerce and admin portal for Amir Engineering — a manufacturer of food-processing
+machinery (noodle, macaroni, pasta, vermicelli) and finished food products.
 
-First, run the development server:
+This is round 1 of the build ("Foundation"): project scaffolding, the full database schema, auth/RBAC,
+the design system, a real homepage, a complete machinery → quote-request vertical slice, and a working
+admin Quotes module. Every other module (Shop, Orders, Expenses, Finance, CMS, etc.) already has its
+schema and RLS policies in place, with a placeholder page in both the public site and admin portal so
+navigation has no dead ends — building out each module's UI is future-round work.
+
+See **[SETUP.md](./SETUP.md)** for how to get this running locally and deployed to Vercel.
+
+## Stack
+
+- Next.js 16 (App Router, Turbopack) + React 19 + TypeScript
+- Tailwind CSS v4 + shadcn/ui (Radix UI base)
+- Supabase (Postgres, Auth, Storage, Row Level Security)
+- react-hook-form + zod for forms/validation
+- motion (Framer Motion) for animation
+- Deployed on Vercel
+
+## Local development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Requires a `.env.local` with Supabase credentials — see SETUP.md. For local development against a
+throwaway Supabase instance (no cloud project needed), use the Supabase CLI:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npx supabase start   # spins up Postgres + Auth + Storage in Docker
+npx supabase db reset  # applies all migrations + seed data
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project structure
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+supabase/migrations/   Database schema, in order (0001…0012)
+supabase/seed.sql       Placeholder demo data
+src/app/(public)/       Public marketing site, machinery, production lines, quote flow
+src/app/(public)/(shop) Cart/checkout (stub)
+src/app/(public)/(account) Customer auth + account area
+src/app/admin/           Staff-only admin portal (role-gated)
+src/lib/supabase/        Browser/server/proxy Supabase clients
+src/lib/auth/            Profile + role helpers
+src/lib/data/            Read-only Supabase query layer
+src/lib/actions/         Server Actions (writes)
+src/lib/content/         Placeholder copy/nav — swap for real content later
+```
