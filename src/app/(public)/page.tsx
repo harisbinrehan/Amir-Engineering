@@ -1,6 +1,7 @@
 import { Hero } from "@/components/home/hero";
 import { TrustIntro } from "@/components/home/trust-intro";
 import { MachineryShowcase } from "@/components/home/machinery-showcase";
+import { VideoShowcase } from "@/components/home/video-showcase";
 import { ProductionLinesTeaser } from "@/components/home/production-lines-teaser";
 import { FoodProductsTeaser } from "@/components/home/food-products-teaser";
 import { ProjectsTeaser } from "@/components/home/projects-teaser";
@@ -42,6 +43,7 @@ export default function HomePage() {
       <Hero />
       <TrustIntro />
       <MachineryShowcase />
+      <VideoShowcase />
       <ProductionLinesTeaser />
       <FoodProductsTeaser />
       <ProjectsTeaser />

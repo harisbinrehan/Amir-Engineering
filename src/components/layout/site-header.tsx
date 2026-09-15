@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { primaryNav, utilityNav } from "@/lib/content/nav-links";
 import { MobileNavDrawer } from "@/components/layout/mobile-nav-drawer";
+import { LogoMark } from "@/components/icons/logo";
 import { cn } from "@/lib/utils";
 
 export function SiteHeader() {
@@ -27,9 +28,7 @@ export function SiteHeader() {
     <header className="bg-background/95 border-border sticky top-0 z-50 border-b backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
         <Link href="/" className="font-heading flex items-center gap-2 text-lg font-bold tracking-tight">
-          <span className="bg-primary text-primary-foreground flex size-8 items-center justify-center rounded-md text-sm">
-            AE
-          </span>
+          <LogoMark />
           <span className="hidden sm:inline">Amir Engineering</span>
         </Link>
 

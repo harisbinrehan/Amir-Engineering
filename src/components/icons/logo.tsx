@@ -1,0 +1,42 @@
+import { cn } from "@/lib/utils";
+
+/**
+ * Brand mark: a monoline "A" (peak/roofline, doubling as an upward
+ * production/growth cue) on a machined charcoal badge. Colors are fixed
+ * hex, not theme tokens — a brand mark should read the same regardless of
+ * light/dark mode. Pure geometry, no font dependency, so it also works
+ * standalone as src/app/icon.svg (favicon).
+ */
+export function LogoMark({
+  className,
+  variant = "badge",
+}: {
+  className?: string;
+  /** "badge": charcoal square + amber mark (default, light surfaces). "bare": amber mark only, for placing directly on an already-dark surface (e.g. the footer). */
+  variant?: "badge" | "bare";
+}) {
+  return (
+    <svg viewBox="0 0 100 100" fill="none" className={cn("size-8", className)} aria-hidden="true">
+      {variant === "badge" && <rect width="100" height="100" rx="22" fill="#1B1E24" />}
+      <path
+        d="M26 78 L50 24 L74 78"
+        stroke="#E8871E"
+        strokeWidth="9"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path d="M38 58 H62" stroke="#E8871E" strokeWidth="9" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function Logo({ className, wordmarkClassName }: { className?: string; wordmarkClassName?: string }) {
+  return (
+    <span className={cn("inline-flex items-center gap-2", className)}>
+      <LogoMark />
+      <span className={cn("font-heading text-lg font-bold tracking-tight", wordmarkClassName)}>
+        Amir Engineering
+      </span>
+    </span>
+  );
+}

@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { primaryNav, utilityNav } from "@/lib/content/nav-links";
+import { LogoMark } from "@/components/icons/logo";
 import { cn } from "@/lib/utils";
 
 export function MobileNavDrawer({
@@ -26,7 +27,10 @@ export function MobileNavDrawer({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="right" className="w-full max-w-sm gap-0 p-0">
         <SheetHeader className="border-b">
-          <SheetTitle className="font-heading">Amir Engineering</SheetTitle>
+          <SheetTitle className="font-heading flex items-center gap-2">
+            <LogoMark className="size-7" />
+            Amir Engineering
+          </SheetTitle>
         </SheetHeader>
         <nav className="flex flex-col gap-1 overflow-y-auto p-4">
           {primaryNav.map((item) => (
