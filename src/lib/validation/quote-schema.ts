@@ -8,7 +8,7 @@ export const quoteRequestSchema = z.object({
   country: z.string().trim().max(80).optional().or(z.literal("")),
   city: z.string().trim().max(80).optional().or(z.literal("")),
   requiredCapacity: z.string().trim().max(160).optional().or(z.literal("")),
-  quantity: z.coerce.number().int().min(1).max(1000).default(1),
+  quantity: z.number().int().min(1).max(1000),
   message: z.string().trim().max(2000).optional().or(z.literal("")),
   machineryId: z.string().uuid().optional(),
   productionLineId: z.string().uuid().optional(),

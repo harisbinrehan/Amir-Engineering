@@ -131,7 +131,7 @@ export function QuoteRequestForm({
           <Field data-invalid={!!errors.quantity}>
             <FieldLabel htmlFor="quantity">Quantity</FieldLabel>
             <FieldContent>
-              <Input id="quantity" type="number" min={1} {...register("quantity")} />
+              <Input id="quantity" type="number" min={1} {...register("quantity", { valueAsNumber: true })} />
               <FieldError errors={[errors.quantity]} />
             </FieldContent>
           </Field>
