@@ -1,0 +1,52 @@
+import { Hero } from "@/components/home/hero";
+import { TrustIntro } from "@/components/home/trust-intro";
+import { MachineryShowcase } from "@/components/home/machinery-showcase";
+import { ProductionLinesTeaser } from "@/components/home/production-lines-teaser";
+import { FoodProductsTeaser } from "@/components/home/food-products-teaser";
+import { ProjectsTeaser } from "@/components/home/projects-teaser";
+import { TestimonialsSection } from "@/components/home/testimonials-section";
+import { CtaSection } from "@/components/home/cta-section";
+import { siteConfig } from "@/lib/content/site-config";
+
+export default function HomePage() {
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: siteConfig.legalName,
+    url: siteConfig.url,
+    description: siteConfig.description,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: siteConfig.contact.address.line1,
+      addressLocality: siteConfig.contact.address.city,
+      addressRegion: siteConfig.contact.address.region,
+      postalCode: siteConfig.contact.address.postalCode,
+      addressCountry: siteConfig.contact.address.country,
+    },
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: siteConfig.contact.phone,
+      email: siteConfig.contact.email,
+      contactType: "sales",
+    },
+    sameAs: Object.values(siteConfig.social),
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+      />
+      <Hero />
+      <TrustIntro />
+      <MachineryShowcase />
+      <ProductionLinesTeaser />
+      <FoodProductsTeaser />
+      <ProjectsTeaser />
+      <TestimonialsSection />
+      <CtaSection />
+    </>
+  );
+}

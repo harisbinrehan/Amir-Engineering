@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { FacebookIcon, LinkedinIcon, YoutubeIcon, InstagramIcon, MailIcon, PhoneIcon, MapPinIcon } from "lucide-react";
+import { MailIcon, PhoneIcon, MapPinIcon } from "lucide-react";
+import { FacebookIcon, LinkedinIcon, YoutubeIcon, InstagramIcon } from "@/components/icons/social-icons";
 import { footerNav } from "@/lib/content/nav-links";
 import { siteConfig } from "@/lib/content/site-config";
 
