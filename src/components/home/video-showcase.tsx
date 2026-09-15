@@ -35,8 +35,8 @@ export function VideoShowcase() {
         </p>
       </div>
 
-      <div className="mt-10 grid gap-4 lg:grid-cols-3">
-        <div className="lg:col-span-2">
+      <div className="mt-10 grid gap-4 lg:grid-cols-4">
+        <div className="lg:col-span-3">
           <AnimatePresence mode="wait">
             <motion.div
               key={active.id}
@@ -65,7 +65,7 @@ export function VideoShowcase() {
                     src={active.thumbnail}
                     alt={active.title}
                     fill
-                    sizes="(min-width: 1024px) 66vw, 100vw"
+                    sizes="(min-width: 1024px) 75vw, 100vw"
                     className="object-cover"
                     priority={false}
                   />
@@ -100,7 +100,7 @@ export function VideoShowcase() {
                 src={video.thumbnail}
                 alt={video.title}
                 fill
-                sizes="200px"
+                sizes="(min-width: 1024px) 22vw, 160px"
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-black/25 transition-colors group-hover:bg-black/10" />
