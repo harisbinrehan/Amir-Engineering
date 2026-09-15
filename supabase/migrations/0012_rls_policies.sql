@@ -156,9 +156,7 @@ create policy "customers read own order items" on order_items
     exists (select 1 from orders o where o.id = order_id and o.profile_id = auth.uid())
   );
 create policy "customers insert own order items" on order_items
-  for insert with check (
-    exists (select 1 from orders o where o.id = order_id and (o.profile_id = auth.uid() or o.profile_id is null))
-  );
+  for insert with check (order_insertable(order_id));
 create policy "staff manage order items" on order_items
   for all using (has_role(array['super_admin', 'admin', 'sales']::app_role[]))
   with check (has_role(array['super_admin', 'admin', 'sales']::app_role[]));
@@ -182,9 +180,7 @@ create policy "staff manage quotes" on quotes
   with check (has_role(array['super_admin', 'admin', 'sales']::app_role[]));
 
 create policy "anyone can submit quote items" on quote_items
-  for insert with check (
-    exists (select 1 from quotes q where q.id = quote_id)
-  );
+  for insert with check (quote_exists(quote_id));
 create policy "customers read own quote items" on quote_items
   for select using (
     exists (select 1 from quotes q where q.id = quote_id and q.profile_id = auth.uid())

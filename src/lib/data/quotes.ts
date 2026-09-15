@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createClient, createServiceRoleClient } from "@/lib/supabase/server";
 import type { Enums } from "@/types/database.types";
 
 export type QuoteStatus = Enums<"quote_status">;
@@ -58,8 +58,15 @@ export async function getQuoteById(id: string) {
   return data;
 }
 
+/**
+ * The public confirmation page looks quotes up by reference number for an
+ * anonymous visitor who has no RLS-visible row on `quotes` (guests never get
+ * a SELECT policy — that would mean anyone could read anyone else's quote by
+ * guessing a sequential reference). The service role bypasses RLS for this
+ * one narrow, exact-match, limited-column read instead.
+ */
 export async function getQuoteByReference(reference: string) {
-  const supabase = await createClient();
+  const supabase = createServiceRoleClient();
   const { data, error } = await supabase
     .from("quotes")
     .select("id, reference_number, status, full_name, email, created_at")

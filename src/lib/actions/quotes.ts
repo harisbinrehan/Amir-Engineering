@@ -41,28 +41,31 @@ export async function createQuoteRequest(
     data: { user },
   } = await supabase.auth.getUser();
 
-  const { data: quote, error: quoteError } = await supabase
-    .from("quotes")
-    .insert({
-      reference_number: reference,
-      full_name: values.fullName,
-      company_name: values.companyName || null,
-      email: values.email,
-      phone: values.phone,
-      country: values.country || "Pakistan",
-      city: values.city || null,
-      message: values.message || null,
-      profile_id: user?.id ?? null,
-    })
-    .select("id, reference_number")
-    .single();
+  // Insert without .select() — an anonymous submitter has no SELECT policy on
+  // `quotes`, and Postgres raises an RLS error on INSERT ... RETURNING when
+  // the new row isn't visible back to the caller. Generating the id
+  // ourselves avoids needing it returned at all.
+  const quoteId = crypto.randomUUID();
 
-  if (quoteError || !quote) {
+  const { error: quoteError } = await supabase.from("quotes").insert({
+    id: quoteId,
+    reference_number: reference,
+    full_name: values.fullName,
+    company_name: values.companyName || null,
+    email: values.email,
+    phone: values.phone,
+    country: values.country || "Pakistan",
+    city: values.city || null,
+    message: values.message || null,
+    profile_id: user?.id ?? null,
+  });
+
+  if (quoteError) {
     return { success: false, error: "Could not submit your quote request. Please try again." };
   }
 
   const { error: itemError } = await supabase.from("quote_items").insert({
-    quote_id: quote.id,
+    quote_id: quoteId,
     machinery_id: values.machineryId ?? null,
     production_line_id: values.productionLineId ?? null,
     quantity: values.quantity,
@@ -73,7 +76,7 @@ export async function createQuoteRequest(
     return { success: false, error: "Your quote was started but the item could not be saved." };
   }
 
-  return { success: true, data: { referenceNumber: quote.reference_number } };
+  return { success: true, data: { referenceNumber: reference } };
 }
 
 export async function updateQuoteStatus(

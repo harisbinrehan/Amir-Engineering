@@ -55,6 +55,35 @@ begin
 end;
 $$;
 
+-- Bypasses RLS so the guest "insert quote_items for a quote I just created"
+-- policy can confirm the parent quote exists — the inserting role (anon) has
+-- no SELECT policy on `quotes` itself, so a plain EXISTS subquery in that
+-- policy would always evaluate false.
+create function quote_exists(target_quote_id uuid)
+returns boolean
+language sql
+security definer
+set search_path = public
+stable
+as $$
+  select exists (select 1 from quotes where id = target_quote_id);
+$$;
+
+-- Same RLS-recursion problem as quote_exists(), for guest checkout order_items.
+create function order_insertable(target_order_id uuid)
+returns boolean
+language sql
+security definer
+set search_path = public
+stable
+as $$
+  select exists (
+    select 1 from orders
+    where id = target_order_id
+      and (profile_id = auth.uid() or profile_id is null)
+  );
+$$;
+
 -- Reference / order number generators (race-safe via sequences).
 create sequence quote_reference_seq;
 create function generate_quote_reference()

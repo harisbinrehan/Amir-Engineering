@@ -1621,6 +1621,8 @@ export type Database = {
         Returns: boolean
       }
       is_staff: { Args: never; Returns: boolean }
+      order_insertable: { Args: { target_order_id: string }; Returns: boolean }
+      quote_exists: { Args: { target_quote_id: string }; Returns: boolean }
       update_user_role: {
         Args: {
           new_role: Database["public"]["Enums"]["app_role"]
