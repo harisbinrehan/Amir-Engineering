@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { MachineryTable } from "@/components/admin/machinery-table";
 import { MachineryFormDialog } from "@/components/admin/machinery-form-dialog";
 import { requireRole } from "@/lib/auth/require-role";
@@ -11,6 +13,11 @@ import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = { title: "Machinery" };
 
+async function MachineryList({ categoryId, search }: { categoryId: string; search: string }) {
+  const machinery = await getAdminMachineryList({ categoryId: categoryId === "all" ? undefined : categoryId, search });
+  return <MachineryTable machinery={machinery} />;
+}
+
 export default async function AdminMachineryPage(props: PageProps<"/admin/machinery">) {
   await requireRole(["super_admin", "admin"]);
 
@@ -18,10 +25,7 @@ export default async function AdminMachineryPage(props: PageProps<"/admin/machin
   const categoryId = typeof params.category === "string" ? params.category : "all";
   const search = typeof params.q === "string" ? params.q : "";
 
-  const [machinery, categories] = await Promise.all([
-    getAdminMachineryList({ categoryId: categoryId === "all" ? undefined : categoryId, search }),
-    getAdminMachineryCategories(),
-  ]);
+  const categories = await getAdminMachineryCategories();
 
   return (
     <div className="space-y-6">
@@ -69,7 +73,9 @@ export default async function AdminMachineryPage(props: PageProps<"/admin/machin
         </div>
       </form>
 
-      <MachineryTable machinery={machinery} />
+      <Suspense key={categoryId + search} fallback={<Skeleton className="h-[400px] w-full rounded-lg" />}>
+        <MachineryList categoryId={categoryId} search={search} />
+      </Suspense>
     </div>
   );
 }
