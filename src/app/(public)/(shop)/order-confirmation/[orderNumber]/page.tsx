@@ -5,14 +5,17 @@ import { CheckCircle2Icon } from "lucide-react";
 import { Section } from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
 import { getOrderByNumber } from "@/lib/data/orders";
+import { getCurrentProfile } from "@/lib/auth/get-profile";
 import { formatPkr } from "@/lib/utils/currency";
 
 export const metadata: Metadata = { title: "Order Placed" };
 
 export default async function OrderConfirmationPage(props: PageProps<"/order-confirmation/[orderNumber]">) {
   const { orderNumber } = await props.params;
-  const order = await getOrderByNumber(orderNumber);
+  const [order, session] = await Promise.all([getOrderByNumber(orderNumber), getCurrentProfile()]);
   if (!order) notFound();
+
+  const isSignedIn = !!session && session.user.id === order.profile_id;
 
   return (
     <Section containerClassName="max-w-xl text-center">
@@ -51,16 +54,32 @@ export default async function OrderConfirmationPage(props: PageProps<"/order-con
         {order.payment_method === "bank_transfer" && " — our team will share bank details shortly."}
       </p>
 
-      <div className="bg-secondary/60 mt-6 rounded-lg px-6 py-4 text-sm">
-        We&apos;ve set up an account for <span className="font-medium">{order.contact_email}</span> so you can
-        track this and future orders. Check your inbox for an email to set your password — or use{" "}
-        <Link href="/track-order" className="underline">
-          Track Order
-        </Link>{" "}
-        anytime with your order number and email.
-      </div>
+      {isSignedIn ? (
+        <div className="bg-secondary/60 mt-6 rounded-lg px-6 py-4 text-sm">
+          You&apos;re signed in as <span className="font-medium">{order.contact_email}</span> — this order (and
+          any future ones) will show up under{" "}
+          <Link href="/account/orders" className="underline">
+            My Orders
+          </Link>
+          . We also emailed you a link to set a password, for signing in on other devices.
+        </div>
+      ) : (
+        <div className="bg-secondary/60 mt-6 rounded-lg px-6 py-4 text-sm">
+          We&apos;ve set up an account for <span className="font-medium">{order.contact_email}</span> so you can
+          track this and future orders. Check your inbox for an email to set your password — or use{" "}
+          <Link href="/track-order" className="underline">
+            Track Order
+          </Link>{" "}
+          anytime with your order number and email.
+        </div>
+      )}
 
       <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+        {isSignedIn && (
+          <Button asChild variant="outline">
+            <Link href="/account/orders">View My Orders</Link>
+          </Button>
+        )}
         <Button asChild className="bg-food text-food-foreground hover:bg-food/90">
           <Link href="/products">Continue Shopping</Link>
         </Button>

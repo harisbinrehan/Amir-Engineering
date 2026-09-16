@@ -26,6 +26,8 @@ export function SiteHeader() {
   const { itemCount } = useCart();
 
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
+  const isSectionActive = (item: (typeof primaryNav)[number]) =>
+    isActive(item.href) || (item.children?.some((child) => isActive(child.href)) ?? false);
 
   return (
     <header className="bg-background/95 border-border sticky top-0 z-50 border-b backdrop-blur supports-[backdrop-filter]:bg-background/80">
@@ -39,7 +41,7 @@ export function SiteHeader() {
             {primaryNav.map((item) =>
               item.children ? (
                 <NavigationMenuItem key={item.href}>
-                  <NavigationMenuTrigger className={cn(isActive(item.href) && "text-industrial")}>
+                  <NavigationMenuTrigger className={cn(isSectionActive(item) && "text-industrial")}>
                     {item.label}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>

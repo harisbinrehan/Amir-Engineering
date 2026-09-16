@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { ChevronDownIcon } from "lucide-react";
+import { ChevronDownIcon, UserIcon } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -73,6 +73,12 @@ export function MobileNavDrawer({
           ))}
         </nav>
         <div className="mt-auto flex flex-col gap-2 border-t p-4">
+          <Button variant="outline" asChild onClick={() => onOpenChange(false)}>
+            <Link href="/account">
+              <UserIcon />
+              Sign In / My Account
+            </Link>
+          </Button>
           <Button variant="outline" asChild onClick={() => onOpenChange(false)}>
             <Link href={utilityNav[0].href}>{utilityNav[0].label}</Link>
           </Button>

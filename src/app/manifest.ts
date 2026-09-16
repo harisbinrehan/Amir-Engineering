@@ -8,11 +8,10 @@ export default function manifest(): MetadataRoute.Manifest {
     description: siteConfig.description,
     start_url: "/",
     display: "standalone",
-    // Matches the real logo's own white background, so the native OS launch
-    // splash (background_color + centered icon, built by the browser before
-    // any of our code runs) has no visible seam around the icon square.
-    background_color: "#FFFFFF",
-    theme_color: "#FFFFFF",
+    // Background matches the dark theme by default, ensuring a seamless
+    // loading experience for the default dark mode preference.
+    background_color: "#1B1E24",
+    theme_color: "#1B1E24",
     orientation: "portrait-primary",
     icons: [
       { src: "/icons/icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },

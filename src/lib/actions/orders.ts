@@ -43,8 +43,13 @@ export async function placeOrder(input: unknown): Promise<ActionResult<{ orderNu
   // Guest checkout: resolve (or create) a real account for the order's email
   // so the order is trackable afterward, instead of being stranded with no
   // profile. A brand-new email gets invited (Supabase emails them a
-  // "set your password" link); an email that already has an account is
-  // linked to it silently, without sending another email.
+  // "set your password" link) AND the current browser is logged into it
+  // immediately, so they land on the confirmation page already signed in.
+  //
+  // An email that ALREADY has an account is only linked silently — we never
+  // log the current browser into an existing account just because someone
+  // typed that email at checkout, since that would let anyone hijack a
+  // stranger's account by "ordering" with their address.
   let profileId = user?.id ?? null;
   if (!profileId) {
     const { data: invited, error: inviteError } = await admin.auth.admin.inviteUserByEmail(values.email, {
@@ -54,6 +59,15 @@ export async function placeOrder(input: unknown): Promise<ActionResult<{ orderNu
 
     if (!inviteError && invited.user) {
       profileId = invited.user.id;
+
+      const { data: link } = await admin.auth.admin.generateLink({
+        type: "magiclink",
+        email: values.email,
+      });
+      const hashedToken = link?.properties?.hashed_token;
+      if (hashedToken) {
+        await supabase.auth.verifyOtp({ token_hash: hashedToken, type: "magiclink" });
+      }
     } else {
       const { data: existing } = await admin.auth.admin.generateLink({
         type: "recovery",

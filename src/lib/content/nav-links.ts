@@ -12,7 +12,7 @@ export type NavSection = NavLink & {
 export const primaryNav: NavSection[] = [
   {
     label: "Our Businesses",
-    href: "/about",
+    href: "/fine-foods",
     description: "Two established, connected businesses — food manufacturing and industrial engineering.",
     children: [
       { label: "Fine Foods Industries", href: "/fine-foods", description: "Food Manufacturing & Consumer Products · Since 1988" },
