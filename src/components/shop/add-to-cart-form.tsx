@@ -55,9 +55,25 @@ export function AddToCartForm({
       },
       quantity,
     );
-    toast.success(`Added ${quantity} × ${productName} to your cart`, {
-      action: { label: "View Cart", onClick: () => router.push("/cart") },
-    });
+    toast(
+      <div className="flex w-full items-center gap-3">
+        {image && (
+          <div className="border-border relative size-10 shrink-0 overflow-hidden rounded-md border bg-muted">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={image} alt={productName} className="size-full object-cover" />
+          </div>
+        )}
+        <div className="flex flex-col">
+          <span className="text-sm font-semibold text-foreground">Added to cart</span>
+          <span className="text-muted-foreground text-sm">
+            {quantity} × {productName} {selected?.label ? `(${selected.label})` : ""}
+          </span>
+        </div>
+      </div>,
+      {
+        action: { label: "View Cart", onClick: () => router.push("/cart") },
+      }
+    );
   };
 
   return (

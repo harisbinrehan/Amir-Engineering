@@ -14,8 +14,16 @@ export const metadata: Metadata = {
   description: "Noodles, macaroni, pasta and vermicelli products — order online with Cash on Delivery or Bank Transfer.",
 };
 
-export default async function ProductsPage() {
-  const [categories, products] = await Promise.all([getProductCategories(), getProducts()]);
+export default async function ProductsPage(props: PageProps<"/products">) {
+  const searchParams = await props.searchParams;
+  const categoryFilter = searchParams?.category;
+
+  // We can pass the category slug to getProducts if the backend supports it,
+  // or we can filter them locally. getProducts currently supports { categorySlug: string }
+  const [categories, products] = await Promise.all([
+    getProductCategories(),
+    getProducts(categoryFilter ? { categorySlug: categoryFilter } : undefined),
+  ]);
 
   return (
     <>
@@ -27,22 +35,30 @@ export default async function ProductsPage() {
         </p>
 
         <div className="mt-6 flex flex-wrap gap-2">
-          {categories.map((category) => (
-            <Link key={category.id} href={`/products/category/${category.slug}`}>
-              <Badge
-                variant="secondary"
-                className="hover:bg-food hover:text-food-foreground px-3 py-1.5 text-sm font-normal transition-colors"
-              >
-                {category.name}
-              </Badge>
-            </Link>
-          ))}
+          {categories.map((category) => {
+            const isActive = categoryFilter === category.slug;
+            // Toggle filter: if already active, clicking again removes the filter
+            const href = isActive ? "/products" : `/products?category=${category.slug}`;
+            
+            return (
+              <Link key={category.id} href={href} scroll={false}>
+                <Badge
+                  variant={isActive ? "default" : "secondary"}
+                  className={`px-3 py-1.5 text-sm font-normal transition-colors hover:bg-food hover:text-food-foreground ${
+                    isActive ? "bg-food text-food-foreground hover:bg-food/90" : ""
+                  }`}
+                >
+                  {category.name}
+                </Badge>
+              </Link>
+            );
+          })}
         </div>
       </Section>
 
       <Section className="pt-0">
         {products.length === 0 ? (
-          <EmptyState title="No products published yet" description="Check back soon." />
+          <EmptyState title="No products found" description="Try selecting a different category." />
         ) : (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {products.map((product) => (

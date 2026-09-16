@@ -76,7 +76,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <SupabaseListener />
           <SplashScreen />
           {children}
-          <Toaster richColors position="top-center" />
+          <Toaster position="bottom-right" />
         </ThemeProvider>
       </body>
     </html>
