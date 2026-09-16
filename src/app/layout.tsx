@@ -3,6 +3,7 @@ import { Space_Grotesk, Inter, Geist_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { SplashScreen } from "@/components/common/splash-screen";
+import { SupabaseListener } from "@/components/providers/supabase-listener";
 import { siteConfig } from "@/lib/content/site-config";
 import "./globals.css";
 
@@ -72,6 +73,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+          <SupabaseListener />
           <SplashScreen />
           {children}
           <Toaster richColors position="top-center" />

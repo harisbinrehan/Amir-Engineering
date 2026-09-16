@@ -177,3 +177,16 @@ insert into product_variants (id, product_id, sku, label, price, weight_grams, s
   ('77777777-7777-7777-7777-777777770502', '66666666-6666-6666-6666-666666666605', 'FF-PE-1KG', '1kg Pack', 360, 1000, 100, 15, true),
   ('77777777-7777-7777-7777-777777770601', '66666666-6666-6666-6666-666666666606', 'FF-VR-200', '200g Pack', 90, 200, 220, 20, true),
   ('77777777-7777-7777-7777-777777770602', '66666666-6666-6666-6666-666666666606', 'FF-VR-400', '400g Pack', 170, 400, 150, 15, true);
+
+-- ---------------------------------------------------------------------------
+-- Expense categories (admin finance module)
+-- ---------------------------------------------------------------------------
+insert into expense_categories (id, name, slug) values
+  ('88888888-8888-8888-8888-888888888801', 'Raw Materials', 'raw-materials'),
+  ('88888888-8888-8888-8888-888888888802', 'Utilities', 'utilities'),
+  ('88888888-8888-8888-8888-888888888803', 'Salaries & Wages', 'salaries-wages'),
+  ('88888888-8888-8888-8888-888888888804', 'Maintenance & Repairs', 'maintenance-repairs'),
+  ('88888888-8888-8888-8888-888888888805', 'Transport & Logistics', 'transport-logistics'),
+  ('88888888-8888-8888-8888-888888888806', 'Marketing', 'marketing'),
+  ('88888888-8888-8888-8888-888888888807', 'Office Supplies', 'office-supplies'),
+  ('88888888-8888-8888-8888-888888888808', 'Miscellaneous', 'miscellaneous');

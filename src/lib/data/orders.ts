@@ -1,4 +1,7 @@
 import { createClient, createServiceRoleClient } from "@/lib/supabase/server";
+import type { Enums } from "@/types/database.types";
+
+export type OrderStatus = Enums<"order_status">;
 
 /**
  * The public confirmation page looks orders up by order number for an
@@ -45,6 +48,42 @@ export async function getOrderByNumberAndEmail(orderNumber: string, email: strin
     .select("*, items:order_items(*)")
     .eq("order_number", orderNumber)
     .ilike("contact_email", email.trim())
+    .maybeSingle();
+
+  if (error) throw error;
+  return data;
+}
+
+/** Staff order queue — RLS restricts this to super_admin/admin/sales/finance regardless. */
+export async function getAdminOrders(options?: { status?: OrderStatus | "all"; search?: string }) {
+  const supabase = await createClient();
+  let query = supabase
+    .from("orders")
+    .select("*, items:order_items(id)")
+    .order("created_at", { ascending: false });
+
+  if (options?.status && options.status !== "all") {
+    query = query.eq("status", options.status);
+  }
+
+  if (options?.search) {
+    const term = options.search.trim();
+    query = query.or(
+      `order_number.ilike.%${term}%,contact_name.ilike.%${term}%,contact_email.ilike.%${term}%,contact_phone.ilike.%${term}%`,
+    );
+  }
+
+  const { data, error } = await query;
+  if (error) throw error;
+  return data;
+}
+
+export async function getAdminOrderById(id: string) {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("orders")
+    .select("*, items:order_items(*)")
+    .eq("id", id)
     .maybeSingle();
 
   if (error) throw error;

@@ -1,10 +1,13 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { createClient, createServiceRoleClient } from "@/lib/supabase/server";
 import { checkoutSchema, cartLineInputSchema } from "@/lib/validation/checkout-schema";
 import { siteConfig } from "@/lib/content/site-config";
 import { getOrderByNumberAndEmail } from "@/lib/data/orders";
+import { requireRole } from "@/lib/auth/require-role";
 import { z } from "zod";
+import type { Enums } from "@/types/database.types";
 
 type ActionResult<T = undefined> =
   | { success: true; data: T }
@@ -146,4 +149,48 @@ export async function trackOrder(
   }
 
   return { success: true, data: order };
+}
+
+export async function updateOrderStatus(orderId: string, status: Enums<"order_status">): Promise<ActionResult> {
+  await requireRole(["super_admin", "admin", "sales"]);
+
+  const supabase = await createClient();
+  const { error } = await supabase.from("orders").update({ status }).eq("id", orderId);
+
+  if (error) return { success: false, error: error.message };
+
+  revalidatePath(`/admin/orders/${orderId}`);
+  revalidatePath("/admin/orders");
+  return { success: true, data: undefined };
+}
+
+export async function updateOrderPaymentStatus(
+  orderId: string,
+  paymentStatus: Enums<"payment_status">,
+): Promise<ActionResult> {
+  await requireRole(["super_admin", "admin", "sales", "finance"]);
+
+  const supabase = await createClient();
+  const { error } = await supabase.from("orders").update({ payment_status: paymentStatus }).eq("id", orderId);
+
+  if (error) return { success: false, error: error.message };
+
+  revalidatePath(`/admin/orders/${orderId}`);
+  revalidatePath("/admin/orders");
+  return { success: true, data: undefined };
+}
+
+export async function updateOrderTracking(orderId: string, trackingNumber: string): Promise<ActionResult> {
+  await requireRole(["super_admin", "admin", "sales"]);
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("orders")
+    .update({ tracking_number: trackingNumber.trim() || null })
+    .eq("id", orderId);
+
+  if (error) return { success: false, error: error.message };
+
+  revalidatePath(`/admin/orders/${orderId}`);
+  return { success: true, data: undefined };
 }
