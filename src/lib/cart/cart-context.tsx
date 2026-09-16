@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useMemo, useSyncExternalStore } from "react";
 
 export type CartLine = {
   variantId: string;
@@ -27,54 +27,79 @@ type CartContextValue = {
 const CartContext = createContext<CartContextValue | null>(null);
 const STORAGE_KEY = "amir-engineering-cart";
 
+// A tiny external store backing the cart: localStorage is the source of
+// truth, `cache` is a stable in-memory snapshot so useSyncExternalStore
+// doesn't see a new array identity on every read (which would loop).
+let cache: CartLine[] = [];
+let initialized = false;
+const listeners = new Set<() => void>();
+
+function readFromStorage(): CartLine[] {
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+function getSnapshot(): CartLine[] {
+  if (!initialized) {
+    cache = readFromStorage();
+    initialized = true;
+  }
+  return cache;
+}
+
+function getServerSnapshot(): CartLine[] {
+  return [];
+}
+
+function subscribe(listener: () => void) {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
+}
+
+function writeLines(next: CartLine[]) {
+  cache = next;
+  initialized = true;
+  try {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+  } catch {
+    // Storage may be unavailable (private browsing, quota) — cart still
+    // works for the current page load, it just won't persist.
+  }
+  listeners.forEach((listener) => listener());
+}
+
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [lines, setLines] = useState<CartLine[]>([]);
-  const [hydrated, setHydrated] = useState(false);
-
-  useEffect(() => {
-    try {
-      const raw = window.localStorage.getItem(STORAGE_KEY);
-      if (raw) setLines(JSON.parse(raw));
-    } catch {
-      // Ignore unreadable/corrupt cart state — start empty rather than crash.
-    }
-    setHydrated(true);
-  }, []);
-
-  useEffect(() => {
-    if (!hydrated) return;
-    try {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(lines));
-    } catch {
-      // Storage may be unavailable (private browsing, quota) — cart still
-      // works for the current page load, it just won't persist.
-    }
-  }, [lines, hydrated]);
+  const lines = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   const addLine = useCallback((line: Omit<CartLine, "quantity">, quantity: number) => {
-    setLines((prev) => {
-      const existing = prev.find((l) => l.variantId === line.variantId);
-      if (existing) {
-        const nextQty = Math.min(existing.quantity + quantity, existing.stockQuantity || 999);
-        return prev.map((l) => (l.variantId === line.variantId ? { ...l, quantity: nextQty } : l));
-      }
-      return [...prev, { ...line, quantity: Math.max(1, quantity) }];
-    });
+    const current = getSnapshot();
+    const existing = current.find((l) => l.variantId === line.variantId);
+    if (existing) {
+      const nextQty = Math.min(existing.quantity + quantity, existing.stockQuantity || 999);
+      writeLines(current.map((l) => (l.variantId === line.variantId ? { ...l, quantity: nextQty } : l)));
+    } else {
+      writeLines([...current, { ...line, quantity: Math.max(1, quantity) }]);
+    }
   }, []);
 
   const updateQuantity = useCallback((variantId: string, quantity: number) => {
-    setLines((prev) =>
+    const current = getSnapshot();
+    writeLines(
       quantity <= 0
-        ? prev.filter((l) => l.variantId !== variantId)
-        : prev.map((l) => (l.variantId === variantId ? { ...l, quantity } : l)),
+        ? current.filter((l) => l.variantId !== variantId)
+        : current.map((l) => (l.variantId === variantId ? { ...l, quantity } : l)),
     );
   }, []);
 
   const removeLine = useCallback((variantId: string) => {
-    setLines((prev) => prev.filter((l) => l.variantId !== variantId));
+    writeLines(getSnapshot().filter((l) => l.variantId !== variantId));
   }, []);
 
-  const clear = useCallback(() => setLines([]), []);
+  const clear = useCallback(() => writeLines([]), []);
 
   const itemCount = useMemo(() => lines.reduce((sum, l) => sum + l.quantity, 0), [lines]);
   const subtotal = useMemo(() => lines.reduce((sum, l) => sum + l.unitPrice * l.quantity, 0), [lines]);

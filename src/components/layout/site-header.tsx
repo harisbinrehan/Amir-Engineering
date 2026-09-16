@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { MenuIcon } from "lucide-react";
+import { MenuIcon, ShoppingCartIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useCart } from "@/lib/cart/cart-context";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -21,14 +22,15 @@ import { cn } from "@/lib/utils";
 export function SiteHeader() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { itemCount } = useCart();
 
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
   return (
     <header className="bg-background/95 border-border sticky top-0 z-50 border-b backdrop-blur supports-[backdrop-filter]:bg-background/80">
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex shrink-0 items-center">
-          <BrandLogo className="h-10 sm:h-12" />
+          <BrandLogo className="h-6 sm:h-8" />
         </Link>
 
         <NavigationMenu viewport={false} className="hidden lg:flex">
@@ -68,6 +70,16 @@ export function SiteHeader() {
           </Button>
           <Button asChild className="bg-industrial text-industrial-foreground hover:bg-industrial/90 hidden sm:inline-flex">
             <Link href={utilityNav[1].href}>{utilityNav[1].label}</Link>
+          </Button>
+          <Button variant="outline" size="icon" asChild className="relative">
+            <Link href="/cart" aria-label="View cart">
+              <ShoppingCartIcon />
+              {itemCount > 0 && (
+                <span className="bg-food text-food-foreground absolute -top-1.5 -right-1.5 flex size-4.5 items-center justify-center rounded-full text-[10px] font-semibold">
+                  {itemCount > 9 ? "9+" : itemCount}
+                </span>
+              )}
+            </Link>
           </Button>
           <Button
             variant="outline"

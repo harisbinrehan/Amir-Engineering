@@ -19,7 +19,7 @@ export default async function OrderConfirmationPage(props: PageProps<"/order-con
       <CheckCircle2Icon className="text-food mx-auto size-14" strokeWidth={1.5} />
       <h1 className="font-heading mt-6 text-3xl font-bold tracking-tight">Order Placed</h1>
       <p className="text-muted-foreground mt-4 text-lg">
-        Thank you, {order.contact_name}. We've received your order and will be in touch to confirm delivery.
+        Thank you, {order.contact_name}. We have received your order and will be in touch to confirm delivery.
       </p>
 
       <div className="bg-secondary/60 mt-8 rounded-lg px-6 py-4">
