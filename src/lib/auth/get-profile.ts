@@ -27,12 +27,22 @@ export const getCurrentProfile = cache(async (): Promise<{
   return { user, profile };
 });
 
+/**
+ * Reads the session from the cookie locally — no network round trip to the
+ * Supabase Auth server. Safe here because every caller of this function sits
+ * behind proxy.ts's middleware (/account/*, /admin/*), which already did a
+ * fresh, server-verified `getUser()` check moments earlier in the same
+ * request; this is just re-deriving the same identity for rendering. The
+ * real authorization boundary is Postgres RLS regardless (see
+ * requireRole's own comment), so this never weakens actual access control —
+ * it just stops paying for the same network check twice per navigation.
+ */
 async function getAuthUser() {
   const supabase = await createClient();
   const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  return user;
+    data: { session },
+  } = await supabase.auth.getSession();
+  return session?.user ?? null;
 }
 
 export const STAFF_ROLES = ["super_admin", "admin", "finance", "sales", "content_manager"] as const;
