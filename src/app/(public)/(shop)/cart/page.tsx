@@ -34,51 +34,53 @@ export default function CartPage() {
         <div className="mt-8 grid gap-8 lg:grid-cols-3">
           <div className="divide-border border-border divide-y rounded-lg border lg:col-span-2">
             {lines.map((line) => (
-              <div key={line.variantId} className="flex items-center gap-4 p-4">
-                <div className="bg-muted relative size-20 shrink-0 overflow-hidden rounded-md">
+              <div key={line.variantId} className="flex flex-wrap items-center gap-x-4 gap-y-3 p-4">
+                <div className="bg-muted relative size-16 shrink-0 overflow-hidden rounded-md sm:size-20">
                   {line.image && <Image src={line.image} alt={line.productName} fill className="object-cover" />}
                 </div>
-                <div className="min-w-0 flex-1">
+                <div className="min-w-0 flex-1 basis-32">
                   <Link href={`/products/${line.productSlug}`} className="font-heading text-sm font-semibold hover:underline">
                     {line.productName}
                   </Link>
                   {line.variantLabel && <p className="text-muted-foreground text-xs">{line.variantLabel}</p>}
                   <p className="mt-1 text-sm font-medium">{formatPkr(line.unitPrice)}</p>
                 </div>
-                <div className="border-border flex items-center rounded-md border">
+                <div className="ml-auto flex flex-wrap items-center gap-3">
+                  <div className="border-border flex items-center rounded-md border">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => updateQuantity(line.variantId, line.quantity - 1)}
+                      aria-label="Decrease quantity"
+                    >
+                      <MinusIcon className="size-3.5" />
+                    </Button>
+                    <span className="w-6 text-center text-sm font-medium">{line.quantity}</span>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => updateQuantity(line.variantId, line.quantity + 1)}
+                      aria-label="Increase quantity"
+                    >
+                      <PlusIcon className="size-3.5" />
+                    </Button>
+                  </div>
+                  <p className="shrink-0 text-right text-sm font-semibold">
+                    {formatPkr(line.unitPrice * line.quantity)}
+                  </p>
                   <Button
                     type="button"
                     variant="ghost"
                     size="icon"
-                    onClick={() => updateQuantity(line.variantId, line.quantity - 1)}
-                    aria-label="Decrease quantity"
+                    onClick={() => removeLine(line.variantId)}
+                    aria-label="Remove item"
+                    className="text-muted-foreground hover:text-destructive"
                   >
-                    <MinusIcon className="size-3.5" />
-                  </Button>
-                  <span className="w-6 text-center text-sm font-medium">{line.quantity}</span>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => updateQuantity(line.variantId, line.quantity + 1)}
-                    aria-label="Increase quantity"
-                  >
-                    <PlusIcon className="size-3.5" />
+                    <Trash2Icon className="size-4" />
                   </Button>
                 </div>
-                <p className="w-24 shrink-0 text-right text-sm font-semibold">
-                  {formatPkr(line.unitPrice * line.quantity)}
-                </p>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => removeLine(line.variantId)}
-                  aria-label="Remove item"
-                  className="text-muted-foreground hover:text-destructive"
-                >
-                  <Trash2Icon className="size-4" />
-                </Button>
               </div>
             ))}
           </div>
