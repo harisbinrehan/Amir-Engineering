@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { Loader2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { GoogleIcon } from "@/components/icons/social-icons";
@@ -18,6 +19,7 @@ export function GoogleAuthButton({ redirectPath = "/account" }: { redirectPath?:
         router.push(redirectPath);
       } else if (event.data === "oauth_error") {
         setIsPending(false);
+        toast.error("Google sign-in failed", { description: "Please try again." });
       }
     };
     window.addEventListener("message", handleMessage);
@@ -50,7 +52,9 @@ export function GoogleAuthButton({ redirectPath = "/account" }: { redirectPath?:
       // Fallback: if popup is blocked or closed manually
       if (!popup) {
         setIsPending(false);
-        // Could show a toast here that popup was blocked
+        toast.error("Pop-up blocked", {
+          description: "Please allow pop-ups for this site and try again.",
+        });
       } else {
         const checkPopup = setInterval(() => {
           if (popup.closed) {
@@ -63,6 +67,9 @@ export function GoogleAuthButton({ redirectPath = "/account" }: { redirectPath?:
       }
     } else {
       setIsPending(false);
+      toast.error("Could not start Google sign-in", {
+        description: error?.message ?? "Please try again.",
+      });
     }
   };
 

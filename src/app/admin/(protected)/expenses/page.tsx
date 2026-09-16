@@ -17,7 +17,17 @@ import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = { title: "Expenses" };
 
-async function ExpensesData({ department, search, categories, vendors }: { department: string; search: string; categories: any; vendors: any }) {
+async function ExpensesData({
+  department,
+  search,
+  categories,
+  vendors,
+}: {
+  department: string;
+  search: string;
+  categories: Awaited<ReturnType<typeof getExpenseCategories>>;
+  vendors: Awaited<ReturnType<typeof getVendors>>;
+}) {
   const expenses = await getExpenses({ department: department === "all" ? undefined : department, search });
   return <ExpensesTable expenses={expenses} categories={categories} vendors={vendors} />;
 }

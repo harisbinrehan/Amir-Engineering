@@ -66,7 +66,7 @@ export default async function ProductDetailPage(props: PageProps<"/products/[slu
           items={[
             { label: "Food Products", href: "/products" },
             ...(product.category
-              ? [{ label: product.category.name, href: `/products/category/${product.category.slug}` }]
+              ? [{ label: product.category.name, href: `/products?category=${product.category.slug}` }]
               : []),
             { label: product.name },
           ]}

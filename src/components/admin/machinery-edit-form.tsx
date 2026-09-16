@@ -12,6 +12,7 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Field, FieldContent, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { MediaUploadField } from "@/components/admin/media-upload-field";
 import { machinerySchema, type MachineryInput } from "@/lib/validation/machinery-schema";
 import { updateMachinery } from "@/lib/actions/machinery";
 import type { getAdminMachineryCategories, getAdminMachineryById } from "@/lib/data/admin-machinery";
@@ -170,18 +171,11 @@ export function MachineryEditForm({
               </Field>
             </div>
 
-            <Field data-invalid={!!errors.imageUrl}>
-              <FieldLabel htmlFor="imageUrl">Image URL</FieldLabel>
-              <FieldContent>
-                <Input id="imageUrl" placeholder="/machinery/example.jpg or https://..." {...register("imageUrl")} />
-                <FieldError errors={[errors.imageUrl]} />
-              </FieldContent>
-            </Field>
-
-            {imageUrl && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={imageUrl} alt="Preview" className="h-32 w-32 rounded-md border object-cover" />
-            )}
+            <MediaUploadField
+              value={imageUrl}
+              onChange={(url) => setValue("imageUrl", url, { shouldDirty: true })}
+              error={errors.imageUrl}
+            />
 
             <Field>
               <FieldLabel htmlFor="brochureUrl">Brochure URL</FieldLabel>

@@ -6,29 +6,51 @@ import { cn } from "@/lib/utils";
  * Rendered unaltered via object-contain — never cropped or stretched. On dark
  * surfaces, use the white silhouette instead (see `BrandLogoWhite`).
  */
+const SVGFilter = () => (
+  <svg width="0" height="0" className="absolute">
+    <filter id="black-to-white-filter" colorInterpolationFilters="sRGB">
+      <feColorMatrix
+        type="matrix"
+        values="
+          0  0  0  0  1
+         -1  1  0  0  1
+         -1  0  1  0  1
+          0  0  0  1  0
+        "
+      />
+    </filter>
+  </svg>
+);
+
 export function BrandLogo({ className }: { className?: string }) {
   return (
-    <Image
-      src="/brand/amir-engineering-logo-cropped.png"
-      alt="Amir Engineering"
-      width={500}
-      height={200}
-      priority
-      className={cn("h-12 w-auto object-contain", className)}
-    />
+    <>
+      <SVGFilter />
+      <Image
+        src="/brand/logo.png"
+        alt="Amir Engineering"
+        width={500}
+        height={200}
+        priority
+        className={cn("h-12 w-auto object-contain transition-all dark:[filter:url(#black-to-white-filter)]", className)}
+      />
+    </>
   );
 }
 
 export function BrandLogoDarkText({ className }: { className?: string }) {
   return (
-    <Image
-      src="/brand/amir-engineering-logo-dark.png"
-      alt="Amir Engineering"
-      width={500}
-      height={200}
-      priority
-      className={cn("h-12 w-auto object-contain", className)}
-    />
+    <>
+      <SVGFilter />
+      <Image
+        src="/brand/logo.png"
+        alt="Amir Engineering"
+        width={500}
+        height={200}
+        priority
+        className={cn("h-12 w-auto object-contain transition-all dark:[filter:url(#black-to-white-filter)]", className)}
+      />
+    </>
   );
 }
 
