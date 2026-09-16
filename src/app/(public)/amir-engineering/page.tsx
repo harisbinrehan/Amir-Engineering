@@ -140,7 +140,7 @@ export default async function AmirEngineeringPage() {
           {categories.map((category) => (
             <Link
               key={category.id}
-              href={`/machinery/category/${category.slug}`}
+              href={`/machinery?category=${category.slug}`}
               className="group border-border bg-card hover:border-industrial/60 rounded-lg border p-5 transition-colors"
             >
               <h3 className="font-heading group-hover:text-industrial text-base font-semibold">{category.name}</h3>

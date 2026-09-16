@@ -38,7 +38,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   for (const category of categories ?? []) {
-    entries.push({ url: `${siteConfig.url}/machinery/category/${category.slug}` });
+    entries.push({ url: `${siteConfig.url}/machinery?category=${category.slug}` });
   }
 
   for (const line of lines ?? []) {
@@ -50,7 +50,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   for (const category of productCategories ?? []) {
-    entries.push({ url: `${siteConfig.url}/products/category/${category.slug}` });
+    entries.push({ url: `${siteConfig.url}/products?category=${category.slug}` });
   }
 
   return entries;

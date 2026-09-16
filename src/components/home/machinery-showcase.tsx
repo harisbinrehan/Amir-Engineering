@@ -48,7 +48,7 @@ export function MachineryShowcase() {
         {machineryCategoriesTeaser.map((category) => (
           <MotionLink
             key={category.slug}
-            href={`/machinery/category/${category.slug}`}
+            href={`/machinery?category=${category.slug}`}
             variants={{
               hidden: { opacity: 0, y: 20 },
               visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }

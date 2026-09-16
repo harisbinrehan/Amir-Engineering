@@ -70,7 +70,7 @@ export default async function MachineryDetailPage(props: PageProps<"/machinery/[
           items={[
             { label: "Machinery", href: "/machinery" },
             ...(machinery.category
-              ? [{ label: machinery.category.name, href: `/machinery/category/${machinery.category.slug}` }]
+              ? [{ label: machinery.category.name, href: `/machinery?category=${machinery.category.slug}` }]
               : []),
             { label: machinery.name },
           ]}

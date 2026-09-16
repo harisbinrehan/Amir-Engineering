@@ -18,8 +18,14 @@ export const metadata: Metadata = {
     "Industrial machinery for noodle, macaroni, pasta and vermicelli production — mixing, extrusion, cutting, drying and packaging systems.",
 };
 
-export default async function MachineryPage() {
-  const [categories, machinery] = await Promise.all([getMachineryCategories(), getMachineryList()]);
+export default async function MachineryPage(props: PageProps<"/machinery">) {
+  const searchParams = await props.searchParams;
+  const categoryFilter = searchParams?.category;
+
+  const [categories, machinery] = await Promise.all([
+    getMachineryCategories(), 
+    getMachineryList(categoryFilter ? { categorySlug: categoryFilter } : undefined)
+  ]);
 
   return (
     <>
@@ -34,19 +40,29 @@ export default async function MachineryPage() {
         </p>
 
         <div className="mt-6 flex flex-wrap gap-2">
-          {categories.map((category) => (
-            <Link key={category.id} href={`/machinery/category/${category.slug}`}>
-              <Badge variant="secondary" className="hover:bg-industrial hover:text-industrial-foreground px-3 py-1.5 text-sm font-normal transition-colors">
-                {category.name}
-              </Badge>
-            </Link>
-          ))}
+          {categories.map((category) => {
+            const isActive = categoryFilter === category.slug;
+            const href = isActive ? "/machinery" : `/machinery?category=${category.slug}`;
+            
+            return (
+              <Link key={category.id} href={href} scroll={false}>
+                <Badge 
+                  variant={isActive ? "default" : "secondary"} 
+                  className={`px-3 py-1.5 text-sm font-normal transition-colors hover:bg-industrial hover:text-industrial-foreground ${
+                    isActive ? "bg-industrial text-industrial-foreground hover:bg-industrial/90" : ""
+                  }`}
+                >
+                  {category.name}
+                </Badge>
+              </Link>
+            );
+          })}
         </div>
       </Section>
 
       <Section className="pt-0">
         {machinery.length === 0 ? (
-          <EmptyState title="No machinery published yet" description="Check back soon." />
+          <EmptyState title="No machinery found" description="Try selecting a different category." />
         ) : (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {machinery.map((item) => (
