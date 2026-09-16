@@ -38,18 +38,18 @@ export default async function AdminProductDetailPage(props: PageProps<"/admin/pr
         <DeleteProductButton productId={product.id} />
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2">
+      <div className="grid min-w-0 gap-6 lg:grid-cols-3">
+        <div className="min-w-0 lg:col-span-2">
           <ProductEditForm product={product} categories={categories} />
         </div>
 
-        <div className="space-y-6">
-          <Card>
+        <div className="min-w-0 space-y-6">
+          <Card className="min-w-0">
             <CardHeader className="flex flex-row items-center justify-between space-y-0">
               <CardTitle>Variants</CardTitle>
               <VariantFormDialog productId={product.id} />
             </CardHeader>
-            <CardContent>
+            <CardContent className="min-w-0 p-4 sm:p-6">
               <VariantsTable productId={product.id} variants={product.variants} />
             </CardContent>
           </Card>

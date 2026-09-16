@@ -30,8 +30,8 @@ export default async function AdminQuoteDetailPage(props: PageProps<"/admin/quot
         <QuoteStatusSelect quoteId={quote.id} status={quote.status} />
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
-        <div className="space-y-6 lg:col-span-2">
+      <div className="grid min-w-0 gap-6 lg:grid-cols-3">
+        <div className="min-w-0 space-y-6 lg:col-span-2">
           <Card>
             <CardHeader>
               <CardTitle>Customer Details</CardTitle>
@@ -90,7 +90,7 @@ export default async function AdminQuoteDetailPage(props: PageProps<"/admin/quot
           </Card>
         </div>
 
-        <div className="space-y-6">
+        <div className="min-w-0 space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>Assignment</CardTitle>

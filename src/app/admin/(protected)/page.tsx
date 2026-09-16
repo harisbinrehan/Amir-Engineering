@@ -31,7 +31,7 @@ export default async function AdminDashboardPage() {
         </p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid min-w-0 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Total Quote Requests" value={totalQuotes ?? 0} icon={FileTextIcon} />
         <StatCard label="New Quotes" value={newQuotes ?? 0} icon={ClockIcon} hint="Awaiting review" />
         <StatCard label="Active Machinery" value={machineryCount ?? 0} icon={WrenchIcon} />

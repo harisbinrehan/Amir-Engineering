@@ -28,8 +28,8 @@ export default async function AdminOrderDetailPage(props: PageProps<"/admin/orde
         <OrderStatusSelect orderId={order.id} status={order.status} />
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
-        <div className="space-y-6 lg:col-span-2">
+      <div className="grid min-w-0 gap-6 lg:grid-cols-3">
+        <div className="min-w-0 space-y-6 lg:col-span-2">
           <Card>
             <CardHeader>
               <CardTitle>Customer &amp; Shipping</CardTitle>
@@ -91,7 +91,7 @@ export default async function AdminOrderDetailPage(props: PageProps<"/admin/orde
           </Card>
         </div>
 
-        <div className="space-y-6">
+        <div className="min-w-0 space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>Payment Status</CardTitle>
