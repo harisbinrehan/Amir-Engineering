@@ -5,6 +5,7 @@ import { Section } from "@/components/layout/section";
 import { PlaceholderImage } from "@/components/common/placeholder-image";
 import { Button } from "@/components/ui/button";
 import { businesses } from "@/lib/content/businesses";
+import { genericNoodleBowlImage } from "@/lib/content/stock-images";
 
 export function BusinessesIntro() {
   return (
@@ -20,8 +21,9 @@ export function BusinessesIntro() {
         <div className="border-border bg-card group flex flex-col overflow-hidden rounded-xl border">
           <div className="bg-muted aspect-16/9 relative overflow-hidden">
             <PlaceholderImage
+              src={genericNoodleBowlImage}
               seed="fine-foods-industries"
-              alt="Fine Foods Industries"
+              alt="Fine Foods Industries — illustrative photo, official imagery coming soon"
               fill
               sizes="(min-width: 768px) 50vw, 100vw"
               className="object-cover transition-transform duration-500 group-hover:scale-105"

@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Section } from "@/components/layout/section";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { EmptyState } from "@/components/common/empty-state";
 import { PackageSearchIcon, SparklesIcon } from "lucide-react";
 import { businesses } from "@/lib/content/businesses";
+import { genericNoodleBowlImage } from "@/lib/content/stock-images";
 
 export const metadata: Metadata = {
   title: "Fine Foods Industries — Food Manufacturing & Consumer Products",
@@ -24,6 +26,19 @@ export default function FineFoodsPage() {
         </h1>
         <p className="mt-2 text-lg font-medium">{businesses.fineFoods.tagline}</p>
         <p className="text-muted-foreground mt-4 text-lg leading-relaxed">{businesses.fineFoods.description}</p>
+      </Section>
+
+      <Section className="pt-0">
+        <div className="relative aspect-21/9 overflow-hidden rounded-xl">
+          <Image
+            src={genericNoodleBowlImage}
+            alt="Fine Foods Industries — illustrative photo, official imagery coming soon"
+            fill
+            priority
+            sizes="(min-width: 1280px) 1200px, 100vw"
+            className="object-cover"
+          />
+        </div>
       </Section>
 
       <Section variant="muted">
