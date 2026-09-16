@@ -143,7 +143,7 @@ export function ProductEditForm({
             </Field>
 
             <MediaUploadField
-              value={imageUrl}
+              value={imageUrl ?? ""}
               onChange={(url) => setValue("imageUrl", url, { shouldDirty: true })}
               error={errors.imageUrl}
             />

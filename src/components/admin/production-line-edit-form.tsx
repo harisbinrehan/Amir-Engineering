@@ -119,7 +119,7 @@ export function ProductionLineEditForm({ line }: { line: ProductionLine }) {
             </div>
 
             <MediaUploadField
-              value={imageUrl}
+              value={imageUrl ?? ""}
               onChange={(url) => setValue("imageUrl", url, { shouldDirty: true })}
               error={errors.imageUrl}
             />

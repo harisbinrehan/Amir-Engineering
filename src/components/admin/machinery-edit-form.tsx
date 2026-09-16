@@ -172,7 +172,7 @@ export function MachineryEditForm({
             </div>
 
             <MediaUploadField
-              value={imageUrl}
+              value={imageUrl ?? ""}
               onChange={(url) => setValue("imageUrl", url, { shouldDirty: true })}
               error={errors.imageUrl}
             />
