@@ -1,7 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { LogoMark } from "@/components/icons/logo";
+
+const subscribeNoop = () => () => {};
+
+function getStandaloneSnapshot() {
+  return (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    // iOS Safari's installed-app flag
+    (navigator as Navigator & { standalone?: boolean }).standalone === true
+  );
+}
+
+function getReducedMotionSnapshot() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
 
 /**
  * Branded launch splash, shown only when running as an installed PWA
@@ -11,28 +25,25 @@ import { LogoMark } from "@/components/icons/logo";
  * then removes itself for good.
  */
 export function AppSplash() {
-  const [visible, setVisible] = useState(false);
+  const isStandalone = useSyncExternalStore(subscribeNoop, getStandaloneSnapshot, () => false);
+  const reducedMotion = useSyncExternalStore(subscribeNoop, getReducedMotionSnapshot, () => false);
+  const shouldShow = isStandalone && !reducedMotion;
+
   const [fading, setFading] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
-    const isStandalone =
-      window.matchMedia("(display-mode: standalone)").matches ||
-      // iOS Safari's installed-app flag
-      (navigator as Navigator & { standalone?: boolean }).standalone === true;
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!shouldShow) return;
 
-    if (!isStandalone || reducedMotion) return;
-
-    setVisible(true);
     const fadeTimer = setTimeout(() => setFading(true), 550);
-    const removeTimer = setTimeout(() => setVisible(false), 850);
+    const removeTimer = setTimeout(() => setDismissed(true), 850);
     return () => {
       clearTimeout(fadeTimer);
       clearTimeout(removeTimer);
     };
-  }, []);
+  }, [shouldShow]);
 
-  if (!visible) return null;
+  if (!shouldShow || dismissed) return null;
 
   return (
     <div
