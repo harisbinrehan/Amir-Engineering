@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { Suspense } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { ProductsTable } from "@/components/admin/products-table";
 import { ProductFormDialog } from "@/components/admin/product-form-dialog";
 import { requireRole } from "@/lib/auth/require-role";
@@ -10,6 +13,11 @@ import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = { title: "Products" };
 
+async function ProductsList({ categoryId, search }: { categoryId: string; search: string }) {
+  const products = await getAdminProducts({ categoryId: categoryId === "all" ? undefined : categoryId, search });
+  return <ProductsTable products={products} />;
+}
+
 export default async function AdminProductsPage(props: PageProps<"/admin/products">) {
   await requireRole(["super_admin", "admin"]);
 
@@ -17,10 +25,7 @@ export default async function AdminProductsPage(props: PageProps<"/admin/product
   const categoryId = typeof params.category === "string" ? params.category : "all";
   const search = typeof params.q === "string" ? params.q : "";
 
-  const [products, categories] = await Promise.all([
-    getAdminProducts({ categoryId: categoryId === "all" ? undefined : categoryId, search }),
-    getAdminProductCategories(),
-  ]);
+  const categories = await getAdminProductCategories();
 
   return (
     <div className="space-y-6">
@@ -36,23 +41,23 @@ export default async function AdminProductsPage(props: PageProps<"/admin/product
 
       <form className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between" method="get">
         <div className="flex flex-wrap gap-2">
-          <a href={`/admin/products?category=all${search ? `&q=${search}` : ""}`}>
+          <Link href={`/admin/products?category=all${search ? `&q=${search}` : ""}`} scroll={false}>
             <Badge
               variant={categoryId === "all" ? "default" : "secondary"}
-              className={cn("px-3 py-1.5 text-sm font-normal", categoryId === "all" && "bg-food text-food-foreground")}
+              className={cn("px-3 py-1.5 text-sm font-normal transition-colors hover:bg-food hover:text-food-foreground", categoryId === "all" && "bg-food text-food-foreground")}
             >
               All
             </Badge>
-          </a>
+          </Link>
           {categories.map((c) => (
-            <a key={c.id} href={`/admin/products?category=${c.id}${search ? `&q=${search}` : ""}`}>
+            <Link key={c.id} href={`/admin/products?category=${c.id}${search ? `&q=${search}` : ""}`} scroll={false}>
               <Badge
                 variant={categoryId === c.id ? "default" : "secondary"}
-                className={cn("px-3 py-1.5 text-sm font-normal", categoryId === c.id && "bg-food text-food-foreground")}
+                className={cn("px-3 py-1.5 text-sm font-normal transition-colors hover:bg-food hover:text-food-foreground", categoryId === c.id && "bg-food text-food-foreground")}
               >
                 {c.name}
               </Badge>
-            </a>
+            </Link>
           ))}
         </div>
         <div className="flex gap-2">
@@ -64,7 +69,9 @@ export default async function AdminProductsPage(props: PageProps<"/admin/product
         </div>
       </form>
 
-      <ProductsTable products={products} />
+      <Suspense key={categoryId + search} fallback={<Skeleton className="h-[400px] w-full rounded-lg" />}>
+        <ProductsList categoryId={categoryId} search={search} />
+      </Suspense>
     </div>
   );
 }

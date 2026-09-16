@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { Suspense } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { QuotesTable } from "@/components/admin/quotes-table";
 import { requireRole } from "@/lib/auth/require-role";
 import { getQuotes, type QuoteStatus } from "@/lib/data/quotes";
@@ -21,14 +24,17 @@ const STATUS_FILTERS: { label: string; value: QuoteStatus | "all" }[] = [
   { label: "Completed", value: "completed" },
 ];
 
+async function QuotesList({ status, search }: { status: QuoteStatus | "all"; search: string }) {
+  const quotes = await getQuotes({ status, search });
+  return <QuotesTable quotes={quotes} />;
+}
+
 export default async function AdminQuotesPage(props: PageProps<"/admin/quotes">) {
   await requireRole(["super_admin", "admin", "sales"]);
 
   const params = await props.searchParams;
   const status = (typeof params.status === "string" ? params.status : "all") as QuoteStatus | "all";
   const search = typeof params.q === "string" ? params.q : "";
-
-  const quotes = await getQuotes({ status, search });
 
   return (
     <div className="space-y-6">
@@ -42,17 +48,17 @@ export default async function AdminQuotesPage(props: PageProps<"/admin/quotes">)
       <form className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between" method="get">
         <div className="flex flex-wrap gap-2">
           {STATUS_FILTERS.map((filter) => (
-            <a key={filter.value} href={`/admin/quotes?status=${filter.value}${search ? `&q=${search}` : ""}`}>
+            <Link key={filter.value} href={`/admin/quotes?status=${filter.value}${search ? `&q=${search}` : ""}`} scroll={false}>
               <Badge
                 variant={status === filter.value ? "default" : "secondary"}
                 className={cn(
-                  "px-3 py-1.5 text-sm font-normal",
+                  "px-3 py-1.5 text-sm font-normal transition-colors hover:bg-industrial hover:text-industrial-foreground",
                   status === filter.value && "bg-industrial text-industrial-foreground",
                 )}
               >
                 {filter.label}
               </Badge>
-            </a>
+            </Link>
           ))}
         </div>
         <div className="flex gap-2">
@@ -64,7 +70,9 @@ export default async function AdminQuotesPage(props: PageProps<"/admin/quotes">)
         </div>
       </form>
 
-      <QuotesTable quotes={quotes} />
+      <Suspense key={status + search} fallback={<Skeleton className="h-[400px] w-full rounded-lg" />}>
+        <QuotesList status={status} search={search} />
+      </Suspense>
     </div>
   );
 }

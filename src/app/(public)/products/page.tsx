@@ -33,6 +33,17 @@ export default async function ProductsPage(props: PageProps<"/products">) {
         </p>
 
         <div className="mt-6 flex flex-wrap gap-2">
+          <Link href="/products" scroll={false}>
+            <Badge
+              variant={!categoryFilter ? "default" : "secondary"}
+              className={`px-3 py-1.5 text-sm font-normal transition-colors hover:bg-food hover:text-food-foreground ${
+                !categoryFilter ? "bg-food text-food-foreground hover:bg-food/90" : ""
+              }`}
+            >
+              All Products
+            </Badge>
+          </Link>
+
           {categories.map((category) => {
             const isActive = categoryFilter === category.slug;
             // Toggle filter: if already active, clicking again removes the filter

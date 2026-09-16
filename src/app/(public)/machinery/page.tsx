@@ -40,6 +40,17 @@ export default async function MachineryPage(props: PageProps<"/machinery">) {
         </p>
 
         <div className="mt-6 flex flex-wrap gap-2">
+          <Link href="/machinery" scroll={false}>
+            <Badge
+              variant={!categoryFilter ? "default" : "secondary"}
+              className={`px-3 py-1.5 text-sm font-normal transition-colors hover:bg-industrial hover:text-industrial-foreground ${
+                !categoryFilter ? "bg-industrial text-industrial-foreground hover:bg-industrial/90" : ""
+              }`}
+            >
+              All Machinery
+            </Badge>
+          </Link>
+
           {categories.map((category) => {
             const isActive = categoryFilter === category.slug;
             const href = isActive ? "/machinery" : `/machinery?category=${category.slug}`;
