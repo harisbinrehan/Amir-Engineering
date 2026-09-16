@@ -19,6 +19,19 @@ export function BrandLogo({ className }: { className?: string }) {
   );
 }
 
+export function BrandLogoDarkText({ className }: { className?: string }) {
+  return (
+    <Image
+      src="/brand/amir-engineering-logo-dark.png"
+      alt="Amir Engineering"
+      width={500}
+      height={200}
+      priority
+      className={cn("h-12 w-auto object-contain", className)}
+    />
+  );
+}
+
 
 /**
  * Brand mark: a monoline "A" (peak/roofline, doubling as an upward
