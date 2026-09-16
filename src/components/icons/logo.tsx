@@ -19,23 +19,6 @@ export function BrandLogo({ className }: { className?: string }) {
   );
 }
 
-/**
- * White silhouette of the logo (every visible pixel recolored to white,
- * original transparency preserved) — for dark surfaces (footer, sidebar,
- * dark-mode header), instead of boxing the color logo in a white plate.
- */
-export function BrandLogoWhite({ className }: { className?: string }) {
-  return (
-    <Image
-      src="/brand/amir-engineering-logo-white.png"
-      alt="Amir Engineering"
-      width={500}
-      height={200}
-      priority
-      className={cn("h-12 w-auto object-contain", className)}
-    />
-  );
-}
 
 /**
  * Brand mark: a monoline "A" (peak/roofline, doubling as an upward

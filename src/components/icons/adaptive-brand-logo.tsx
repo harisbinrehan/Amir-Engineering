@@ -16,6 +16,9 @@ export function AdaptiveBrandLogo({ className }: { className?: string }) {
   const mounted = useSyncExternalStore(subscribeNoop, () => true, () => false);
   const isDark = mounted && resolvedTheme === "dark";
 
-  if (isDark) return <BrandLogoWhite className={className} />;
-  return <BrandLogo className={className} />;
+  return (
+    <div className={isDark ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]" : ""}>
+      <BrandLogo className={className} />
+    </div>
+  );
 }
