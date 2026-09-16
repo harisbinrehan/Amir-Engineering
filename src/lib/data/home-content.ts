@@ -1,7 +1,7 @@
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/server";
 
 export async function getTestimonials(limit = 6) {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from("testimonials")
     .select("*")
@@ -14,7 +14,7 @@ export async function getTestimonials(limit = 6) {
 }
 
 export async function getFaqs(category?: string) {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   let query = supabase.from("faqs").select("*").eq("is_published", true).order("sort_order");
 
   if (category) query = query.eq("category", category);

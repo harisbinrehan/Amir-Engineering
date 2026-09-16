@@ -9,8 +9,15 @@ import { BrochureDownloadButton } from "@/components/machinery/brochure-download
 import { RequestQuoteButton } from "@/components/machinery/request-quote-button";
 import { Badge } from "@/components/ui/badge";
 import { siteConfig } from "@/lib/content/site-config";
-import { getMachineryBySlug, getRelatedMachinery } from "@/lib/data/machinery";
+import { getMachineryBySlug, getRelatedMachinery, getMachineryList } from "@/lib/data/machinery";
 import { realMachineryImagesBySlug } from "@/lib/content/real-machinery-media";
+
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+  const machinery = await getMachineryList();
+  return machinery.map((item) => ({ slug: item.slug }));
+}
 
 export async function generateMetadata(props: PageProps<"/machinery/[slug]">): Promise<Metadata> {
   const { slug } = await props.params;

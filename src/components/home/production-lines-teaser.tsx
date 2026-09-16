@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "motion/react";
 import { ArrowRightIcon, CheckIcon } from "lucide-react";
 import { Section } from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
@@ -7,7 +10,13 @@ import { productionLinesTeaser } from "@/lib/content/placeholder-copy";
 export function ProductionLinesTeaser() {
   return (
     <Section variant="dark">
-      <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="grid gap-12 lg:grid-cols-2 lg:items-center"
+      >
         <div>
           <span className="text-industrial text-sm font-semibold tracking-wide uppercase">
             Production Lines
@@ -30,10 +39,23 @@ export function ProductionLinesTeaser() {
           </Button>
         </div>
 
-        <ol className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-2">
+        <motion.ol 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+          }}
+          className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-2"
+        >
           {productionLinesTeaser.stages.map((stage, index) => (
-            <li
+            <motion.li
               key={stage}
+              variants={{
+                hidden: { opacity: 0, x: 20 },
+                visible: { opacity: 1, x: 0, transition: { duration: 0.4, ease: "easeOut" } }
+              }}
               className="border-surface-dark-foreground/15 bg-surface-dark-foreground/5 flex items-center gap-3 rounded-lg border px-4 py-3"
             >
               <span className="bg-industrial text-industrial-foreground flex size-6 shrink-0 items-center justify-center rounded-full text-xs font-bold">
@@ -43,10 +65,10 @@ export function ProductionLinesTeaser() {
               {index === productionLinesTeaser.stages.length - 1 && (
                 <CheckIcon className="text-industrial ml-auto size-4" />
               )}
-            </li>
+            </motion.li>
           ))}
-        </ol>
-      </div>
+        </motion.ol>
+      </motion.div>
     </Section>
   );
 }

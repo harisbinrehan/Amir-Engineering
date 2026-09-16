@@ -7,18 +7,21 @@ import { Section } from "@/components/layout/section";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/common/empty-state";
+import { CartSkeleton } from "@/components/shop/cart-skeleton";
 import { useCart } from "@/lib/cart/cart-context";
 import { formatPkr } from "@/lib/utils/currency";
 
 export default function CartPage() {
-  const { lines, subtotal, updateQuantity, removeLine } = useCart();
+  const { lines, subtotal, hydrated, updateQuantity, removeLine } = useCart();
 
   return (
     <Section containerClassName="max-w-4xl">
       <Breadcrumbs items={[{ label: "Cart" }]} />
       <h1 className="font-heading mt-4 text-3xl font-bold tracking-tight sm:text-4xl">Your Cart</h1>
 
-      {lines.length === 0 ? (
+      {!hydrated ? (
+        <CartSkeleton />
+      ) : lines.length === 0 ? (
         <EmptyState
           className="mt-12"
           icon={ShoppingCartIcon}

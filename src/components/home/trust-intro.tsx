@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { motion } from "motion/react";
 import { Section } from "@/components/layout/section";
 import { StatsCounter } from "@/components/home/stats-counter";
 import { trustIntro, trustStats } from "@/lib/content/placeholder-copy";
@@ -6,7 +9,13 @@ import { trustIntro, trustStats } from "@/lib/content/placeholder-copy";
 export function TrustIntro() {
   return (
     <Section>
-      <div className="relative overflow-hidden rounded-3xl bg-black shadow-2xl flex flex-col justify-end sm:justify-center min-h-[500px] md:min-h-[600px] lg:min-h-[650px]">
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        whileInView={{ opacity: 1, scale: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+        className="relative overflow-hidden rounded-3xl bg-black shadow-2xl flex flex-col justify-end sm:justify-center min-h-[500px] md:min-h-[600px] lg:min-h-[650px]"
+      >
         <Image
           src="/brand/amir-engineering-facility.jpg"
           alt="Amir Engineering facility"
@@ -24,18 +33,34 @@ export function TrustIntro() {
             {trustIntro.body}
           </p>
         </div>
-      </div>
+      </motion.div>
 
-      <dl className="mt-16 grid grid-cols-2 gap-8 md:grid-cols-4">
+      <motion.dl 
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+        variants={{
+          hidden: { opacity: 0 },
+          visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
+        }}
+        className="mt-16 grid grid-cols-2 gap-8 md:grid-cols-4"
+      >
         {trustStats.map((stat) => (
-          <div key={stat.label} className="text-center">
+          <motion.div 
+            key={stat.label} 
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+            }}
+            className="text-center"
+          >
             <dt className="font-heading text-industrial text-4xl font-bold sm:text-5xl">
               <StatsCounter value={stat.value} suffix={stat.suffix} />
             </dt>
             <dd className="text-muted-foreground mt-2 text-sm">{stat.label}</dd>
-          </div>
+          </motion.div>
         ))}
-      </dl>
+      </motion.dl>
     </Section>
   );
 }

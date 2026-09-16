@@ -8,6 +8,8 @@ import { EmptyState } from "@/components/common/empty-state";
 import { getProductionLines } from "@/lib/data/production-lines";
 import { realProductionLineImagesBySlug, productionLineFallbackImage } from "@/lib/content/real-machinery-media";
 
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: "Production Lines",
   description: "Complete, turnkey production lines for noodle, macaroni, pasta and vermicelli manufacturing.",

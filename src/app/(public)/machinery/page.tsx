@@ -7,6 +7,11 @@ import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/common/empty-state";
 import { getMachineryCategories, getMachineryList } from "@/lib/data/machinery";
 
+// Public catalog data doesn't change every request — cache the rendered page
+// for a minute so repeat visits (and other visitors) get it instantly from
+// the CDN instead of re-querying Supabase on every navigation.
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: "Machinery",
   description:

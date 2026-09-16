@@ -1,7 +1,7 @@
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/server";
 
 export async function getProductCategories() {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from("product_categories")
     .select("*")
@@ -13,7 +13,7 @@ export async function getProductCategories() {
 }
 
 export async function getProductCategoryBySlug(slug: string) {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data } = await supabase
     .from("product_categories")
     .select("*")
@@ -25,7 +25,7 @@ export async function getProductCategoryBySlug(slug: string) {
 }
 
 export async function getProducts(options?: { categorySlug?: string }) {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   let query = supabase
     .from("products")
     .select("*, category:product_categories(id, name, slug), variants:product_variants(*)")
@@ -46,7 +46,7 @@ export async function getProducts(options?: { categorySlug?: string }) {
 }
 
 export async function getFeaturedProducts(limit = 4) {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from("products")
     .select("*, category:product_categories(id, name, slug), variants:product_variants(*)")
@@ -61,7 +61,7 @@ export async function getFeaturedProducts(limit = 4) {
 }
 
 export async function getProductBySlug(slug: string) {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from("products")
     .select(
@@ -83,7 +83,7 @@ export async function getProductBySlug(slug: string) {
 
 export async function getRelatedProducts(categoryId: string | null, excludeId: string) {
   if (!categoryId) return [];
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from("products")
     .select("*, category:product_categories(id, name, slug), variants:product_variants(*)")

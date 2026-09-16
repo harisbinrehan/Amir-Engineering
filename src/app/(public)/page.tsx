@@ -10,6 +10,8 @@ import { TestimonialsSection } from "@/components/home/testimonials-section";
 import { CtaSection } from "@/components/home/cta-section";
 import { siteConfig } from "@/lib/content/site-config";
 
+export const revalidate = 60;
+
 export default function HomePage() {
   const organizationJsonLd = {
     "@context": "https://schema.org",

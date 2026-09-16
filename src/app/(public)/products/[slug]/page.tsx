@@ -7,7 +7,14 @@ import { AddToCartForm } from "@/components/shop/add-to-cart-form";
 import { ProductCard } from "@/components/shop/product-card";
 import { Badge } from "@/components/ui/badge";
 import { siteConfig } from "@/lib/content/site-config";
-import { getProductBySlug, getRelatedProducts } from "@/lib/data/products";
+import { getProductBySlug, getRelatedProducts, getProducts } from "@/lib/data/products";
+
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+  const products = await getProducts();
+  return products.map((product) => ({ slug: product.slug }));
+}
 
 export async function generateMetadata(props: PageProps<"/products/[slug]">): Promise<Metadata> {
   const { slug } = await props.params;

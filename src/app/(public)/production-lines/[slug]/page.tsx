@@ -7,8 +7,15 @@ import { PlaceholderImage } from "@/components/common/placeholder-image";
 import { ProcessFlow } from "@/components/production-lines/process-flow";
 import { RequestQuoteButton } from "@/components/machinery/request-quote-button";
 import { BrochureDownloadButton } from "@/components/machinery/brochure-download-button";
-import { getProductionLineBySlug } from "@/lib/data/production-lines";
+import { getProductionLineBySlug, getProductionLines } from "@/lib/data/production-lines";
 import { realProductionLineImagesBySlug, productionLineFallbackImage } from "@/lib/content/real-machinery-media";
+
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+  const lines = await getProductionLines();
+  return lines.map((line) => ({ slug: line.slug }));
+}
 
 export async function generateMetadata(props: PageProps<"/production-lines/[slug]">): Promise<Metadata> {
   const { slug } = await props.params;

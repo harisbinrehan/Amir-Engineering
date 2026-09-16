@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "motion/react";
 import { ArrowRightIcon, MapPinIcon } from "lucide-react";
 import { Section } from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
@@ -14,7 +17,13 @@ const placeholderProjects = [
 export function ProjectsTeaser() {
   return (
     <Section>
-      <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end"
+      >
         <div>
           <span className="text-industrial text-sm font-semibold tracking-wide uppercase">Projects</span>
           <h2 className="font-heading mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
@@ -27,11 +36,27 @@ export function ProjectsTeaser() {
             <ArrowRightIcon />
           </Link>
         </Button>
-      </div>
+      </motion.div>
 
-      <div className="mt-10 grid gap-6 md:grid-cols-3">
+      <motion.div 
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+        variants={{
+          hidden: { opacity: 0 },
+          visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
+        }}
+        className="mt-10 grid gap-6 md:grid-cols-3"
+      >
         {placeholderProjects.map((project) => (
-          <div key={project.name} className="border-border bg-card overflow-hidden rounded-lg border">
+          <motion.div 
+            key={project.name} 
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+            }}
+            className="border-border bg-card overflow-hidden rounded-lg border"
+          >
             <div className="aspect-4/3 relative overflow-hidden">
               <PlaceholderImage seed={project.name} alt={project.name} fill className="object-cover" />
             </div>
@@ -43,9 +68,9 @@ export function ProjectsTeaser() {
               </p>
               <p className="text-muted-foreground mt-2 text-sm">{project.machinery}</p>
             </div>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </Section>
   );
 }

@@ -22,7 +22,13 @@ export function VideoShowcase() {
 
   return (
     <Section variant="dark" className="border-surface-dark-foreground/10 border-b">
-      <div className="max-w-2xl">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="max-w-2xl"
+      >
         <span className="text-industrial text-sm font-semibold tracking-wide uppercase">
           Engineering in Motion
         </span>
@@ -33,9 +39,15 @@ export function VideoShowcase() {
           Real machines, running in real production environments — as featured in independent industry
           coverage across Pakistan.
         </p>
-      </div>
+      </motion.div>
 
-      <div className="mt-10 grid gap-4 lg:grid-cols-4">
+      <motion.div 
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
+        className="mt-10 grid gap-4 lg:grid-cols-4"
+      >
         <div className="lg:col-span-3">
           <AnimatePresence mode="wait">
             <motion.div
@@ -110,7 +122,7 @@ export function VideoShowcase() {
             </button>
           ))}
         </div>
-      </div>
+      </motion.div>
     </Section>
   );
 }

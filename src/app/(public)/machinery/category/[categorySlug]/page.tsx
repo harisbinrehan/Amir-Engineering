@@ -4,7 +4,14 @@ import { Section } from "@/components/layout/section";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { MachineryCard } from "@/components/machinery/machinery-card";
 import { EmptyState } from "@/components/common/empty-state";
-import { getMachineryCategoryBySlug, getMachineryList } from "@/lib/data/machinery";
+import { getMachineryCategoryBySlug, getMachineryCategories, getMachineryList } from "@/lib/data/machinery";
+
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+  const categories = await getMachineryCategories();
+  return categories.map((category) => ({ categorySlug: category.slug }));
+}
 
 export async function generateMetadata(props: PageProps<"/machinery/category/[categorySlug]">): Promise<Metadata> {
   const { categorySlug } = await props.params;

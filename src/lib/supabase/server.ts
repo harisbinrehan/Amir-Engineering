@@ -1,4 +1,5 @@
 import { createServerClient } from "@supabase/ssr";
+import { createClient as createSupabaseJsClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 import type { Database } from "@/types/database.types";
 
@@ -30,6 +31,22 @@ export async function createClient() {
         },
       },
     },
+  );
+}
+
+/**
+ * Anon-key client that never touches cookies — for public, unauthenticated
+ * catalog reads only (machinery, products, production lines, categories).
+ * `createClient()` calls `cookies()`, which forces Next.js to render the
+ * whole route dynamically on every request even when the page sets
+ * `export const revalidate`; those pages don't need a session at all (RLS
+ * gives every visitor the same public rows), so this client lets them
+ * actually get cached/ISR'd instead of hitting Supabase on every navigation.
+ */
+export function createPublicClient() {
+  return createSupabaseJsClient<Database>(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
   );
 }
 

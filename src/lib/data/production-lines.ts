@@ -1,7 +1,7 @@
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/server";
 
 export async function getProductionLines() {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from("production_lines")
     .select("*")
@@ -13,7 +13,7 @@ export async function getProductionLines() {
 }
 
 export async function getProductionLineBySlug(slug: string) {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from("production_lines")
     .select(

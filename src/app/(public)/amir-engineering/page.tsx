@@ -12,6 +12,8 @@ import { businesses } from "@/lib/content/businesses";
 import { siteConfig } from "@/lib/content/site-config";
 import { getMachineryCategories } from "@/lib/data/machinery";
 
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: "Amir Engineering — Machinery & Industrial Solutions",
   description:

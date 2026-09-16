@@ -1,5 +1,6 @@
 import { StarIcon } from "lucide-react";
 import { Section } from "@/components/layout/section";
+import { FadeUp, StaggerContainer, StaggerItem } from "@/components/common/motion-wrapper";
 import { getTestimonials } from "@/lib/data/home-content";
 
 export async function TestimonialsSection() {
@@ -9,16 +10,17 @@ export async function TestimonialsSection() {
 
   return (
     <Section variant="muted">
-      <div className="mx-auto max-w-2xl text-center">
+      <FadeUp className="mx-auto max-w-2xl text-center">
         <span className="text-industrial text-sm font-semibold tracking-wide uppercase">Testimonials</span>
         <h2 className="font-heading mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
           Trusted by Manufacturers Across the Region
         </h2>
-      </div>
+      </FadeUp>
 
-      <div className="mt-12 grid gap-6 md:grid-cols-3">
+      <StaggerContainer className="mt-12 grid gap-6 md:grid-cols-3">
         {testimonials.map((testimonial) => (
-          <figure key={testimonial.id} className="border-border bg-card flex flex-col rounded-lg border p-6">
+          <StaggerItem key={testimonial.id}>
+            <figure className="border-border bg-card h-full flex flex-col rounded-lg border p-6">
             <div className="flex gap-0.5">
               {Array.from({ length: 5 }).map((_, index) => (
                 <StarIcon
@@ -41,9 +43,10 @@ export async function TestimonialsSection() {
                 {testimonial.company_name ? `, ${testimonial.company_name}` : ""}
               </span>
             </figcaption>
-          </figure>
+            </figure>
+          </StaggerItem>
         ))}
-      </div>
+      </StaggerContainer>
     </Section>
   );
 }

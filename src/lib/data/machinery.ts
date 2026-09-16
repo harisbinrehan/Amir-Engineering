@@ -1,7 +1,7 @@
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/server";
 
 export async function getMachineryCategories() {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from("machinery_categories")
     .select("*")
@@ -13,7 +13,7 @@ export async function getMachineryCategories() {
 }
 
 export async function getMachineryCategoryBySlug(slug: string) {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data } = await supabase
     .from("machinery_categories")
     .select("*")
@@ -25,7 +25,7 @@ export async function getMachineryCategoryBySlug(slug: string) {
 }
 
 export async function getMachineryList(options?: { categorySlug?: string }) {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   let query = supabase
     .from("machinery")
     .select("*, category:machinery_categories(id, name, slug)")
@@ -45,7 +45,7 @@ export async function getMachineryList(options?: { categorySlug?: string }) {
 }
 
 export async function getFeaturedMachinery(limit = 4) {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from("machinery")
     .select("*, category:machinery_categories(id, name, slug)")
@@ -59,7 +59,7 @@ export async function getFeaturedMachinery(limit = 4) {
 }
 
 export async function getMachineryBySlug(slug: string) {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from("machinery")
     .select(
@@ -79,7 +79,7 @@ export async function getMachineryBySlug(slug: string) {
 export async function getRelatedMachinery(categoryId: string | null, excludeId: string, limit = 3) {
   if (!categoryId) return [];
 
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from("machinery")
     .select("*, category:machinery_categories(id, name, slug)")

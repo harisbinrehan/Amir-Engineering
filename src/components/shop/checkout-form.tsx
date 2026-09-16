@@ -21,10 +21,11 @@ import { checkoutSchema, type CheckoutInput } from "@/lib/validation/checkout-sc
 import { placeOrder } from "@/lib/actions/orders";
 import { useCart } from "@/lib/cart/cart-context";
 import { formatPkr } from "@/lib/utils/currency";
+import { CartSkeleton } from "@/components/shop/cart-skeleton";
 
 export function CheckoutForm() {
   const router = useRouter();
-  const { lines, subtotal, clear } = useCart();
+  const { lines, subtotal, hydrated, clear } = useCart();
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   const {
@@ -68,6 +69,10 @@ export function CheckoutForm() {
     clear();
     router.push(`/order-confirmation/${result.data.orderNumber}`);
   };
+
+  if (!hydrated) {
+    return <CartSkeleton />;
+  }
 
   if (lines.length === 0) {
     return (

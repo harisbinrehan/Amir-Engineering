@@ -18,11 +18,16 @@ type CartContextValue = {
   lines: CartLine[];
   itemCount: number;
   subtotal: number;
+  /** False until the client has read the real cart from localStorage — use
+   *  this to show a loading state instead of a premature "cart is empty". */
+  hydrated: boolean;
   addLine: (line: Omit<CartLine, "quantity">, quantity: number) => void;
   updateQuantity: (variantId: string, quantity: number) => void;
   removeLine: (variantId: string) => void;
   clear: () => void;
 };
+
+const subscribeNoop = () => () => {};
 
 const CartContext = createContext<CartContextValue | null>(null);
 const STORAGE_KEY = "amir-engineering-cart";
@@ -74,6 +79,7 @@ function writeLines(next: CartLine[]) {
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const lines = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const hydrated = useSyncExternalStore(subscribeNoop, () => true, () => false);
 
   const addLine = useCallback((line: Omit<CartLine, "quantity">, quantity: number) => {
     const current = getSnapshot();
@@ -105,8 +111,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const subtotal = useMemo(() => lines.reduce((sum, l) => sum + l.unitPrice * l.quantity, 0), [lines]);
 
   const value = useMemo(
-    () => ({ lines, itemCount, subtotal, addLine, updateQuantity, removeLine, clear }),
-    [lines, itemCount, subtotal, addLine, updateQuantity, removeLine, clear],
+    () => ({ lines, itemCount, subtotal, hydrated, addLine, updateQuantity, removeLine, clear }),
+    [lines, itemCount, subtotal, hydrated, addLine, updateQuantity, removeLine, clear],
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

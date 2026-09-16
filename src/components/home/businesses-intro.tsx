@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "motion/react";
 import Image from "next/image";
 import { ArrowRightIcon } from "lucide-react";
 import { Section } from "@/components/layout/section";
@@ -10,15 +13,36 @@ import { genericNoodleBowlImage } from "@/lib/content/stock-images";
 export function BusinessesIntro() {
   return (
     <Section>
-      <div className="mx-auto max-w-2xl text-center">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="mx-auto max-w-2xl text-center"
+      >
         <span className="text-industrial text-sm font-semibold tracking-wide uppercase">Our Businesses</span>
         <h2 className="font-heading mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
           Two Distinct Identities, One Shared Standard of Quality
         </h2>
-      </div>
+      </motion.div>
 
-      <div className="mt-12 grid gap-6 md:grid-cols-2">
-        <div className="border-border bg-card group flex flex-col overflow-hidden rounded-xl border">
+      <motion.div 
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+        variants={{
+          hidden: { opacity: 0 },
+          visible: { opacity: 1, transition: { staggerChildren: 0.2 } }
+        }}
+        className="mt-12 grid gap-6 md:grid-cols-2"
+      >
+        <motion.div 
+          variants={{
+            hidden: { opacity: 0, y: 20 },
+            visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+          }}
+          className="border-border bg-card group flex flex-col overflow-hidden rounded-xl border"
+        >
           <div className="bg-muted aspect-16/9 relative overflow-hidden">
             <PlaceholderImage
               src={genericNoodleBowlImage}
@@ -45,9 +69,15 @@ export function BusinessesIntro() {
               </Link>
             </Button>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="border-border bg-card group flex flex-col overflow-hidden rounded-xl border">
+        <motion.div 
+          variants={{
+            hidden: { opacity: 0, y: 20 },
+            visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+          }}
+          className="border-border bg-card group flex flex-col overflow-hidden rounded-xl border"
+        >
           <div className="bg-muted aspect-16/9 relative overflow-hidden">
             <Image
               src="/machinery/macaroni-line-01.jpg"
@@ -73,8 +103,8 @@ export function BusinessesIntro() {
               </Link>
             </Button>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </Section>
   );
 }

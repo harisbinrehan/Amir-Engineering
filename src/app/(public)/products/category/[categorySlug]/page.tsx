@@ -4,7 +4,14 @@ import { Section } from "@/components/layout/section";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { ProductCard } from "@/components/shop/product-card";
 import { EmptyState } from "@/components/common/empty-state";
-import { getProductCategoryBySlug, getProducts } from "@/lib/data/products";
+import { getProductCategoryBySlug, getProductCategories, getProducts } from "@/lib/data/products";
+
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+  const categories = await getProductCategories();
+  return categories.map((category) => ({ categorySlug: category.slug }));
+}
 
 export async function generateMetadata(props: PageProps<"/products/category/[categorySlug]">): Promise<Metadata> {
   const { categorySlug } = await props.params;

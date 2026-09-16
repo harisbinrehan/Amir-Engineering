@@ -7,6 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/common/empty-state";
 import { getProductCategories, getProducts } from "@/lib/data/products";
 
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: "Food Products",
   description: "Noodles, macaroni, pasta and vermicelli products — order online with Cash on Delivery or Bank Transfer.",
