@@ -11,8 +11,11 @@ export const quoteRequestSchema = z.object({
   requiredCapacity: z.string().trim().max(160).optional().or(z.literal("")),
   quantity: z.number().int().min(1).max(1000),
   message: z.string().trim().max(2000).optional().or(z.literal("")),
-  machineryId: idSchema.optional(),
-  productionLineId: idSchema.optional(),
+  // Hidden <input type="hidden"> fields submit "" (not undefined) when
+  // unset — idSchema alone rejects that empty string with zero visible UI
+  // (these fields have no <FieldError>), silently failing every submission.
+  machineryId: idSchema.optional().or(z.literal("")),
+  productionLineId: idSchema.optional().or(z.literal("")),
   // Honeypot: real users never fill this in; bots that autofill every field do.
   website: z.string().max(0, "Spam detected").optional().or(z.literal("")),
 });

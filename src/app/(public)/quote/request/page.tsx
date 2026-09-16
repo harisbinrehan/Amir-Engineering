@@ -3,6 +3,8 @@ import { Section } from "@/components/layout/section";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { QuoteRequestForm } from "@/components/quote/quote-request-form";
 import { createClient } from "@/lib/supabase/server";
+import { getMachineryList } from "@/lib/data/machinery";
+import { getProductionLines } from "@/lib/data/production-lines";
 
 export const metadata: Metadata = {
   title: "Request a Quote",
@@ -32,6 +34,12 @@ export default async function QuoteRequestPage(props: PageProps<"/quote/request"
     }
   }
 
+  // Only needed when arriving without a pre-selected machine/line (e.g. the
+  // header's generic "Request a Quote" CTA) — the form needs a way for the
+  // visitor to pick one, since a quote must be tied to a machine or line.
+  const [machineryOptions, productionLineOptions] =
+    !machineryId && !productionLineId ? await Promise.all([getMachineryList(), getProductionLines()]) : [[], []];
+
   return (
     <Section containerClassName="max-w-2xl">
       <Breadcrumbs items={[{ label: "Request a Quote" }]} />
@@ -45,6 +53,8 @@ export default async function QuoteRequestPage(props: PageProps<"/quote/request"
           machineryId={machineryId}
           productionLineId={productionLineId}
           subjectLabel={subjectLabel}
+          machineryOptions={machineryOptions.map((m) => ({ id: m.id, name: m.name }))}
+          productionLineOptions={productionLineOptions.map((l) => ({ id: l.id, name: l.name }))}
         />
       </div>
     </Section>

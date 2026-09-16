@@ -66,8 +66,8 @@ export async function createQuoteRequest(
 
   const { error: itemError } = await supabase.from("quote_items").insert({
     quote_id: quoteId,
-    machinery_id: values.machineryId ?? null,
-    production_line_id: values.productionLineId ?? null,
+    machinery_id: values.machineryId || null,
+    production_line_id: values.productionLineId || null,
     quantity: values.quantity,
     required_capacity: values.requiredCapacity || null,
   });

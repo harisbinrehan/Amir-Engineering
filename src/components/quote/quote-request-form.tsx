@@ -8,6 +8,7 @@ import { Loader2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
   Field,
   FieldContent,
@@ -18,26 +19,38 @@ import {
 import { quoteRequestSchema, type QuoteRequestInput } from "@/lib/validation/quote-schema";
 import { createQuoteRequest } from "@/lib/actions/quotes";
 
+type Option = { id: string; name: string };
+
 export function QuoteRequestForm({
   machineryId,
   productionLineId,
   subjectLabel,
+  machineryOptions = [],
+  productionLineOptions = [],
 }: {
   machineryId?: string;
   productionLineId?: string;
   subjectLabel?: string;
+  machineryOptions?: Option[];
+  productionLineOptions?: Option[];
 }) {
   const router = useRouter();
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const hasPreselected = !!(machineryId || productionLineId);
 
   const {
     register,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<QuoteRequestInput>({
     resolver: zodResolver(quoteRequestSchema),
     defaultValues: { quantity: 1, machineryId, productionLineId },
   });
+
+  const selectedMachineryId = watch("machineryId");
+  const selectedProductionLineId = watch("productionLineId");
 
   const onSubmit = async (values: QuoteRequestInput) => {
     setSubmitError(null);
@@ -60,8 +73,67 @@ export function QuoteRequestForm({
           </div>
         )}
 
-        <input type="hidden" {...register("machineryId")} />
-        <input type="hidden" {...register("productionLineId")} />
+        {hasPreselected ? (
+          <>
+            <input type="hidden" {...register("machineryId")} />
+            <input type="hidden" {...register("productionLineId")} />
+          </>
+        ) : (
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Field data-invalid={!!errors.machineryId}>
+              <FieldLabel htmlFor="machineryId">Machine</FieldLabel>
+              <FieldContent>
+                <Select
+                  value={selectedMachineryId || "none"}
+                  onValueChange={(v) => {
+                    setValue("machineryId", v === "none" ? "" : v, { shouldValidate: true });
+                    if (v !== "none") setValue("productionLineId", "", { shouldValidate: true });
+                  }}
+                >
+                  <SelectTrigger className="w-full" id="machineryId">
+                    <SelectValue placeholder="Select a machine" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="none">None</SelectItem>
+                    {machineryOptions.map((m) => (
+                      <SelectItem key={m.id} value={m.id}>
+                        {m.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FieldContent>
+            </Field>
+
+            <Field data-invalid={!!errors.productionLineId}>
+              <FieldLabel htmlFor="productionLineId">Production Line</FieldLabel>
+              <FieldContent>
+                <Select
+                  value={selectedProductionLineId || "none"}
+                  onValueChange={(v) => {
+                    setValue("productionLineId", v === "none" ? "" : v, { shouldValidate: true });
+                    if (v !== "none") setValue("machineryId", "", { shouldValidate: true });
+                  }}
+                >
+                  <SelectTrigger className="w-full" id="productionLineId">
+                    <SelectValue placeholder="Select a production line" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="none">None</SelectItem>
+                    {productionLineOptions.map((l) => (
+                      <SelectItem key={l.id} value={l.id}>
+                        {l.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FieldContent>
+            </Field>
+            <p className="text-muted-foreground -mt-2 text-sm sm:col-span-2">
+              Choose a machine or a production line to request a quote for.
+            </p>
+          </div>
+        )}
 
         {/* Honeypot — hidden from real users, left blank; bots that autofill every input trip it. */}
         <div className="hidden" aria-hidden="true">

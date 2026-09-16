@@ -4,6 +4,7 @@ import { Section } from "@/components/layout/section";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { Button } from "@/components/ui/button";
 import { WhatsappIcon } from "@/components/icons/social-icons";
+import { ContactForm } from "@/components/contact/contact-form";
 import { siteConfig } from "@/lib/content/site-config";
 
 const { lat, lng } = siteConfig.contact.coordinates;
@@ -91,6 +92,16 @@ export default function ContactPage() {
               )}
             </div>
           ))}
+        </div>
+
+        <div className="border-border bg-card mt-8 rounded-lg border p-6 sm:p-8">
+          <h2 className="font-heading text-xl font-bold tracking-tight">Send Us a Message</h2>
+          <p className="text-muted-foreground mt-1 text-sm">
+            Prefer email or a form? Fill this out and our team will get back to you within one business day.
+          </p>
+          <div className="mt-6 max-w-2xl">
+            <ContactForm />
+          </div>
         </div>
 
         <div className="border-border mt-8 overflow-hidden rounded-lg border">
