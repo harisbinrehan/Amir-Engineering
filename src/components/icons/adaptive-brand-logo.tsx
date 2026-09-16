@@ -2,20 +2,20 @@
 
 import { useSyncExternalStore } from "react";
 import { useTheme } from "next-themes";
-import { BrandLogo, BrandLogoPlate } from "@/components/icons/logo";
+import { BrandLogo, BrandLogoWhite } from "@/components/icons/logo";
 
 const subscribeNoop = () => () => {};
 
 /**
  * BrandLogo for surfaces that switch between light and dark (header, mobile
- * nav) — the source logo file has no reversed version, so on dark it falls
- * back to BrandLogoPlate (white plate) instead of disappearing into the bg.
+ * nav, admin login) — swaps to the white silhouette in dark mode instead of
+ * the full-color logo disappearing into the dark background.
  */
 export function AdaptiveBrandLogo({ className }: { className?: string }) {
   const { resolvedTheme } = useTheme();
   const mounted = useSyncExternalStore(subscribeNoop, () => true, () => false);
   const isDark = mounted && resolvedTheme === "dark";
 
-  if (isDark) return <BrandLogoPlate logoClassName={className} />;
+  if (isDark) return <BrandLogoWhite className={className} />;
   return <BrandLogo className={className} />;
 }

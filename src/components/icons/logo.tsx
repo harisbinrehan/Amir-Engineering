@@ -4,8 +4,7 @@ import { cn } from "@/lib/utils";
 /**
  * The real, supplied Amir Engineering logo file (icon + wordmark + tagline).
  * Rendered unaltered via object-contain — never cropped or stretched. On dark
- * surfaces, wrap it in a light plate (see `BrandLogoPlate`) since the source
- * file has no dedicated dark/reversed version.
+ * surfaces, use the white silhouette instead (see `BrandLogoWhite`).
  */
 export function BrandLogo({ className }: { className?: string }) {
   return (
@@ -20,12 +19,21 @@ export function BrandLogo({ className }: { className?: string }) {
   );
 }
 
-/** BrandLogo on a white plate, for placing on dark surfaces (footer, sidebar). */
-export function BrandLogoPlate({ className, logoClassName }: { className?: string; logoClassName?: string }) {
+/**
+ * White silhouette of the logo (every visible pixel recolored to white,
+ * original transparency preserved) — for dark surfaces (footer, sidebar,
+ * dark-mode header), instead of boxing the color logo in a white plate.
+ */
+export function BrandLogoWhite({ className }: { className?: string }) {
   return (
-    <span className={cn("inline-flex items-center rounded-md bg-white px-3 py-2", className)}>
-      <BrandLogo className={cn("h-8", logoClassName)} />
-    </span>
+    <Image
+      src="/brand/amir-engineering-logo-white.png"
+      alt="Amir Engineering"
+      width={500}
+      height={200}
+      priority
+      className={cn("h-12 w-auto object-contain", className)}
+    />
   );
 }
 

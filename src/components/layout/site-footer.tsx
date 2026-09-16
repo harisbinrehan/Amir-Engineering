@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { MailIcon, PhoneIcon, MapPinIcon } from "lucide-react";
 import { FacebookIcon, LinkedinIcon, YoutubeIcon, InstagramIcon } from "@/components/icons/social-icons";
-import { BrandLogoPlate } from "@/components/icons/logo";
+import { BrandLogoWhite } from "@/components/icons/logo";
 import { footerNav } from "@/lib/content/nav-links";
 import { siteConfig } from "@/lib/content/site-config";
 
@@ -11,7 +11,7 @@ export function SiteFooter() {
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-6 sm:px-6 lg:grid-cols-5 lg:px-8">
         <div className="lg:col-span-2">
           <Link href="/" className="inline-flex">
-            <BrandLogoPlate />
+            <BrandLogoWhite className="h-8" />
           </Link>
           <p className="text-surface-dark-foreground/70 mt-4 max-w-sm text-sm leading-relaxed">
             {siteConfig.description}
