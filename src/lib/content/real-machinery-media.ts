@@ -14,8 +14,14 @@ export const realMachineryImagesBySlug: Record<string, string[]> = {
     "/machinery/extruder-01.jpg",
     "/machinery/macaroni-line-02.jpg",
     "/machinery/macaroni-line-03.jpg",
+    "/machinery/macaroni-line-04.jpg",
   ],
-  "short-cut-pasta-extruder": ["/machinery/extruder-01.jpg", "/machinery/macaroni-line-02.jpg"],
+  "short-cut-pasta-extruder": [
+    "/machinery/extruder-01.jpg",
+    "/machinery/extruder-02.jpg",
+    "/machinery/macaroni-line-02.jpg",
+    "/machinery/tabletop-extruder.jpg",
+  ],
 };
 
 export const realCategoryImagesBySlug: Record<string, string> = {
@@ -23,3 +29,11 @@ export const realCategoryImagesBySlug: Record<string, string> = {
   "pasta-machinery": "/machinery/macaroni-line-03.jpg",
   extruders: "/machinery/extruder-01.jpg",
 };
+
+/** Real factory-floor / workshop photography for the About page gallery. */
+export const factoryFloorImages = [
+  "/machinery/factory-floor-01.jpg",
+  "/machinery/factory-floor-02.jpg",
+  "/machinery/macaroni-line-04.jpg",
+  "/machinery/tabletop-extruder.jpg",
+];

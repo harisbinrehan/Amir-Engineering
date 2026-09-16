@@ -8,6 +8,7 @@ import { StatsCounter } from "@/components/home/stats-counter";
 import { aboutContent } from "@/lib/content/placeholder-copy";
 import { trustStats } from "@/lib/content/placeholder-copy";
 import { teamImages } from "@/lib/content/placeholder-images";
+import { factoryFloorImages } from "@/lib/content/real-machinery-media";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -70,6 +71,17 @@ export default function AboutPage() {
             </li>
           ))}
         </ul>
+      </Section>
+
+      <Section variant="muted">
+        <h2 className="font-heading text-2xl font-bold tracking-tight">Our Factory &amp; Workshop</h2>
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {factoryFloorImages.map((src) => (
+            <div key={src} className="aspect-square relative overflow-hidden rounded-lg">
+              <Image src={src} alt="Amir Engineering factory floor" fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover" />
+            </div>
+          ))}
+        </div>
       </Section>
 
       <Section>
