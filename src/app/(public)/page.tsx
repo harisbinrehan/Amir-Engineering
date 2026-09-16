@@ -50,9 +50,9 @@ export default function HomePage() {
       />
       <Hero />
       <BusinessesIntro />
+      <VideoShowcase />
       <TrustIntro />
       <MachineryShowcase />
-      <VideoShowcase />
       <ProductionLinesTeaser />
       <FoodProductsTeaser />
       <ProjectsTeaser />

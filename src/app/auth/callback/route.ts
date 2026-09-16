@@ -6,13 +6,53 @@ export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
   const next = searchParams.get("next") ?? "/account";
+  const isPopup = searchParams.get("popup") === "true";
 
   if (code) {
     const supabase = await createClient();
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
+      if (isPopup) {
+        return new NextResponse(
+          `<!DOCTYPE html>
+          <html>
+            <head>
+              <script>
+                if (window.opener) {
+                  window.opener.postMessage("oauth_success", "*");
+                }
+                window.close();
+              </script>
+            </head>
+            <body>
+              <p>Authentication successful! Returning to app...</p>
+            </body>
+          </html>`,
+          { headers: { "Content-Type": "text/html" } }
+        );
+      }
       return NextResponse.redirect(`${origin}${next}`);
     }
+  }
+
+  if (isPopup) {
+    return new NextResponse(
+      `<!DOCTYPE html>
+      <html>
+        <head>
+          <script>
+            if (window.opener) {
+              window.opener.postMessage("oauth_error", "*");
+            }
+            window.close();
+          </script>
+        </head>
+        <body>
+          <p>Authentication failed. Returning to app...</p>
+        </body>
+      </html>`,
+      { headers: { "Content-Type": "text/html" } }
+    );
   }
 
   return NextResponse.redirect(`${origin}/login?error=auth-callback-failed`);
