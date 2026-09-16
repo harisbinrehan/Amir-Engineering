@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { PackageIcon, MapPinIcon, HeartIcon, LogOutIcon } from "lucide-react";
 import { Section } from "@/components/layout/section";
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { getCurrentProfile } from "@/lib/auth/get-profile";
 import { signOut } from "@/lib/actions/auth";
 
@@ -39,11 +40,11 @@ export default async function AccountPage() {
         ))}
       </div>
 
-      <form action={signOut} className="mt-8">
-        <button type="submit" className="text-muted-foreground hover:text-foreground flex items-center gap-2 text-sm">
+      <form action={signOut} className="mt-8 border-t border-border pt-8">
+        <Button type="submit" variant="destructive" className="w-full sm:w-auto gap-2">
           <LogOutIcon className="size-4" />
           Sign out
-        </button>
+        </Button>
       </form>
     </Section>
   );
