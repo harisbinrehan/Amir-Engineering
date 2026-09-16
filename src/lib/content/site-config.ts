@@ -8,16 +8,19 @@ export const siteConfig = {
   contact: {
     email: "info@amirengineering.com",
     salesEmail: "sales@amirengineering.com",
-    phone: "+92 42 3585 0000",
-    whatsapp: "+92 300 0000000",
+    phone: "+92 332 2000011",
+    whatsapp: "+92 332 2000011",
     address: {
-      line1: "Industrial Estate, Multan Road",
+      line1: "At Shabab Studio, Punj Graeen",
+      line2: "Multan Road, Kot Gujra",
       city: "Lahore",
       region: "Punjab",
       postalCode: "54000",
       country: "Pakistan",
     },
-    hours: "Mon – Sat, 9:00 AM – 6:00 PM (PKT)",
+    hours: "Mon – Sat, from 8:00 AM (PKT)",
+    mapsUrl: "https://maps.app.goo.gl/vqqKrnpdm31QfMRr6",
+    coordinates: { lat: 31.4397492, lng: 74.1844621 },
   },
   social: {
     facebook: "https://facebook.com/amirengineering",

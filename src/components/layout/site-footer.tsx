@@ -20,10 +20,10 @@ export function SiteFooter() {
           <div className="text-primary-foreground/70 mt-6 space-y-2 text-sm">
             <div className="flex items-center gap-2">
               <MapPinIcon className="size-4 shrink-0" />
-              <span>
-                {siteConfig.contact.address.line1}, {siteConfig.contact.address.city},{" "}
-                {siteConfig.contact.address.country}
-              </span>
+              <a href={siteConfig.contact.mapsUrl} target="_blank" rel="noopener noreferrer" className="hover:text-primary-foreground">
+                {siteConfig.contact.address.line1}, {siteConfig.contact.address.line2},{" "}
+                {siteConfig.contact.address.city}
+              </a>
             </div>
             <div className="flex items-center gap-2">
               <PhoneIcon className="size-4 shrink-0" />

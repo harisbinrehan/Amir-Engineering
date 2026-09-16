@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
-import { MailIcon, MapPinIcon, PhoneIcon, ClockIcon } from "lucide-react";
+import { MailIcon, MapPinIcon, PhoneIcon, ClockIcon, NavigationIcon } from "lucide-react";
 import { Section } from "@/components/layout/section";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { Button } from "@/components/ui/button";
 import { WhatsappIcon } from "@/components/icons/social-icons";
 import { EmptyState } from "@/components/common/empty-state";
 import { siteConfig } from "@/lib/content/site-config";
+
+const { lat, lng } = siteConfig.contact.coordinates;
+const mapEmbedSrc = `https://maps.google.com/maps?q=${lat},${lng}&z=16&output=embed`;
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -28,7 +31,8 @@ const contactCards = [
   {
     icon: MapPinIcon,
     label: "Address",
-    value: `${siteConfig.contact.address.line1}, ${siteConfig.contact.address.city}, ${siteConfig.contact.address.country}`,
+    value: `${siteConfig.contact.address.line1}, ${siteConfig.contact.address.line2}, ${siteConfig.contact.address.city} ${siteConfig.contact.address.postalCode}`,
+    href: siteConfig.contact.mapsUrl,
   },
   {
     icon: ClockIcon,
@@ -66,7 +70,12 @@ export default function ContactPage() {
               <card.icon className="text-industrial size-5" />
               <p className="text-muted-foreground mt-3 text-xs tracking-wide uppercase">{card.label}</p>
               {card.href ? (
-                <a href={card.href} className="mt-1 block text-sm font-medium hover:underline">
+                <a
+                  href={card.href}
+                  target={card.href.startsWith("http") ? "_blank" : undefined}
+                  rel={card.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                  className="mt-1 block text-sm font-medium hover:underline"
+                >
                   {card.value}
                 </a>
               ) : (
@@ -76,10 +85,32 @@ export default function ContactPage() {
           ))}
         </div>
 
+        <div className="border-border mt-8 overflow-hidden rounded-lg border">
+          <iframe
+            src={mapEmbedSrc}
+            className="h-80 w-full sm:h-96"
+            style={{ border: 0 }}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Amir Engineering location on Google Maps"
+          />
+          <div className="bg-card flex items-center justify-between gap-4 p-4">
+            <p className="text-muted-foreground text-sm">
+              {siteConfig.contact.address.line1}, {siteConfig.contact.address.line2}, {siteConfig.contact.address.city}
+            </p>
+            <Button variant="outline" size="sm" asChild>
+              <a href={siteConfig.contact.mapsUrl} target="_blank" rel="noopener noreferrer">
+                <NavigationIcon className="size-3.5" />
+                Get Directions
+              </a>
+            </Button>
+          </div>
+        </div>
+
         <EmptyState
           className="mt-12"
           title="Contact form coming soon"
-          description="For now, please reach us directly by phone, email or WhatsApp above."
+          description="For now, please reach us directly by phone, email, WhatsApp or the map above."
         />
       </Section>
     </>

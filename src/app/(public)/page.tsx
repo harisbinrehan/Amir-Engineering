@@ -18,11 +18,16 @@ export default function HomePage() {
     description: siteConfig.description,
     address: {
       "@type": "PostalAddress",
-      streetAddress: siteConfig.contact.address.line1,
+      streetAddress: `${siteConfig.contact.address.line1}, ${siteConfig.contact.address.line2}`,
       addressLocality: siteConfig.contact.address.city,
       addressRegion: siteConfig.contact.address.region,
       postalCode: siteConfig.contact.address.postalCode,
       addressCountry: siteConfig.contact.address.country,
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: siteConfig.contact.coordinates.lat,
+      longitude: siteConfig.contact.coordinates.lng,
     },
     contactPoint: {
       "@type": "ContactPoint",
