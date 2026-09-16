@@ -447,6 +447,7 @@ export type Database = {
           description: string | null
           dimensions: string | null
           id: string
+          image_url: string | null
           is_active: boolean
           is_featured: boolean
           material: string | null
@@ -469,6 +470,7 @@ export type Database = {
           description?: string | null
           dimensions?: string | null
           id?: string
+          image_url?: string | null
           is_active?: boolean
           is_featured?: boolean
           material?: string | null
@@ -491,6 +493,7 @@ export type Database = {
           description?: string | null
           dimensions?: string | null
           id?: string
+          image_url?: string | null
           is_active?: boolean
           is_featured?: boolean
           material?: string | null

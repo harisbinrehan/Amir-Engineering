@@ -9,6 +9,7 @@ type MachineryCardData = {
   name: string;
   short_description: string | null;
   capacity: string | null;
+  image_url?: string | null;
   category: { name: string; slug: string } | null;
 };
 
@@ -20,7 +21,7 @@ export function MachineryCard({ machinery }: { machinery: MachineryCardData }) {
     >
       <div className="aspect-4/3 relative overflow-hidden">
         <PlaceholderImage
-          src={realMachineryImagesBySlug[machinery.slug]?.[0]}
+          src={machinery.image_url ?? realMachineryImagesBySlug[machinery.slug]?.[0]}
           seed={machinery.slug}
           alt={machinery.name}
           fill

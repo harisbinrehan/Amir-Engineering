@@ -44,7 +44,7 @@ export default async function ProductionLinesPage() {
               >
                 <div className="aspect-4/3 relative overflow-hidden">
                   <PlaceholderImage
-                    src={realProductionLineImagesBySlug[line.slug] ?? productionLineFallbackImage}
+                    src={line.image_url ?? realProductionLineImagesBySlug[line.slug] ?? productionLineFallbackImage}
                     seed={line.slug}
                     alt={line.name}
                     fill

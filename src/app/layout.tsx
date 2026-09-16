@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { SplashScreen } from "@/components/common/splash-screen";
 import { SupabaseListener } from "@/components/providers/supabase-listener";
+import NextTopLoader from "nextjs-toploader";
 import { siteConfig } from "@/lib/content/site-config";
 import "./globals.css";
 
@@ -72,6 +73,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
+        <NextTopLoader color="#CA8A04" showSpinner={false} />
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <SupabaseListener />
           <SplashScreen />

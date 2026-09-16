@@ -46,7 +46,7 @@ export default async function ProductionLineDetailPage(props: PageProps<"/produc
         <div className="grid gap-12 lg:grid-cols-2">
           <div className="aspect-4/3 relative overflow-hidden rounded-xl">
             <PlaceholderImage
-              src={realProductionLineImagesBySlug[line.slug] ?? productionLineFallbackImage}
+              src={line.image_url ?? realProductionLineImagesBySlug[line.slug] ?? productionLineFallbackImage}
               seed={line.slug}
               alt={line.name}
               fill
