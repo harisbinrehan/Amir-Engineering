@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useSyncExternalStore } from "react";
-import { LogoMark } from "@/components/icons/logo";
+import Image from "next/image";
 
 const subscribeNoop = () => () => {};
 
@@ -47,12 +47,19 @@ export function AppSplash() {
 
   return (
     <div
-      className={`fixed inset-0 z-[100] flex items-center justify-center bg-[#1B1E24] transition-opacity duration-300 ${
+      className={`fixed inset-0 z-[100] flex items-center justify-center bg-white transition-opacity duration-300 ${
         fading ? "opacity-0" : "opacity-100"
       }`}
       aria-hidden="true"
     >
-      <LogoMark className="size-16 animate-[splash-in_0.5s_ease-out]" />
+      <Image
+        src="/icons/icon-512.png"
+        alt=""
+        width={96}
+        height={96}
+        priority
+        className="size-24 animate-[splash-in_0.5s_ease-out] rounded-2xl"
+      />
     </div>
   );
 }
