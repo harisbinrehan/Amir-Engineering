@@ -19,11 +19,14 @@ const staticRoutes = [
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const supabase = await createClient();
 
-  const [{ data: machinery }, { data: categories }, { data: lines }] = await Promise.all([
-    supabase.from("machinery").select("slug, updated_at").eq("is_active", true),
-    supabase.from("machinery_categories").select("slug").eq("is_active", true),
-    supabase.from("production_lines").select("slug, updated_at").eq("is_active", true),
-  ]);
+  const [{ data: machinery }, { data: categories }, { data: lines }, { data: products }, { data: productCategories }] =
+    await Promise.all([
+      supabase.from("machinery").select("slug, updated_at").eq("is_active", true),
+      supabase.from("machinery_categories").select("slug").eq("is_active", true),
+      supabase.from("production_lines").select("slug, updated_at").eq("is_active", true),
+      supabase.from("products").select("slug, updated_at").eq("is_active", true).is("deleted_at", null),
+      supabase.from("product_categories").select("slug").eq("is_active", true),
+    ]);
 
   const entries: MetadataRoute.Sitemap = staticRoutes.map((route) => ({
     url: `${siteConfig.url}${route}`,
@@ -40,6 +43,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   for (const line of lines ?? []) {
     entries.push({ url: `${siteConfig.url}/production-lines/${line.slug}`, lastModified: new Date(line.updated_at) });
+  }
+
+  for (const product of products ?? []) {
+    entries.push({ url: `${siteConfig.url}/products/${product.slug}`, lastModified: new Date(product.updated_at) });
+  }
+
+  for (const category of productCategories ?? []) {
+    entries.push({ url: `${siteConfig.url}/products/category/${category.slug}` });
   }
 
   return entries;
