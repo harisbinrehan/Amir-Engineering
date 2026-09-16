@@ -18,10 +18,10 @@ export function OrdersTable({ orders }: { orders: Awaited<ReturnType<typeof getA
           <TableRow>
             <TableHead>Order</TableHead>
             <TableHead>Customer</TableHead>
-            <TableHead>Payment</TableHead>
+            <TableHead className="hidden md:table-cell">Payment</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>Total</TableHead>
-            <TableHead>Date</TableHead>
+            <TableHead className="hidden sm:table-cell">Date</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -36,10 +36,12 @@ export function OrdersTable({ orders }: { orders: Awaited<ReturnType<typeof getA
                 </div>
               </TableCell>
               <TableCell>
-                <div>{order.contact_name}</div>
-                <div className="text-muted-foreground text-xs">{order.contact_email}</div>
+                <div className="flex flex-col gap-1">
+                  <div>{order.contact_name}</div>
+                  <div className="text-muted-foreground text-xs">{order.contact_email}</div>
+                </div>
               </TableCell>
-              <TableCell>
+              <TableCell className="hidden md:table-cell">
                 <div className="flex flex-col gap-1">
                   <Badge variant="secondary" className="w-fit font-normal capitalize">
                     {order.payment_method === "cod" ? "Cash on Delivery" : "Bank Transfer"}
@@ -51,7 +53,7 @@ export function OrdersTable({ orders }: { orders: Awaited<ReturnType<typeof getA
                 <OrderStatusBadge status={order.status} />
               </TableCell>
               <TableCell className="font-medium">{formatCurrency(order.total)}</TableCell>
-              <TableCell className="text-muted-foreground">{formatDate(order.created_at)}</TableCell>
+              <TableCell className="hidden text-muted-foreground sm:table-cell">{formatDate(order.created_at)}</TableCell>
             </TableRow>
           ))}
         </TableBody>

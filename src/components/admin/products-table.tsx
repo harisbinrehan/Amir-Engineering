@@ -18,8 +18,8 @@ export function ProductsTable({ products }: { products: Awaited<ReturnType<typeo
         <TableHeader>
           <TableRow>
             <TableHead>Name</TableHead>
-            <TableHead>Category</TableHead>
-            <TableHead>Variants</TableHead>
+            <TableHead className="hidden md:table-cell">Category</TableHead>
+            <TableHead className="hidden sm:table-cell">Variants</TableHead>
             <TableHead className="text-right">From Price</TableHead>
             <TableHead>Status</TableHead>
             <TableHead className="w-16" />
@@ -40,8 +40,8 @@ export function ProductsTable({ products }: { products: Awaited<ReturnType<typeo
                     </Badge>
                   )}
                 </TableCell>
-                <TableCell className="text-muted-foreground">{product.category?.name ?? "—"}</TableCell>
-                <TableCell className="text-muted-foreground">{product.variants.length}</TableCell>
+                <TableCell className="hidden text-muted-foreground md:table-cell">{product.category?.name ?? "—"}</TableCell>
+                <TableCell className="hidden text-muted-foreground sm:table-cell">{product.variants.length}</TableCell>
                 <TableCell className="text-right font-medium">{formatCurrency(Number(fromPrice))}</TableCell>
                 <TableCell>
                   <Badge variant={product.is_active ? "default" : "secondary"} className="font-normal">

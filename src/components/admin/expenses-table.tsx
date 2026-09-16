@@ -27,10 +27,10 @@ export function ExpensesTable({
         <TableHeader>
           <TableRow>
             <TableHead>Description</TableHead>
-            <TableHead>Category</TableHead>
-            <TableHead>Business</TableHead>
-            <TableHead>Vendor</TableHead>
-            <TableHead>Date</TableHead>
+            <TableHead className="hidden sm:table-cell">Category</TableHead>
+            <TableHead className="hidden md:table-cell">Business</TableHead>
+            <TableHead className="hidden md:table-cell">Vendor</TableHead>
+            <TableHead className="hidden sm:table-cell">Date</TableHead>
             <TableHead className="text-right">Amount</TableHead>
             <TableHead className="w-20" />
           </TableRow>
@@ -39,14 +39,14 @@ export function ExpensesTable({
           {expenses.map((expense) => (
             <TableRow key={expense.id} className="hover:bg-muted/50">
               <TableCell className="font-medium">{expense.description}</TableCell>
-              <TableCell className="text-muted-foreground">{expense.category?.name ?? "—"}</TableCell>
-              <TableCell>
+              <TableCell className="hidden text-muted-foreground sm:table-cell">{expense.category?.name ?? "—"}</TableCell>
+              <TableCell className="hidden md:table-cell">
                 <Badge variant="secondary" className="font-normal">
                   {expense.department ?? "—"}
                 </Badge>
               </TableCell>
-              <TableCell className="text-muted-foreground">{expense.vendor?.name ?? "—"}</TableCell>
-              <TableCell className="text-muted-foreground">{formatDate(expense.expense_date)}</TableCell>
+              <TableCell className="hidden text-muted-foreground md:table-cell">{expense.vendor?.name ?? "—"}</TableCell>
+              <TableCell className="hidden text-muted-foreground sm:table-cell">{formatDate(expense.expense_date)}</TableCell>
               <TableCell className="text-right font-medium">{formatCurrency(Number(expense.amount))}</TableCell>
               <TableCell>
                 <div className="flex items-center justify-end gap-1">

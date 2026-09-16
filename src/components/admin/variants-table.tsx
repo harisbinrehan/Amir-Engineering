@@ -25,10 +25,10 @@ export function VariantsTable({
         <TableHeader>
           <TableRow>
             <TableHead>SKU</TableHead>
-            <TableHead>Label</TableHead>
+            <TableHead className="hidden md:table-cell">Label</TableHead>
             <TableHead className="text-right">Price</TableHead>
             <TableHead className="text-right">Stock</TableHead>
-            <TableHead>Status</TableHead>
+            <TableHead className="hidden sm:table-cell">Status</TableHead>
             <TableHead className="w-20" />
           </TableRow>
         </TableHeader>
@@ -36,7 +36,7 @@ export function VariantsTable({
           {variants.map((variant) => (
             <TableRow key={variant.id} className="hover:bg-muted/50">
               <TableCell className="font-medium">{variant.sku}</TableCell>
-              <TableCell className="text-muted-foreground">{variant.label ?? "—"}</TableCell>
+              <TableCell className="hidden text-muted-foreground md:table-cell">{variant.label ?? "—"}</TableCell>
               <TableCell className="text-right">
                 {variant.price !== null ? formatCurrency(Number(variant.price)) : "—"}
               </TableCell>
@@ -45,7 +45,7 @@ export function VariantsTable({
                   {variant.stock_quantity}
                 </span>
               </TableCell>
-              <TableCell>
+              <TableCell className="hidden sm:table-cell">
                 <Badge variant={variant.is_active ? "default" : "secondary"} className="font-normal">
                   {variant.is_active ? "Active" : "Inactive"}
                 </Badge>

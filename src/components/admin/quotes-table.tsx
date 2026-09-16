@@ -17,10 +17,10 @@ export function QuotesTable({ quotes }: { quotes: Awaited<ReturnType<typeof getQ
           <TableRow>
             <TableHead>Reference</TableHead>
             <TableHead>Customer</TableHead>
-            <TableHead>Company</TableHead>
-            <TableHead>Assigned To</TableHead>
+            <TableHead className="hidden md:table-cell">Company</TableHead>
+            <TableHead className="hidden md:table-cell">Assigned To</TableHead>
             <TableHead>Status</TableHead>
-            <TableHead>Date</TableHead>
+            <TableHead className="hidden sm:table-cell">Date</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -35,12 +35,12 @@ export function QuotesTable({ quotes }: { quotes: Awaited<ReturnType<typeof getQ
                 <div>{quote.full_name}</div>
                 <div className="text-muted-foreground text-xs">{quote.email}</div>
               </TableCell>
-              <TableCell className="text-muted-foreground">{quote.company_name ?? "—"}</TableCell>
-              <TableCell className="text-muted-foreground">{quote.assigned?.full_name ?? "Unassigned"}</TableCell>
+              <TableCell className="hidden text-muted-foreground md:table-cell">{quote.company_name ?? "—"}</TableCell>
+              <TableCell className="hidden text-muted-foreground md:table-cell">{quote.assigned?.full_name ?? "Unassigned"}</TableCell>
               <TableCell>
                 <QuoteStatusBadge status={quote.status} />
               </TableCell>
-              <TableCell className="text-muted-foreground">{formatDate(quote.created_at)}</TableCell>
+              <TableCell className="hidden text-muted-foreground sm:table-cell">{formatDate(quote.created_at)}</TableCell>
             </TableRow>
           ))}
         </TableBody>
