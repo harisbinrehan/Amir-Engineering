@@ -20,11 +20,11 @@ export const metadata: Metadata = {
 
 export default async function MachineryPage(props: PageProps<"/machinery">) {
   const searchParams = await props.searchParams;
-  const categoryFilter = searchParams?.category;
+  const categoryFilter = typeof searchParams?.category === "string" ? searchParams.category : undefined;
 
   const [categories, machinery] = await Promise.all([
-    getMachineryCategories(), 
-    getMachineryList(categoryFilter ? { categorySlug: categoryFilter } : undefined)
+    getMachineryCategories(),
+    getMachineryList(categoryFilter ? { categorySlug: categoryFilter } : undefined),
   ]);
 
   return (

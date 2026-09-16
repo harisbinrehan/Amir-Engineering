@@ -6,6 +6,7 @@ import { checkoutSchema, cartLineInputSchema } from "@/lib/validation/checkout-s
 import { siteConfig } from "@/lib/content/site-config";
 import { getOrderByNumberAndEmail } from "@/lib/data/orders";
 import { requireRole } from "@/lib/auth/require-role";
+import { sendOrderConfirmationEmail } from "@/lib/email/send-order-confirmation";
 import { z } from "zod";
 import type { Enums } from "@/types/database.types";
 
@@ -45,38 +46,61 @@ export async function placeOrder(input: unknown): Promise<ActionResult<{ orderNu
 
   // Guest checkout: resolve (or create) a real account for the order's email
   // so the order is trackable afterward, instead of being stranded with no
-  // profile. A brand-new email gets invited (Supabase emails them a
-  // "set your password" link) AND the current browser is logged into it
-  // immediately, so they land on the confirmation page already signed in.
+  // profile. A brand-new email gets an account created directly (not via
+  // inviteUserByEmail, which depends on Supabase's own — heavily rate
+  // limited — mailer to even create the user; createUser never sends mail,
+  // so account creation itself can't be blocked by mail delivery), AND the
+  // current browser is logged into it immediately via a magic-link OTP, so
+  // they land on the confirmation page already signed in. The order
+  // confirmation email (sent further down) carries a "set your password"
+  // link for signing in on other devices.
   //
   // An email that ALREADY has an account is only linked silently — we never
   // log the current browser into an existing account just because someone
   // typed that email at checkout, since that would let anyone hijack a
-  // stranger's account by "ordering" with their address.
+  // stranger's account by "ordering" with their address. They instead get a
+  // "sign in to view this order" link in their own inbox.
   let profileId = user?.id ?? null;
+  let setPasswordUrl: string | undefined;
+  let signInUrl: string | undefined;
+
   if (!profileId) {
-    const { data: invited, error: inviteError } = await admin.auth.admin.inviteUserByEmail(values.email, {
-      data: { full_name: values.fullName },
-      redirectTo: `${siteConfig.url}/account/set-password`,
+    const { data: created, error: createError } = await admin.auth.admin.createUser({
+      email: values.email,
+      email_confirm: true,
+      user_metadata: { full_name: values.fullName },
     });
 
-    if (!inviteError && invited.user) {
-      profileId = invited.user.id;
+    if (!createError && created.user) {
+      profileId = created.user.id;
 
-      const { data: link } = await admin.auth.admin.generateLink({
+      const { data: loginLink } = await admin.auth.admin.generateLink({
         type: "magiclink",
         email: values.email,
       });
-      const hashedToken = link?.properties?.hashed_token;
-      if (hashedToken) {
-        await supabase.auth.verifyOtp({ token_hash: hashedToken, type: "magiclink" });
+      const loginHashedToken = loginLink?.properties?.hashed_token;
+      if (loginHashedToken) {
+        await supabase.auth.verifyOtp({ token_hash: loginHashedToken, type: "magiclink" });
       }
-    } else {
-      const { data: existing } = await admin.auth.admin.generateLink({
+
+      const { data: passwordLink } = await admin.auth.admin.generateLink({
         type: "recovery",
         email: values.email,
       });
+      const passwordHashedToken = passwordLink?.properties?.hashed_token;
+      if (passwordHashedToken) {
+        setPasswordUrl = `${siteConfig.url}/auth/confirm?token_hash=${passwordHashedToken}&type=recovery&next=/account/set-password`;
+      }
+    } else {
+      const { data: existing } = await admin.auth.admin.generateLink({
+        type: "magiclink",
+        email: values.email,
+      });
       profileId = existing?.user?.id ?? null;
+      const signInHashedToken = existing?.properties?.hashed_token;
+      if (signInHashedToken) {
+        signInUrl = `${siteConfig.url}/auth/confirm?token_hash=${signInHashedToken}&type=magiclink&next=/account/orders`;
+      }
     }
   }
 
@@ -125,6 +149,27 @@ export async function placeOrder(input: unknown): Promise<ActionResult<{ orderNu
 
   if (itemsError) {
     return { success: false, error: "Your order was started but the items could not be saved." };
+  }
+
+  try {
+    await sendOrderConfirmationEmail(values.email, {
+      contactName: values.fullName,
+      orderNumber,
+      items: lines.map((line) => ({
+        product_name: line.productName,
+        variant_label: line.variantLabel,
+        quantity: line.quantity,
+        line_total: line.unitPrice * line.quantity,
+      })),
+      subtotal,
+      shippingFee: 0,
+      total: subtotal,
+      paymentMethod: values.paymentMethod,
+      setPasswordUrl,
+      signInUrl,
+    });
+  } catch (emailError) {
+    console.error("[email] Order confirmation send threw", emailError);
   }
 
   return { success: true, data: { orderNumber } };
