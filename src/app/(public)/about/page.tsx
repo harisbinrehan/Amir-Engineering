@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { CheckIcon } from "lucide-react";
 import { Section } from "@/components/layout/section";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
@@ -6,7 +7,7 @@ import { PlaceholderImage } from "@/components/common/placeholder-image";
 import { StatsCounter } from "@/components/home/stats-counter";
 import { aboutContent } from "@/lib/content/placeholder-copy";
 import { trustStats } from "@/lib/content/placeholder-copy";
-import { factoryImages, teamImages } from "@/lib/content/placeholder-images";
+import { teamImages } from "@/lib/content/placeholder-images";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -20,6 +21,19 @@ export default function AboutPage() {
         <Breadcrumbs items={[{ label: "About Us" }]} />
         <h1 className="font-heading mt-4 text-3xl font-bold tracking-tight sm:text-4xl">About Amir Engineering</h1>
         <p className="text-muted-foreground mt-4 text-lg leading-relaxed">{aboutContent.intro}</p>
+      </Section>
+
+      <Section className="pt-0">
+        <div className="relative aspect-21/9 overflow-hidden rounded-xl">
+          <Image
+            src="/brand/amir-engineering-facility.jpg"
+            alt="Amir Engineering facility"
+            fill
+            priority
+            sizes="(min-width: 1280px) 1200px, 100vw"
+            className="object-cover"
+          />
+        </div>
       </Section>
 
       <Section variant="muted">
@@ -56,17 +70,6 @@ export default function AboutPage() {
             </li>
           ))}
         </ul>
-      </Section>
-
-      <Section variant="muted">
-        <h2 className="font-heading text-2xl font-bold tracking-tight">Our Factory &amp; Workshop</h2>
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {factoryImages.map((src, index) => (
-            <div key={src} className="aspect-square relative overflow-hidden rounded-lg">
-              <PlaceholderImage src={src} seed={`factory-${index}`} alt="Amir Engineering factory floor" fill className="object-cover" />
-            </div>
-          ))}
-        </div>
       </Section>
 
       <Section>

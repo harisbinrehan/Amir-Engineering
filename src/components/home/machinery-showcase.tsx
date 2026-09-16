@@ -4,6 +4,7 @@ import { Section } from "@/components/layout/section";
 import { PlaceholderImage } from "@/components/common/placeholder-image";
 import { Button } from "@/components/ui/button";
 import { machineryCategoriesTeaser } from "@/lib/content/placeholder-copy";
+import { realCategoryImagesBySlug } from "@/lib/content/real-machinery-media";
 
 export function MachineryShowcase() {
   return (
@@ -32,6 +33,7 @@ export function MachineryShowcase() {
           >
             <div className="aspect-4/3 relative overflow-hidden">
               <PlaceholderImage
+                src={realCategoryImagesBySlug[category.slug]}
                 seed={category.slug}
                 alt={category.name}
                 fill

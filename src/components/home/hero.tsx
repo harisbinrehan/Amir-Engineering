@@ -6,14 +6,14 @@ import { ArrowRightIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PlaceholderImage } from "@/components/common/placeholder-image";
 import { homeHero } from "@/lib/content/placeholder-copy";
-import { heroImages } from "@/lib/content/placeholder-images";
+import { heroMachineryImage } from "@/lib/content/real-machinery-media";
 
 export function Hero() {
   return (
     <section className="bg-primary text-primary-foreground relative overflow-hidden">
       <div className="absolute inset-0">
         <PlaceholderImage
-          src={heroImages.machinery}
+          src={heroMachineryImage}
           seed="amir-hero-machinery"
           alt="Industrial food-processing machinery on the factory floor"
           fill

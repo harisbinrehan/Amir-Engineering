@@ -5,16 +5,16 @@
  */
 
 export const homeHero = {
-  eyebrow: "Engineering & Manufacturing · Since 1998",
-  title: "Engineering the Future of Food Production",
+  eyebrow: "Two Established Businesses. One Vision for the Future.",
+  title: "Decades of Experience. Built for What's Next.",
   subtitle:
-    "Advanced machinery and quality food products engineered for modern production — from single machines to complete, turnkey production lines.",
+    "From food manufacturing since 1988 to engineering and industrial solutions since 2005, our businesses continue to evolve through manufacturing, technology and innovation.",
   primaryCta: { label: "Explore Machinery", href: "/machinery" },
   secondaryCta: { label: "Explore Food Products", href: "/products" },
 };
 
 export const trustStats = [
-  { label: "Years of Engineering Experience", value: 25, suffix: "+" },
+  { label: "Years of Engineering Experience", value: 20, suffix: "+" },
   { label: "Machines Manufactured", value: 1200, suffix: "+" },
   { label: "Production Lines Installed", value: 80, suffix: "+" },
   { label: "Countries Served", value: 18, suffix: "+" },
@@ -22,7 +22,7 @@ export const trustStats = [
 
 export const trustIntro = {
   title: "A Manufacturing Partner You Can Build On",
-  body: "For over two decades, Amir Engineering has designed and manufactured industrial machinery for the noodle, macaroni, pasta and vermicelli industries — supplying individual machines and complete production lines to food manufacturers across Pakistan and abroad, alongside our own line of finished food products.",
+  body: "Since 2005, Amir Engineering has designed and manufactured industrial machinery for the noodle, macaroni, pasta and vermicelli industries — supplying individual machines and complete production lines to food manufacturers across Pakistan and abroad.",
 };
 
 export const machineryCategoriesTeaser = [
@@ -112,7 +112,7 @@ export const testimonialsPlaceholder = [
 
 export const aboutContent = {
   intro:
-    "Amir Engineering is a Pakistan-based manufacturer of industrial machinery for the noodle, macaroni, pasta and vermicelli industries, and a producer of finished food products under our own brand.",
+    "Amir Engineering is a Pakistan-based manufacturer of industrial machinery for the noodle, macaroni, pasta and vermicelli industries, established in 2005. We work alongside Fine Foods Industries — an established food manufacturing business since 1988 — as two connected businesses under one shared vision.",
   mission:
     "To engineer reliable, efficient production machinery that helps food manufacturers scale with confidence.",
   vision:

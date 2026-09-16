@@ -1,4 +1,33 @@
+import Image from "next/image";
 import { cn } from "@/lib/utils";
+
+/**
+ * The real, supplied Amir Engineering logo file (icon + wordmark + tagline).
+ * Rendered unaltered via object-contain — never cropped or stretched. On dark
+ * surfaces, wrap it in a light plate (see `BrandLogoPlate`) since the source
+ * file has no dedicated dark/reversed version.
+ */
+export function BrandLogo({ className }: { className?: string }) {
+  return (
+    <Image
+      src="/brand/amir-engineering-logo.png"
+      alt="Amir Engineering"
+      width={1536}
+      height={1024}
+      priority
+      className={cn("h-12 w-auto object-contain", className)}
+    />
+  );
+}
+
+/** BrandLogo on a white plate, for placing on dark surfaces (footer, sidebar). */
+export function BrandLogoPlate({ className, logoClassName }: { className?: string; logoClassName?: string }) {
+  return (
+    <span className={cn("inline-flex items-center rounded-md bg-white px-3 py-2", className)}>
+      <BrandLogo className={cn("h-8", logoClassName)} />
+    </span>
+  );
+}
 
 /**
  * Brand mark: a monoline "A" (peak/roofline, doubling as an upward

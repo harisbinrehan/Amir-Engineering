@@ -10,6 +10,7 @@ import { RequestQuoteButton } from "@/components/machinery/request-quote-button"
 import { Badge } from "@/components/ui/badge";
 import { siteConfig } from "@/lib/content/site-config";
 import { getMachineryBySlug, getRelatedMachinery } from "@/lib/data/machinery";
+import { realMachineryImagesBySlug } from "@/lib/content/real-machinery-media";
 
 export async function generateMetadata(props: PageProps<"/machinery/[slug]">): Promise<Metadata> {
   const { slug } = await props.params;
@@ -71,8 +72,8 @@ export default async function MachineryDetailPage(props: PageProps<"/machinery/[
 
       <Section className="pt-4">
         <div className="grid gap-12 lg:grid-cols-2">
-          {/* machinery_images will resolve to real Storage URLs once photography is uploaded via the admin media library; until then Gallery falls back to placeholders. */}
-          <Gallery seed={machinery.slug} name={machinery.name} images={[]} />
+          {/* machinery_images will resolve to real Storage URLs once more photography is uploaded via the admin media library; until then a small hand-picked set covers matching machine types. */}
+          <Gallery seed={machinery.slug} name={machinery.name} images={realMachineryImagesBySlug[machinery.slug] ?? []} />
 
           <div>
             {machinery.category && <Badge variant="secondary">{machinery.category.name}</Badge>}

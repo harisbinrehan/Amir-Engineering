@@ -11,6 +11,15 @@ export type NavSection = NavLink & {
 /** Primary desktop navigation, left of the Shop / Request Quote CTAs. */
 export const primaryNav: NavSection[] = [
   {
+    label: "Our Businesses",
+    href: "/about",
+    description: "Two established, connected businesses — food manufacturing and industrial engineering.",
+    children: [
+      { label: "Fine Foods Industries", href: "/fine-foods", description: "Food Manufacturing & Consumer Products · Since 1988" },
+      { label: "Amir Engineering", href: "/amir-engineering", description: "Engineering, Machinery & Industrial Solutions · Since 2005" },
+    ],
+  },
+  {
     label: "Machinery",
     href: "/machinery",
     description: "Industrial machinery for noodle, pasta and vermicelli production.",
@@ -61,6 +70,8 @@ export const footerNav: { title: string; links: NavLink[] }[] = [
     title: "Company",
     links: [
       { label: "About Us", href: "/about" },
+      { label: "Fine Foods Industries", href: "/fine-foods" },
+      { label: "Amir Engineering", href: "/amir-engineering" },
       { label: "Projects", href: "/projects" },
       { label: "Solutions", href: "/solutions" },
       { label: "Contact", href: "/contact" },

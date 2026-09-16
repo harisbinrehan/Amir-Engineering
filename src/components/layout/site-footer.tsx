@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { MailIcon, PhoneIcon, MapPinIcon } from "lucide-react";
 import { FacebookIcon, LinkedinIcon, YoutubeIcon, InstagramIcon } from "@/components/icons/social-icons";
-import { LogoMark } from "@/components/icons/logo";
+import { BrandLogoPlate } from "@/components/icons/logo";
 import { footerNav } from "@/lib/content/nav-links";
 import { siteConfig } from "@/lib/content/site-config";
 
@@ -10,9 +10,8 @@ export function SiteFooter() {
     <footer className="bg-primary text-primary-foreground mt-auto">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-5 lg:px-8">
         <div className="lg:col-span-2">
-          <Link href="/" className="font-heading flex items-center gap-2 text-lg font-bold">
-            <LogoMark variant="bare" className="size-9" />
-            Amir Engineering
+          <Link href="/" className="inline-flex">
+            <BrandLogoPlate />
           </Link>
           <p className="text-primary-foreground/70 mt-4 max-w-sm text-sm leading-relaxed">
             {siteConfig.description}

@@ -1,4 +1,5 @@
 import { Hero } from "@/components/home/hero";
+import { BusinessesIntro } from "@/components/home/businesses-intro";
 import { TrustIntro } from "@/components/home/trust-intro";
 import { MachineryShowcase } from "@/components/home/machinery-showcase";
 import { VideoShowcase } from "@/components/home/video-showcase";
@@ -46,6 +47,7 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
       />
       <Hero />
+      <BusinessesIntro />
       <TrustIntro />
       <MachineryShowcase />
       <VideoShowcase />
