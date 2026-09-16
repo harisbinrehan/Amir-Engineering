@@ -21,7 +21,7 @@ export function VideoShowcase() {
   };
 
   return (
-    <Section variant="dark" className="border-primary-foreground/10 border-b">
+    <Section variant="dark" className="border-surface-dark-foreground/10 border-b">
       <div className="max-w-2xl">
         <span className="text-industrial text-sm font-semibold tracking-wide uppercase">
           Engineering in Motion
@@ -29,7 +29,7 @@ export function VideoShowcase() {
         <h2 className="font-heading mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
           See Amir Engineering Machinery in Operation
         </h2>
-        <p className="text-primary-foreground/80 mt-4 text-lg leading-relaxed">
+        <p className="text-surface-dark-foreground/80 mt-4 text-lg leading-relaxed">
           Real machines, running in real production environments — as featured in independent industry
           coverage across Pakistan.
         </p>
@@ -81,7 +81,7 @@ export function VideoShowcase() {
           {playingId !== active.id && (
             <div className="mt-3">
               <p className="line-clamp-1 text-sm font-medium">{active.title}</p>
-              <p className="text-primary-foreground/60 text-xs">Featured by {active.channel} on YouTube</p>
+              <p className="text-surface-dark-foreground/60 text-xs">Featured by {active.channel} on YouTube</p>
             </div>
           )}
         </div>
@@ -93,7 +93,7 @@ export function VideoShowcase() {
               type="button"
               onClick={() => selectVideo(video.id)}
               className={cn(
-                "group border-primary-foreground/10 hover:border-industrial/60 relative aspect-video w-40 shrink-0 overflow-hidden rounded-lg border transition-colors lg:w-auto",
+                "group border-surface-dark-foreground/10 hover:border-industrial/60 relative aspect-video w-40 shrink-0 overflow-hidden rounded-lg border transition-colors lg:w-auto",
               )}
             >
               <Image

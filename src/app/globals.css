@@ -43,6 +43,8 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  --color-surface-dark: var(--surface-dark);
+  --color-surface-dark-foreground: var(--surface-dark-foreground);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -92,6 +94,11 @@
   --industrial-foreground: oklch(0.18 0.02 55);
   --food: oklch(0.56 0.1 155);
   --food-foreground: oklch(0.98 0.004 90);
+
+  /* Fixed dark brand surface (hero bands, footer) — stays dark in both themes,
+     unlike --primary/--primary-foreground which intentionally invert. */
+  --surface-dark: oklch(0.2 0.012 260);
+  --surface-dark-foreground: oklch(0.975 0.004 90);
 }
 
 .dark {
@@ -131,6 +138,9 @@
   --industrial-foreground: oklch(0.18 0.02 55);
   --food: oklch(0.62 0.1 155);
   --food-foreground: oklch(0.18 0.02 55);
+
+  --surface-dark: oklch(0.2 0.012 260);
+  --surface-dark-foreground: oklch(0.975 0.004 90);
 }
 
 @layer base {

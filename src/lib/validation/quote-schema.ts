@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { idSchema } from "@/lib/validation/id-schema";
 
 export const quoteRequestSchema = z.object({
   fullName: z.string().trim().min(2, "Enter your full name").max(120),
@@ -10,8 +11,8 @@ export const quoteRequestSchema = z.object({
   requiredCapacity: z.string().trim().max(160).optional().or(z.literal("")),
   quantity: z.number().int().min(1).max(1000),
   message: z.string().trim().max(2000).optional().or(z.literal("")),
-  machineryId: z.string().uuid().optional(),
-  productionLineId: z.string().uuid().optional(),
+  machineryId: idSchema.optional(),
+  productionLineId: idSchema.optional(),
   // Honeypot: real users never fill this in; bots that autofill every field do.
   website: z.string().max(0, "Spam detected").optional().or(z.literal("")),
 });

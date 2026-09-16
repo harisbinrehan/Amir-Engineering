@@ -15,7 +15,7 @@ export function ProductionLinesTeaser() {
           <h2 className="font-heading mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
             {productionLinesTeaser.title}
           </h2>
-          <p className="text-primary-foreground/80 mt-4 text-lg leading-relaxed">
+          <p className="text-surface-dark-foreground/80 mt-4 text-lg leading-relaxed">
             {productionLinesTeaser.body}
           </p>
           <Button
@@ -34,7 +34,7 @@ export function ProductionLinesTeaser() {
           {productionLinesTeaser.stages.map((stage, index) => (
             <li
               key={stage}
-              className="border-primary-foreground/15 bg-primary-foreground/5 flex items-center gap-3 rounded-lg border px-4 py-3"
+              className="border-surface-dark-foreground/15 bg-surface-dark-foreground/5 flex items-center gap-3 rounded-lg border px-4 py-3"
             >
               <span className="bg-industrial text-industrial-foreground flex size-6 shrink-0 items-center justify-center rounded-full text-xs font-bold">
                 {index + 1}

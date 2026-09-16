@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { primaryNav, utilityNav } from "@/lib/content/nav-links";
 import { MobileNavDrawer } from "@/components/layout/mobile-nav-drawer";
-import { BrandLogo } from "@/components/icons/logo";
+import { AdaptiveBrandLogo } from "@/components/icons/adaptive-brand-logo";
 import { cn } from "@/lib/utils";
 
 export function SiteHeader() {
@@ -31,7 +31,7 @@ export function SiteHeader() {
     <header className="bg-background/95 border-border sticky top-0 z-50 border-b backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex shrink-0 items-center">
-          <BrandLogo className="h-6 sm:h-8" />
+          <AdaptiveBrandLogo className="h-6 sm:h-8" />
         </Link>
 
         <NavigationMenu viewport={false} className="hidden lg:flex">
@@ -72,7 +72,7 @@ export function SiteHeader() {
           <Button asChild className="bg-industrial text-industrial-foreground hover:bg-industrial/90 hidden sm:inline-flex">
             <Link href={utilityNav[1].href}>{utilityNav[1].label}</Link>
           </Button>
-          <ThemeToggle className="hidden sm:inline-flex" />
+          <ThemeToggle />
           <Button variant="outline" size="icon" asChild className="relative">
             <Link href="/cart" aria-label="View cart">
               <ShoppingCartIcon />

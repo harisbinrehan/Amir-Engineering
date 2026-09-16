@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { idSchema } from "@/lib/validation/id-schema";
 
 export const checkoutSchema = z.object({
   fullName: z.string().trim().min(2, "Enter your full name").max(120),
@@ -18,8 +19,8 @@ export const checkoutSchema = z.object({
 export type CheckoutInput = z.infer<typeof checkoutSchema>;
 
 export const cartLineInputSchema = z.object({
-  variantId: z.string().uuid(),
-  productId: z.string().uuid(),
+  variantId: idSchema,
+  productId: idSchema,
   productName: z.string(),
   variantLabel: z.string().nullable(),
   unitPrice: z.number().positive(),

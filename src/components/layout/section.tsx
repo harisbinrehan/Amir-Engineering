@@ -16,7 +16,7 @@ export function Section({
     <section
       className={cn(
         "py-6",
-        variant === "dark" && "bg-primary text-primary-foreground",
+        variant === "dark" && "bg-surface-dark text-surface-dark-foreground",
         variant === "muted" && "bg-secondary/50",
         className,
       )}

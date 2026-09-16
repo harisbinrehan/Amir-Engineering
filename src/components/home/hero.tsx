@@ -10,7 +10,7 @@ import { heroMachineryImage } from "@/lib/content/real-machinery-media";
 
 export function Hero() {
   return (
-    <section className="bg-primary text-primary-foreground relative overflow-hidden">
+    <section className="bg-surface-dark text-surface-dark-foreground relative overflow-hidden">
       <div className="absolute inset-0">
         <PlaceholderImage
           src={heroMachineryImage}
@@ -20,7 +20,7 @@ export function Hero() {
           priority
           className="object-cover opacity-30"
         />
-        <div className="from-primary via-primary/95 absolute inset-0 bg-gradient-to-t to-transparent" />
+        <div className="from-surface-dark via-surface-dark/95 absolute inset-0 bg-gradient-to-t to-transparent" />
       </div>
 
       <div className="relative mx-auto flex min-h-[640px] max-w-7xl flex-col justify-center px-4 py-4 sm:px-6 lg:px-8">
@@ -36,7 +36,7 @@ export function Hero() {
           <h1 className="font-heading text-4xl leading-tight font-bold tracking-tight sm:text-5xl lg:text-6xl">
             {homeHero.title}
           </h1>
-          <p className="text-primary-foreground/80 mt-6 max-w-xl text-lg leading-relaxed">
+          <p className="text-surface-dark-foreground/80 mt-6 max-w-xl text-lg leading-relaxed">
             {homeHero.subtitle}
           </p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
@@ -54,7 +54,7 @@ export function Hero() {
               size="lg"
               variant="outline"
               asChild
-              className="border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
+              className="border-surface-dark-foreground/30 bg-transparent text-surface-dark-foreground hover:bg-surface-dark-foreground/10 hover:text-surface-dark-foreground"
             >
               <Link href={homeHero.secondaryCta.href}>{homeHero.secondaryCta.label}</Link>
             </Button>

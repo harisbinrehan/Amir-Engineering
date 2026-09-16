@@ -34,7 +34,7 @@ export default async function AmirEngineeringPage() {
 
   return (
     <>
-      <section className="bg-primary text-primary-foreground relative overflow-hidden">
+      <section className="bg-surface-dark text-surface-dark-foreground relative overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="/brand/amir-engineering-facility.jpg"
@@ -43,10 +43,10 @@ export default async function AmirEngineeringPage() {
             priority
             className="object-cover opacity-25"
           />
-          <div className="from-primary via-primary/95 absolute inset-0 bg-gradient-to-t to-transparent" />
+          <div className="from-surface-dark via-surface-dark/95 absolute inset-0 bg-gradient-to-t to-transparent" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-          <div className="text-primary-foreground/70">
+          <div className="text-surface-dark-foreground/70">
             <Breadcrumbs items={[{ label: "Amir Engineering" }]} />
           </div>
           <BrandLogo className="mt-8 h-16 rounded-md bg-white p-2" />
@@ -57,7 +57,7 @@ export default async function AmirEngineeringPage() {
             {businesses.amirEngineering.name}
           </h1>
           <p className="mt-3 text-lg font-medium">{businesses.amirEngineering.tagline}</p>
-          <p className="text-primary-foreground/80 mt-6 max-w-2xl text-lg leading-relaxed">
+          <p className="text-surface-dark-foreground/80 mt-6 max-w-2xl text-lg leading-relaxed">
             {businesses.amirEngineering.description}
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -71,7 +71,7 @@ export default async function AmirEngineeringPage() {
               size="lg"
               variant="outline"
               asChild
-              className="border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
+              className="border-surface-dark-foreground/30 bg-transparent text-surface-dark-foreground hover:bg-surface-dark-foreground/10 hover:text-surface-dark-foreground"
             >
               <Link href="/quote/request">Request a Quote</Link>
             </Button>
