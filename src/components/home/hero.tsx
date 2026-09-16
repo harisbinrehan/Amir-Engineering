@@ -23,7 +23,7 @@ export function Hero() {
         <div className="from-surface-dark via-surface-dark/95 absolute inset-0 bg-gradient-to-t to-transparent" />
       </div>
 
-      <div className="relative mx-auto flex min-h-[640px] max-w-7xl flex-col justify-center px-4 py-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto flex max-w-7xl flex-col justify-center px-4 py-16 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
