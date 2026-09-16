@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import { Section } from "@/components/layout/section";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { MachineryCard } from "@/components/machinery/machinery-card";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyState } from "@/components/common/empty-state";
 import { getMachineryCategories, getMachineryList } from "@/lib/data/machinery";
 
@@ -18,14 +20,43 @@ export const metadata: Metadata = {
     "Industrial machinery for noodle, macaroni, pasta and vermicelli production — mixing, extrusion, cutting, drying and packaging systems.",
 };
 
+function GridSkeleton() {
+  return (
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {Array.from({ length: 6 }).map((_, i) => (
+        <div key={i} className="space-y-4">
+          <Skeleton className="h-[250px] w-full rounded-xl" />
+          <div className="space-y-2">
+            <Skeleton className="h-5 w-3/4" />
+            <Skeleton className="h-4 w-1/2" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+async function MachineryGrid({ categoryFilter }: { categoryFilter?: string }) {
+  const machinery = await getMachineryList(categoryFilter ? { categorySlug: categoryFilter } : undefined);
+
+  if (machinery.length === 0) {
+    return <EmptyState title="No machinery found" description="Try selecting a different category." />;
+  }
+
+  return (
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {machinery.map((item) => (
+        <MachineryCard key={item.id} machinery={item} />
+      ))}
+    </div>
+  );
+}
+
 export default async function MachineryPage(props: PageProps<"/machinery">) {
   const searchParams = await props.searchParams;
   const categoryFilter = typeof searchParams?.category === "string" ? searchParams.category : undefined;
 
-  const [categories, machinery] = await Promise.all([
-    getMachineryCategories(),
-    getMachineryList(categoryFilter ? { categorySlug: categoryFilter } : undefined),
-  ]);
+  const categories = await getMachineryCategories();
 
   return (
     <>
@@ -72,15 +103,9 @@ export default async function MachineryPage(props: PageProps<"/machinery">) {
       </Section>
 
       <Section className="pt-0">
-        {machinery.length === 0 ? (
-          <EmptyState title="No machinery found" description="Try selecting a different category." />
-        ) : (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {machinery.map((item) => (
-              <MachineryCard key={item.id} machinery={item} />
-            ))}
-          </div>
-        )}
+        <Suspense key={categoryFilter ?? "all"} fallback={<GridSkeleton />}>
+          <MachineryGrid categoryFilter={categoryFilter} />
+        </Suspense>
       </Section>
     </>
   );

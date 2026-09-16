@@ -1117,6 +1117,7 @@ export type Database = {
           deleted_at: string | null
           description: string | null
           id: string
+          image_url: string | null
           is_active: boolean
           name: string
           power_requirement: string | null
@@ -1132,6 +1133,7 @@ export type Database = {
           deleted_at?: string | null
           description?: string | null
           id?: string
+          image_url?: string | null
           is_active?: boolean
           name: string
           power_requirement?: string | null
@@ -1147,6 +1149,7 @@ export type Database = {
           deleted_at?: string | null
           description?: string | null
           id?: string
+          image_url?: string | null
           is_active?: boolean
           name?: string
           power_requirement?: string | null
@@ -1631,6 +1634,33 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      adjust_variant_stock: {
+        Args: {
+          p_change_qty: number
+          p_created_by: string
+          p_reason: string
+          p_variant_id: string
+        }
+        Returns: {
+          created_at: string
+          id: string
+          is_active: boolean
+          label: string | null
+          low_stock_threshold: number
+          price: number | null
+          product_id: string
+          sku: string
+          stock_quantity: number
+          updated_at: string
+          weight_grams: number | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "product_variants"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       current_user_role: {
         Args: never
         Returns: Database["public"]["Enums"]["app_role"]

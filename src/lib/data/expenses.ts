@@ -8,10 +8,15 @@ export async function getExpenseCategories() {
   return data;
 }
 
-export async function getVendors() {
+export async function getVendors(options?: { search?: string }) {
   const supabase = await createClient();
-  const { data, error } = await supabase.from("vendors").select("*").order("name");
+  let query = supabase.from("vendors").select("*").order("name");
 
+  if (options?.search) {
+    query = query.ilike("name", `%${options.search}%`);
+  }
+
+  const { data, error } = await query;
   if (error) throw error;
   return data;
 }

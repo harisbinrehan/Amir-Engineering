@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import { Section } from "@/components/layout/section";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { ProductCard } from "@/components/shop/product-card";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyState } from "@/components/common/empty-state";
 import { getProductCategories, getProducts } from "@/lib/data/products";
 
@@ -14,14 +16,43 @@ export const metadata: Metadata = {
   description: "Noodles, macaroni, pasta and vermicelli products — order online with Cash on Delivery or Bank Transfer.",
 };
 
+function GridSkeleton() {
+  return (
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {Array.from({ length: 6 }).map((_, i) => (
+        <div key={i} className="space-y-4">
+          <Skeleton className="h-[250px] w-full rounded-xl" />
+          <div className="space-y-2">
+            <Skeleton className="h-5 w-3/4" />
+            <Skeleton className="h-4 w-1/2" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+async function ProductsGrid({ categoryFilter }: { categoryFilter?: string }) {
+  const products = await getProducts(categoryFilter ? { categorySlug: categoryFilter } : undefined);
+
+  if (products.length === 0) {
+    return <EmptyState title="No products found" description="Try selecting a different category." />;
+  }
+
+  return (
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {products.map((product) => (
+        <ProductCard key={product.id} product={product} />
+      ))}
+    </div>
+  );
+}
+
 export default async function ProductsPage(props: PageProps<"/products">) {
   const searchParams = await props.searchParams;
   const categoryFilter = typeof searchParams?.category === "string" ? searchParams.category : undefined;
 
-  const [categories, products] = await Promise.all([
-    getProductCategories(),
-    getProducts(categoryFilter ? { categorySlug: categoryFilter } : undefined),
-  ]);
+  const categories = await getProductCategories();
 
   return (
     <>
@@ -66,15 +97,9 @@ export default async function ProductsPage(props: PageProps<"/products">) {
       </Section>
 
       <Section className="pt-0">
-        {products.length === 0 ? (
-          <EmptyState title="No products found" description="Try selecting a different category." />
-        ) : (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        )}
+        <Suspense key={categoryFilter ?? "all"} fallback={<GridSkeleton />}>
+          <ProductsGrid categoryFilter={categoryFilter} />
+        </Suspense>
       </Section>
     </>
   );
