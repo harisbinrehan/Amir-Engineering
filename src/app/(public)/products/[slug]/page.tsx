@@ -75,7 +75,11 @@ export default async function ProductDetailPage(props: PageProps<"/products/[slu
 
       <Section className="pt-4">
         <div className="grid gap-12 lg:grid-cols-2">
-          <Gallery seed={product.slug} name={product.name} images={realProductImagesBySlug[product.slug] ?? []} />
+          <Gallery
+            seed={product.slug}
+            name={product.name}
+            images={product.image_url ? [product.image_url] : (realProductImagesBySlug[product.slug] ?? [])}
+          />
 
           <div>
             {product.category && <Badge variant="secondary">{product.category.name}</Badge>}

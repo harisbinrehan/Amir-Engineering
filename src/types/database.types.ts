@@ -1164,6 +1164,7 @@ export type Database = {
           deleted_at: string | null
           description: string | null
           id: string
+          image_url: string | null
           is_active: boolean
           is_featured: boolean
           name: string
@@ -1182,6 +1183,7 @@ export type Database = {
           deleted_at?: string | null
           description?: string | null
           id?: string
+          image_url?: string | null
           is_active?: boolean
           is_featured?: boolean
           name: string
@@ -1200,6 +1202,7 @@ export type Database = {
           deleted_at?: string | null
           description?: string | null
           id?: string
+          image_url?: string | null
           is_active?: boolean
           is_featured?: boolean
           name?: string

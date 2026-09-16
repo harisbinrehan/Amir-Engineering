@@ -10,6 +10,7 @@ type ProductCardData = {
   name: string;
   short_description: string | null;
   base_price: number;
+  image_url?: string | null;
   category: { name: string; slug: string } | null;
   variants: { price: number | null }[];
 };
@@ -25,7 +26,7 @@ export function ProductCard({ product }: { product: ProductCardData }) {
     >
       <div className="aspect-4/3 relative overflow-hidden">
         <PlaceholderImage
-          src={realProductImagesBySlug[product.slug]?.[0]}
+          src={product.image_url ?? realProductImagesBySlug[product.slug]?.[0]}
           seed={product.slug}
           alt={product.name}
           fill

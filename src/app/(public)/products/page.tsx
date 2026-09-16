@@ -16,10 +16,8 @@ export const metadata: Metadata = {
 
 export default async function ProductsPage(props: PageProps<"/products">) {
   const searchParams = await props.searchParams;
-  const categoryFilter = searchParams?.category;
+  const categoryFilter = typeof searchParams?.category === "string" ? searchParams.category : undefined;
 
-  // We can pass the category slug to getProducts if the backend supports it,
-  // or we can filter them locally. getProducts currently supports { categorySlug: string }
   const [categories, products] = await Promise.all([
     getProductCategories(),
     getProducts(categoryFilter ? { categorySlug: categoryFilter } : undefined),
