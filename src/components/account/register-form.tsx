@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Field, FieldContent, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { signUpWithPassword } from "@/lib/actions/auth";
+import { GoogleAuthButton } from "@/components/account/google-auth-button";
 
 export function RegisterForm() {
   const [fullName, setFullName] = useState("");
@@ -48,6 +49,12 @@ export function RegisterForm() {
   return (
     <form onSubmit={onSubmit}>
       <FieldGroup>
+        <GoogleAuthButton redirectPath="/account" />
+
+        <div className="text-muted-foreground relative flex items-center gap-3 text-xs uppercase before:h-px before:flex-1 before:bg-current/20 after:h-px after:flex-1 after:bg-current/20">
+          or
+        </div>
+
         <Field>
           <FieldLabel htmlFor="fullName">Full Name</FieldLabel>
           <FieldContent>

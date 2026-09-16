@@ -49,6 +49,16 @@ export async function signInWithGoogle(redirectPath = "/account") {
   redirect(data.url);
 }
 
+export async function requestPasswordReset(email: string): Promise<ActionResult> {
+  const supabase = await createClient();
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${siteConfig.url}/account/set-password`,
+  });
+
+  if (error) return { success: false, error: error.message };
+  return { success: true };
+}
+
 export async function signOut() {
   const supabase = await createClient();
   await supabase.auth.signOut();

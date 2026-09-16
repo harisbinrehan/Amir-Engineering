@@ -3,11 +3,12 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Loader2Icon } from "lucide-react";
+import { Loader2Icon, CheckCircle2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Field, FieldContent, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { signInWithPassword } from "@/lib/actions/auth";
+import { signInWithPassword, requestPasswordReset } from "@/lib/actions/auth";
+import { GoogleAuthButton } from "@/components/account/google-auth-button";
 
 export function LoginForm() {
   const router = useRouter();
@@ -16,6 +17,10 @@ export function LoginForm() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [showReset, setShowReset] = useState(false);
+  const [resetSent, setResetSent] = useState(false);
+  const [isSendingReset, setIsSendingReset] = useState(false);
 
   const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -34,9 +39,26 @@ export function LoginForm() {
     router.refresh();
   };
 
+  const onRequestReset = async () => {
+    if (!email) {
+      setError("Enter your email above first, then click Forgot password.");
+      return;
+    }
+    setIsSendingReset(true);
+    await requestPasswordReset(email);
+    setIsSendingReset(false);
+    setResetSent(true);
+  };
+
   return (
     <form onSubmit={onSubmit}>
       <FieldGroup>
+        <GoogleAuthButton />
+
+        <div className="text-muted-foreground relative flex items-center gap-3 text-xs uppercase before:h-px before:flex-1 before:bg-current/20 after:h-px after:flex-1 after:bg-current/20">
+          or
+        </div>
+
         <Field>
           <FieldLabel htmlFor="email">Email</FieldLabel>
           <FieldContent>
@@ -52,7 +74,19 @@ export function LoginForm() {
         </Field>
 
         <Field>
-          <FieldLabel htmlFor="password">Password</FieldLabel>
+          <div className="flex items-center justify-between">
+            <FieldLabel htmlFor="password">Password</FieldLabel>
+            <button
+              type="button"
+              onClick={() => {
+                setShowReset(true);
+                onRequestReset();
+              }}
+              className="text-muted-foreground hover:text-foreground text-xs underline"
+            >
+              Forgot password?
+            </button>
+          </div>
           <FieldContent>
             <Input
               id="password"
@@ -64,6 +98,17 @@ export function LoginForm() {
             />
           </FieldContent>
         </Field>
+
+        {showReset && (
+          <p className="text-muted-foreground flex items-center gap-1.5 text-xs">
+            {isSendingReset ? (
+              <Loader2Icon className="size-3.5 animate-spin" />
+            ) : (
+              resetSent && <CheckCircle2Icon className="text-industrial size-3.5" />
+            )}
+            {isSendingReset ? "Sending reset link..." : resetSent && "If that email has an account, a reset link is on its way."}
+          </p>
+        )}
 
         {error && <FieldError>{error}</FieldError>}
 
