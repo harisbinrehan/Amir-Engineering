@@ -1,27 +1,41 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { BrandLogoDarkText } from "@/components/icons/logo";
 
+const subscribeNoop = () => () => {};
+
+// Only show once per session to avoid annoying users on refresh. Read
+// synchronously via useSyncExternalStore (server snapshot: true, so nothing
+// flashes before hydration) instead of deciding in an effect.
+function getHasSeenSplashSnapshot() {
+  try {
+    return sessionStorage.getItem("hasSeenSplash") === "true";
+  } catch {
+    return false;
+  }
+}
+
 export function SplashScreen() {
-  const [show, setShow] = useState(true);
+  const hasSeenSplash = useSyncExternalStore(subscribeNoop, getHasSeenSplashSnapshot, () => true);
+  const [dismissed, setDismissed] = useState(false);
+  const show = !hasSeenSplash && !dismissed;
 
   useEffect(() => {
-    // Only show once per session to avoid annoying users on refresh
-    const hasSeenSplash = sessionStorage.getItem("hasSeenSplash");
-    if (hasSeenSplash) {
-      setShow(false);
-      return;
-    }
+    if (hasSeenSplash) return;
 
     const timer = setTimeout(() => {
-      setShow(false);
-      sessionStorage.setItem("hasSeenSplash", "true");
+      setDismissed(true);
+      try {
+        sessionStorage.setItem("hasSeenSplash", "true");
+      } catch {
+        // Storage may be unavailable (private browsing) — splash just replays next load.
+      }
     }, 2500); // Display for 2.5 seconds
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [hasSeenSplash]);
 
   return (
     <AnimatePresence>
