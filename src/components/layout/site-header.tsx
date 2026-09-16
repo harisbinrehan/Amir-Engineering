@@ -36,12 +36,12 @@ export function SiteHeader() {
           <AdaptiveBrandLogo className="h-6 sm:h-8" />
         </Link>
 
-        <NavigationMenu viewport={false} className="hidden lg:flex">
+        <NavigationMenu viewport={false} className="hidden xl:flex">
           <NavigationMenuList>
             {primaryNav.map((item) =>
               item.children ? (
                 <NavigationMenuItem key={item.href}>
-                  <NavigationMenuTrigger className={cn(isSectionActive(item) && "text-industrial")}>
+                  <NavigationMenuTrigger className={cn("whitespace-nowrap", isSectionActive(item) && "text-industrial")}>
                     {item.label}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
@@ -58,7 +58,7 @@ export function SiteHeader() {
                 </NavigationMenuItem>
               ) : (
                 <NavigationMenuItem key={item.href}>
-                  <NavigationMenuLink asChild className={cn(isActive(item.href) && "text-industrial")}>
+                  <NavigationMenuLink asChild className={cn("whitespace-nowrap", isActive(item.href) && "text-industrial")}>
                     <Link href={item.href}>{item.label}</Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
@@ -88,7 +88,7 @@ export function SiteHeader() {
           <Button
             variant="outline"
             size="icon"
-            className="lg:hidden"
+            className="xl:hidden"
             onClick={() => setMobileOpen(true)}
             aria-label="Open menu"
           >

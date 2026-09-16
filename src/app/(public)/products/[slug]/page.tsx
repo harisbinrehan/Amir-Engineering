@@ -8,6 +8,7 @@ import { ProductCard } from "@/components/shop/product-card";
 import { Badge } from "@/components/ui/badge";
 import { siteConfig } from "@/lib/content/site-config";
 import { getProductBySlug, getRelatedProducts, getProducts } from "@/lib/data/products";
+import { realProductImagesBySlug } from "@/lib/content/real-product-media";
 
 export const revalidate = 60;
 
@@ -74,7 +75,7 @@ export default async function ProductDetailPage(props: PageProps<"/products/[slu
 
       <Section className="pt-4">
         <div className="grid gap-12 lg:grid-cols-2">
-          <Gallery seed={product.slug} name={product.name} images={[]} />
+          <Gallery seed={product.slug} name={product.name} images={realProductImagesBySlug[product.slug] ?? []} />
 
           <div>
             {product.category && <Badge variant="secondary">{product.category.name}</Badge>}

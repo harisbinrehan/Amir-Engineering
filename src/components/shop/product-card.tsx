@@ -3,6 +3,7 @@ import { ArrowUpRightIcon } from "lucide-react";
 import { PlaceholderImage } from "@/components/common/placeholder-image";
 import { Badge } from "@/components/ui/badge";
 import { formatPkr } from "@/lib/utils/currency";
+import { realProductImagesBySlug } from "@/lib/content/real-product-media";
 
 type ProductCardData = {
   slug: string;
@@ -24,6 +25,7 @@ export function ProductCard({ product }: { product: ProductCardData }) {
     >
       <div className="aspect-4/3 relative overflow-hidden">
         <PlaceholderImage
+          src={realProductImagesBySlug[product.slug]?.[0]}
           seed={product.slug}
           alt={product.name}
           fill
