@@ -6,8 +6,8 @@ export const siteConfig = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.amirengineering.com",
   legalName: "Amir Engineering (Pvt.) Ltd.",
   contact: {
-    email: "info@amirengineering.com",
-    salesEmail: "sales@amirengineering.com",
+    email: "amirengineering.info@gmail.com",
+    salesEmail: "amirengineering.info@gmail.com",
     phone: "+92 332 2000011",
     whatsapp: "+92 332 2000011",
     address: {

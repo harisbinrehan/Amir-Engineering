@@ -51,7 +51,16 @@ export default async function OrderConfirmationPage(props: PageProps<"/order-con
         {order.payment_method === "bank_transfer" && " — our team will share bank details shortly."}
       </p>
 
-      <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
+      <div className="bg-secondary/60 mt-6 rounded-lg px-6 py-4 text-sm">
+        We&apos;ve set up an account for <span className="font-medium">{order.contact_email}</span> so you can
+        track this and future orders. Check your inbox for an email to set your password — or use{" "}
+        <Link href="/track-order" className="underline">
+          Track Order
+        </Link>{" "}
+        anytime with your order number and email.
+      </div>
+
+      <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
         <Button asChild className="bg-food text-food-foreground hover:bg-food/90">
           <Link href="/products">Continue Shopping</Link>
         </Button>

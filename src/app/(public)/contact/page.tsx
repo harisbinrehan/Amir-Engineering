@@ -4,7 +4,6 @@ import { Section } from "@/components/layout/section";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { Button } from "@/components/ui/button";
 import { WhatsappIcon } from "@/components/icons/social-icons";
-import { EmptyState } from "@/components/common/empty-state";
 import { siteConfig } from "@/lib/content/site-config";
 
 const { lat, lng } = siteConfig.contact.coordinates;
@@ -51,16 +50,29 @@ export default function ContactPage() {
           Reach out for machinery inquiries, production line consultations, or food product orders — our team
           typically responds within one business day.
         </p>
-        <Button
-          size="lg"
-          asChild
-          className="mt-6 bg-[#25D366] text-white hover:bg-[#25D366]/90"
-        >
-          <a href={`https://wa.me/${siteConfig.contact.whatsapp.replace(/[^0-9]/g, "")}`} target="_blank" rel="noopener noreferrer">
-            <WhatsappIcon className="size-4" />
-            Chat on WhatsApp
-          </a>
-        </Button>
+        <div className="mt-8 relative overflow-hidden rounded-xl border border-border bg-card p-6 shadow-sm">
+          <div className="absolute inset-y-0 right-0 w-64 bg-gradient-to-l from-[#25D366]/10 to-transparent pointer-events-none" />
+          <div className="relative z-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-4">
+              <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#25D366]/10 text-[#25D366]">
+                <WhatsappIcon className="size-6" />
+              </div>
+              <div>
+                <h3 className="font-heading text-lg font-semibold tracking-tight text-foreground">Need immediate assistance?</h3>
+                <p className="mt-1 text-sm text-muted-foreground">Message us directly on WhatsApp for a quick response.</p>
+              </div>
+            </div>
+            <Button
+              asChild
+              size="lg"
+              className="w-full shrink-0 bg-[#25D366] text-white hover:bg-[#25D366]/90 shadow-md shadow-[#25D366]/20 sm:w-auto"
+            >
+              <a href={`https://wa.me/${siteConfig.contact.whatsapp.replace(/[^0-9]/g, "")}`} target="_blank" rel="noopener noreferrer">
+                Start a Conversation
+              </a>
+            </Button>
+          </div>
+        </div>
       </Section>
 
       <Section className="pt-0">
@@ -107,11 +119,6 @@ export default function ContactPage() {
           </div>
         </div>
 
-        <EmptyState
-          className="mt-12"
-          title="Contact form coming soon"
-          description="For now, please reach us directly by phone, email, WhatsApp or the map above."
-        />
       </Section>
     </>
   );

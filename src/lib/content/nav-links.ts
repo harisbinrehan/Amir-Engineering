@@ -83,7 +83,7 @@ export const footerNav: { title: string; links: NavLink[] }[] = [
       { label: "Food Products", href: "/products" },
       { label: "Cart", href: "/cart" },
       { label: "My Account", href: "/account" },
-      { label: "Order Tracking", href: "/account/orders" },
+      { label: "Track an Order", href: "/track-order" },
     ],
   },
   {

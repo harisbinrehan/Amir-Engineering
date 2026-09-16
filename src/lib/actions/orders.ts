@@ -1,7 +1,9 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { createClient, createServiceRoleClient } from "@/lib/supabase/server";
 import { checkoutSchema, cartLineInputSchema } from "@/lib/validation/checkout-schema";
+import { siteConfig } from "@/lib/content/site-config";
+import { getOrderByNumberAndEmail } from "@/lib/data/orders";
 import { z } from "zod";
 
 type ActionResult<T = undefined> =
@@ -27,6 +29,7 @@ export async function placeOrder(input: unknown): Promise<ActionResult<{ orderNu
   }
 
   const supabase = await createClient();
+  const admin = createServiceRoleClient();
 
   const { data: orderNumber, error: numberError } = await supabase.rpc("generate_order_number");
   if (numberError || !orderNumber) {
@@ -37,18 +40,41 @@ export async function placeOrder(input: unknown): Promise<ActionResult<{ orderNu
     data: { user },
   } = await supabase.auth.getUser();
 
+  // Guest checkout: resolve (or create) a real account for the order's email
+  // so the order is trackable afterward, instead of being stranded with no
+  // profile. A brand-new email gets invited (Supabase emails them a
+  // "set your password" link); an email that already has an account is
+  // linked to it silently, without sending another email.
+  let profileId = user?.id ?? null;
+  if (!profileId) {
+    const { data: invited, error: inviteError } = await admin.auth.admin.inviteUserByEmail(values.email, {
+      data: { full_name: values.fullName },
+      redirectTo: `${siteConfig.url}/account/set-password`,
+    });
+
+    if (!inviteError && invited.user) {
+      profileId = invited.user.id;
+    } else {
+      const { data: existing } = await admin.auth.admin.generateLink({
+        type: "recovery",
+        email: values.email,
+      });
+      profileId = existing?.user?.id ?? null;
+    }
+  }
+
   const subtotal = lines.reduce((sum, line) => sum + line.unitPrice * line.quantity, 0);
 
-  // Insert without .select() — a guest submitter has no SELECT policy on
-  // `orders`, and Postgres raises an RLS error on INSERT ... RETURNING when
-  // the new row isn't visible back to the caller. Generating the id
-  // ourselves avoids needing it returned at all.
+  // Written via the service role, not the caller's session — profileId may
+  // belong to an account the current (often anonymous) request has no
+  // session for, which the normal RLS insert policy wouldn't allow. Input is
+  // already validated above, so bypassing RLS here is safe.
   const orderId = crypto.randomUUID();
 
-  const { error: orderError } = await supabase.from("orders").insert({
+  const { error: orderError } = await admin.from("orders").insert({
     id: orderId,
     order_number: orderNumber,
-    profile_id: user?.id ?? null,
+    profile_id: profileId,
     payment_method: values.paymentMethod,
     contact_name: values.fullName,
     contact_email: values.email,
@@ -68,7 +94,7 @@ export async function placeOrder(input: unknown): Promise<ActionResult<{ orderNu
     return { success: false, error: "Could not place your order. Please try again." };
   }
 
-  const { error: itemsError } = await supabase.from("order_items").insert(
+  const { error: itemsError } = await admin.from("order_items").insert(
     lines.map((line) => ({
       order_id: orderId,
       variant_id: line.variantId,
@@ -85,4 +111,25 @@ export async function placeOrder(input: unknown): Promise<ActionResult<{ orderNu
   }
 
   return { success: true, data: { orderNumber } };
+}
+
+const trackOrderInputSchema = z.object({
+  orderNumber: z.string().trim().min(1, "Enter your order number"),
+  email: z.string().trim().email("Enter a valid email address"),
+});
+
+export async function trackOrder(
+  input: unknown,
+): Promise<ActionResult<Awaited<ReturnType<typeof getOrderByNumberAndEmail>>>> {
+  const parsed = trackOrderInputSchema.safeParse(input);
+  if (!parsed.success) {
+    return { success: false, error: parsed.error.issues[0]?.message ?? "Invalid input" };
+  }
+
+  const order = await getOrderByNumberAndEmail(parsed.data.orderNumber, parsed.data.email);
+  if (!order) {
+    return { success: false, error: "No order found with that order number and email." };
+  }
+
+  return { success: true, data: order };
 }
