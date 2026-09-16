@@ -10,8 +10,8 @@ export default function manifest(): MetadataRoute.Manifest {
     display: "standalone",
     // Background matches the dark theme by default, ensuring a seamless
     // loading experience for the default dark mode preference.
-    background_color: "#1B1E24",
-    theme_color: "#1B1E24",
+    background_color: "#000000",
+    theme_color: "#000000",
     orientation: "portrait-primary",
     icons: [
       { src: "/icons/icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
