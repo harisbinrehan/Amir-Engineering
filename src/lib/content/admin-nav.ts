@@ -8,6 +8,7 @@ export type AdminNavItem = {
 
 export const adminNav: AdminNavItem[] = [
   { label: "Overview", href: "/admin", roles: ["super_admin", "admin", "finance", "sales", "content_manager"] },
+  { label: "Contact Inquiries", href: "/admin/contact", roles: ["super_admin", "admin", "sales"] },
   { label: "Quotes", href: "/admin/quotes", roles: ["super_admin", "admin", "sales"] },
   { label: "Orders", href: "/admin/orders", roles: ["super_admin", "admin", "sales"] },
   { label: "Products", href: "/admin/products", roles: ["super_admin", "admin"] },

@@ -229,6 +229,39 @@ export type Database = {
           },
         ]
       }
+      contact_inquiries: {
+        Row: {
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          message: string
+          phone: string | null
+          status: Database["public"]["Enums"]["contact_inquiry_status"]
+          subject: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          message: string
+          phone?: string | null
+          status?: Database["public"]["Enums"]["contact_inquiry_status"]
+          subject?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          message?: string
+          phone?: string | null
+          status?: Database["public"]["Enums"]["contact_inquiry_status"]
+          subject?: string | null
+        }
+        Relationships: []
+      }
       content_blocks: {
         Row: {
           content: Json
@@ -1690,6 +1723,7 @@ export type Database = {
         | "sales"
         | "content_manager"
         | "customer"
+      contact_inquiry_status: "new" | "read" | "resolved"
       content_block_status: "draft" | "published"
       order_status:
         | "pending"
@@ -1848,6 +1882,7 @@ export const Constants = {
         "content_manager",
         "customer",
       ],
+      contact_inquiry_status: ["new", "read", "resolved"],
       content_block_status: ["draft", "published"],
       order_status: [
         "pending",
