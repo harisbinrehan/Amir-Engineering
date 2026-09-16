@@ -10,10 +10,10 @@ import { cn } from "@/lib/utils";
 export function BrandLogo({ className }: { className?: string }) {
   return (
     <Image
-      src="/brand/amir-engineering-logo.png"
+      src="/brand/amir-engineering-logo-cropped.png"
       alt="Amir Engineering"
-      width={1536}
-      height={1024}
+      width={500}
+      height={200}
       priority
       className={cn("h-12 w-auto object-contain", className)}
     />

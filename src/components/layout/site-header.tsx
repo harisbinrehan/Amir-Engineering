@@ -28,7 +28,7 @@ export function SiteHeader() {
     <header className="bg-background/95 border-border sticky top-0 z-50 border-b backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex shrink-0 items-center">
-          <BrandLogo className="h-16" />
+          <BrandLogo className="h-10 sm:h-12" />
         </Link>
 
         <NavigationMenu viewport={false} className="hidden lg:flex">

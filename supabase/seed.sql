@@ -146,3 +146,34 @@ insert into faqs (question, answer, category, sort_order) values
   ('Can machinery be customized for a specific production capacity?', 'Most of our machines and production lines can be configured for a target capacity. Share your requirements on the quote request form and our team will recommend a configuration.', 'machinery', 2),
   ('Do you export machinery internationally?', 'Yes, we supply machinery and production lines to customers outside Pakistan. Shipping, documentation and installation support are arranged per project.', 'machinery', 3),
   ('What payment methods are accepted for food product orders?', 'Food product orders can currently be paid via Cash on Delivery or Bank Transfer.', 'shop', 4);
+
+-- ---------------------------------------------------------------------------
+-- Food product catalog (shop)
+-- ---------------------------------------------------------------------------
+insert into product_categories (id, name, slug, description, sort_order) values
+  ('55555555-5555-5555-5555-555555555501', 'Noodles', 'noodles', 'Dried noodle products in retail and bulk pack sizes.', 1),
+  ('55555555-5555-5555-5555-555555555502', 'Macaroni', 'macaroni', 'Elbow and short-cut macaroni for retail and foodservice.', 2),
+  ('55555555-5555-5555-5555-555555555503', 'Pasta', 'pasta', 'Penne, fusilli and other pasta shapes.', 3),
+  ('55555555-5555-5555-5555-555555555504', 'Vermicelli', 'vermicelli', 'Roasted and plain vermicelli (seviyan).', 4);
+
+insert into products (id, category_id, name, slug, short_description, description, base_price, is_active, is_featured) values
+  ('66666666-6666-6666-6666-666666666601', '55555555-5555-5555-5555-555555555501', 'Chicken Noodles', 'chicken-noodles', 'Quick-cook noodles with a chicken-flavor seasoning sachet.', 'Quick-cook dried noodles paired with a chicken-flavor seasoning sachet — ready in minutes. Packed in a resealable pouch for freshness.', 150, true, true),
+  ('66666666-6666-6666-6666-666666666602', '55555555-5555-5555-5555-555555555501', 'Masala Noodles', 'masala-noodles', 'Quick-cook noodles with a spiced masala seasoning sachet.', 'Quick-cook dried noodles paired with a spiced masala seasoning sachet for a bolder, desi-style flavor.', 150, true, false),
+  ('66666666-6666-6666-6666-666666666603', '55555555-5555-5555-5555-555555555502', 'Classic Elbow Macaroni', 'classic-elbow-macaroni', 'Everyday elbow macaroni for salads, bakes and quick meals.', 'Durum-style elbow macaroni that holds its shape well for salads, baked macaroni and quick weeknight meals.', 140, true, true),
+  ('66666666-6666-6666-6666-666666666604', '55555555-5555-5555-5555-555555555503', 'Fusilli Pasta', 'fusilli-pasta', 'Spiral pasta that holds sauce well.', 'Spiral-cut fusilli pasta, shaped to hold thicker sauces and dressings for pasta salads and bakes.', 160, true, false),
+  ('66666666-6666-6666-6666-666666666605', '55555555-5555-5555-5555-555555555503', 'Penne Pasta', 'penne-pasta', 'Classic tube-shaped pasta for everyday cooking.', 'Classic ridged, tube-shaped penne pasta suited to both baked dishes and stovetop sauces.', 160, true, false),
+  ('66666666-6666-6666-6666-666666666606', '55555555-5555-5555-5555-555555555504', 'Premium Vermicelli (Seviyan)', 'premium-vermicelli', 'Fine roasted vermicelli for desserts and savory dishes.', 'Fine, lightly roasted vermicelli (seviyan) suited to both sweet dishes and savory pulao-style preparations.', 130, true, true);
+
+insert into product_variants (id, product_id, sku, label, price, weight_grams, stock_quantity, low_stock_threshold, is_active) values
+  ('77777777-7777-7777-7777-777777770101', '66666666-6666-6666-6666-666666666601', 'FF-CN-400', '400g Pack', 150, 400, 200, 20, true),
+  ('77777777-7777-7777-7777-777777770102', '66666666-6666-6666-6666-666666666601', 'FF-CN-1KG', '1kg Pack', 340, 1000, 120, 15, true),
+  ('77777777-7777-7777-7777-777777770201', '66666666-6666-6666-6666-666666666602', 'FF-MN-400', '400g Pack', 150, 400, 200, 20, true),
+  ('77777777-7777-7777-7777-777777770202', '66666666-6666-6666-6666-666666666602', 'FF-MN-1KG', '1kg Pack', 340, 1000, 120, 15, true),
+  ('77777777-7777-7777-7777-777777770301', '66666666-6666-6666-6666-666666666603', 'FF-EM-400', '400g Pack', 140, 400, 250, 20, true),
+  ('77777777-7777-7777-7777-777777770302', '66666666-6666-6666-6666-666666666603', 'FF-EM-1KG', '1kg Pack', 320, 1000, 150, 15, true),
+  ('77777777-7777-7777-7777-777777770401', '66666666-6666-6666-6666-666666666604', 'FF-FU-400', '400g Pack', 160, 400, 180, 20, true),
+  ('77777777-7777-7777-7777-777777770402', '66666666-6666-6666-6666-666666666604', 'FF-FU-1KG', '1kg Pack', 360, 1000, 100, 15, true),
+  ('77777777-7777-7777-7777-777777770501', '66666666-6666-6666-6666-666666666605', 'FF-PE-400', '400g Pack', 160, 400, 180, 20, true),
+  ('77777777-7777-7777-7777-777777770502', '66666666-6666-6666-6666-666666666605', 'FF-PE-1KG', '1kg Pack', 360, 1000, 100, 15, true),
+  ('77777777-7777-7777-7777-777777770601', '66666666-6666-6666-6666-666666666606', 'FF-VR-200', '200g Pack', 90, 200, 220, 20, true),
+  ('77777777-7777-7777-7777-777777770602', '66666666-6666-6666-6666-666666666606', 'FF-VR-400', '400g Pack', 170, 400, 150, 15, true);

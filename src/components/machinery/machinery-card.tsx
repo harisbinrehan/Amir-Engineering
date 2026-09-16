@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowUpRightIcon } from "lucide-react";
 import { PlaceholderImage } from "@/components/common/placeholder-image";
 import { Badge } from "@/components/ui/badge";
+import { realMachineryImagesBySlug } from "@/lib/content/real-machinery-media";
 
 type MachineryCardData = {
   slug: string;
@@ -19,6 +20,7 @@ export function MachineryCard({ machinery }: { machinery: MachineryCardData }) {
     >
       <div className="aspect-4/3 relative overflow-hidden">
         <PlaceholderImage
+          src={realMachineryImagesBySlug[machinery.slug]?.[0]}
           seed={machinery.slug}
           alt={machinery.name}
           fill

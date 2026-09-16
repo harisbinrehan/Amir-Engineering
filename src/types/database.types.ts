@@ -770,7 +770,13 @@ export type Database = {
           payment_status: Database["public"]["Enums"]["payment_status"]
           profile_id: string | null
           shipping_address_id: string | null
+          shipping_address_line1: string | null
+          shipping_address_line2: string | null
+          shipping_city: string | null
+          shipping_country: string
           shipping_fee: number
+          shipping_postal_code: string | null
+          shipping_province: string | null
           status: Database["public"]["Enums"]["order_status"]
           subtotal: number
           total: number
@@ -789,7 +795,13 @@ export type Database = {
           payment_status?: Database["public"]["Enums"]["payment_status"]
           profile_id?: string | null
           shipping_address_id?: string | null
+          shipping_address_line1?: string | null
+          shipping_address_line2?: string | null
+          shipping_city?: string | null
+          shipping_country?: string
           shipping_fee?: number
+          shipping_postal_code?: string | null
+          shipping_province?: string | null
           status?: Database["public"]["Enums"]["order_status"]
           subtotal?: number
           total?: number
@@ -808,7 +820,13 @@ export type Database = {
           payment_status?: Database["public"]["Enums"]["payment_status"]
           profile_id?: string | null
           shipping_address_id?: string | null
+          shipping_address_line1?: string | null
+          shipping_address_line2?: string | null
+          shipping_city?: string | null
+          shipping_country?: string
           shipping_fee?: number
+          shipping_postal_code?: string | null
+          shipping_province?: string | null
           status?: Database["public"]["Enums"]["order_status"]
           subtotal?: number
           total?: number

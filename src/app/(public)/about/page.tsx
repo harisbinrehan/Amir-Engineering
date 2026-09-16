@@ -7,7 +7,6 @@ import { PlaceholderImage } from "@/components/common/placeholder-image";
 import { StatsCounter } from "@/components/home/stats-counter";
 import { aboutContent } from "@/lib/content/placeholder-copy";
 import { trustStats } from "@/lib/content/placeholder-copy";
-import { teamImages } from "@/lib/content/placeholder-images";
 import { factoryFloorImages } from "@/lib/content/real-machinery-media";
 
 export const metadata: Metadata = {
@@ -87,12 +86,12 @@ export default function AboutPage() {
       <Section>
         <h2 className="font-heading text-2xl font-bold tracking-tight">Leadership Team</h2>
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {teamImages.map((src, index) => (
-            <div key={src} className="text-center">
+          {[1, 2, 3, 4].map((index) => (
+            <div key={index} className="text-center">
               <div className="relative mx-auto aspect-square w-32 overflow-hidden rounded-full">
-                <PlaceholderImage src={src} seed={`team-${index}`} alt="Team member" fill className="object-cover" />
+                <PlaceholderImage seed={`team-${index}`} alt="Team member" fill className="object-cover" />
               </div>
-              <p className="font-heading mt-3 text-sm font-semibold">Team Member {index + 1}</p>
+              <p className="font-heading mt-3 text-sm font-semibold">Team Member {index}</p>
               <p className="text-muted-foreground text-xs">Engineering &amp; Operations</p>
             </div>
           ))}

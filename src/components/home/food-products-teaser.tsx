@@ -4,7 +4,6 @@ import { Section } from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
 import { PlaceholderImage } from "@/components/common/placeholder-image";
 import { foodProductsTeaser } from "@/lib/content/placeholder-copy";
-import { heroImages } from "@/lib/content/placeholder-images";
 
 export function FoodProductsTeaser() {
   return (
@@ -12,7 +11,6 @@ export function FoodProductsTeaser() {
       <div className="grid items-center gap-12 lg:grid-cols-2">
         <div className="aspect-4/3 relative overflow-hidden rounded-xl">
           <PlaceholderImage
-            src={heroImages.foodProducts}
             seed="amir-food-teaser"
             alt="Packaged noodles, macaroni and pasta products"
             fill
