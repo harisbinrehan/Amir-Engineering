@@ -6,6 +6,7 @@ import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { PlaceholderImage } from "@/components/common/placeholder-image";
 import { EmptyState } from "@/components/common/empty-state";
 import { getProductionLines } from "@/lib/data/production-lines";
+import { realProductionLineImagesBySlug, productionLineFallbackImage } from "@/lib/content/real-machinery-media";
 
 export const metadata: Metadata = {
   title: "Production Lines",
@@ -41,6 +42,7 @@ export default async function ProductionLinesPage() {
               >
                 <div className="aspect-4/3 relative overflow-hidden">
                   <PlaceholderImage
+                    src={realProductionLineImagesBySlug[line.slug] ?? productionLineFallbackImage}
                     seed={line.slug}
                     alt={line.name}
                     fill

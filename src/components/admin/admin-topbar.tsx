@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LogOutIcon, MenuIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { adminNav } from "@/lib/content/admin-nav";
@@ -33,6 +34,7 @@ export function AdminTopbar({ fullName, role }: { fullName: string; role: StaffR
       </div>
 
       <div className="flex items-center gap-3">
+        <ThemeToggle />
         <div className="hidden text-right sm:block">
           <p className="text-sm font-medium">{fullName}</p>
         </div>

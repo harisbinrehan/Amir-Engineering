@@ -8,6 +8,7 @@ import { ProcessFlow } from "@/components/production-lines/process-flow";
 import { RequestQuoteButton } from "@/components/machinery/request-quote-button";
 import { BrochureDownloadButton } from "@/components/machinery/brochure-download-button";
 import { getProductionLineBySlug } from "@/lib/data/production-lines";
+import { realProductionLineImagesBySlug, productionLineFallbackImage } from "@/lib/content/real-machinery-media";
 
 export async function generateMetadata(props: PageProps<"/production-lines/[slug]">): Promise<Metadata> {
   const { slug } = await props.params;
@@ -37,7 +38,14 @@ export default async function ProductionLineDetailPage(props: PageProps<"/produc
       <Section className="pt-4">
         <div className="grid gap-12 lg:grid-cols-2">
           <div className="aspect-4/3 relative overflow-hidden rounded-xl">
-            <PlaceholderImage seed={line.slug} alt={line.name} fill priority className="object-cover" />
+            <PlaceholderImage
+              src={realProductionLineImagesBySlug[line.slug] ?? productionLineFallbackImage}
+              seed={line.slug}
+              alt={line.name}
+              fill
+              priority
+              className="object-cover"
+            />
           </div>
           <div>
             <h1 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl">{line.name}</h1>

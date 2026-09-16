@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { MenuIcon, ShoppingCartIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useCart } from "@/lib/cart/cart-context";
 import {
   NavigationMenu,
@@ -71,6 +72,7 @@ export function SiteHeader() {
           <Button asChild className="bg-industrial text-industrial-foreground hover:bg-industrial/90 hidden sm:inline-flex">
             <Link href={utilityNav[1].href}>{utilityNav[1].label}</Link>
           </Button>
+          <ThemeToggle className="hidden sm:inline-flex" />
           <Button variant="outline" size="icon" asChild className="relative">
             <Link href="/cart" aria-label="View cart">
               <ShoppingCartIcon />
