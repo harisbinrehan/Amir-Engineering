@@ -25,6 +25,7 @@ export function FoodProductsTeaser() {
             seed="amir-food-teaser"
             alt="A bowl of noodles — illustrative photo, not a specific product"
             fill
+            sizes="(min-width: 1024px) 50vw, 100vw"
             className="object-cover"
           />
         </div>

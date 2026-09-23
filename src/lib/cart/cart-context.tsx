@@ -56,8 +56,10 @@ function getSnapshot(): CartLine[] {
   return cache;
 }
 
+const emptyServerSnapshot: CartLine[] = [];
+
 function getServerSnapshot(): CartLine[] {
-  return [];
+  return emptyServerSnapshot;
 }
 
 function subscribe(listener: () => void) {

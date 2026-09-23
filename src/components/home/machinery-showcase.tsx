@@ -45,7 +45,7 @@ export function MachineryShowcase() {
         }}
         className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
       >
-        {machineryCategoriesTeaser.map((category) => (
+        {machineryCategoriesTeaser.map((category, index) => (
           <MotionLink
             key={category.slug}
             href={`/machinery?category=${category.slug}`}
@@ -61,6 +61,7 @@ export function MachineryShowcase() {
                 seed={category.slug}
                 alt={category.name}
                 fill
+                priority={index <= 1}
                 sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
               />

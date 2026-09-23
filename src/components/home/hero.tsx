@@ -6,21 +6,43 @@ import { ArrowRightIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PlaceholderImage } from "@/components/common/placeholder-image";
 import { homeHero } from "@/lib/content/placeholder-copy";
-import { heroMachineryImage } from "@/lib/content/real-machinery-media";
+
+const HERO_VIDEO_POSTER = "/video/hero-poster.jpg";
 
 export function Hero() {
   return (
     <section className="bg-surface-dark text-surface-dark-foreground relative overflow-hidden">
       <div className="absolute inset-0">
+        {/* Poster sits behind the video at all times: it's what shows when
+            prefers-reduced-motion hides the video below, and what paints
+            before the video has buffered enough to render. */}
         <PlaceholderImage
-          src={heroMachineryImage}
-          seed="amir-hero-machinery"
-          alt="Industrial food-processing machinery on the factory floor"
+          src={HERO_VIDEO_POSTER}
+          seed="amir-hero-video-poster"
+          alt="Amir Engineering facility and production machinery"
           fill
           priority
-          className="object-cover opacity-30"
+          loading="eager"
+          className="object-cover"
         />
-        <div className="from-surface-dark via-surface-dark/95 absolute inset-0 bg-gradient-to-t to-transparent" />
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster={HERO_VIDEO_POSTER}
+          aria-hidden="true"
+          className="motion-reduce:hidden absolute inset-0 h-full w-full object-cover"
+        >
+          <source src="/video/hero-background.mp4" type="video/mp4" />
+        </video>
+        {/* One moderate flat tint (not a stack of them) — enough for the
+            video's own baked-in captions to recede behind the headline and
+            keep text readable, without hiding the video itself. Heavier
+            fade at the bottom, where the CTAs sit, easing to clear at top. */}
+        <div className="bg-surface-dark/40 absolute inset-0" />
+        <div className="from-surface-dark via-surface-dark/30 absolute inset-0 bg-gradient-to-t to-transparent" />
       </div>
 
       <div className="relative mx-auto flex max-w-7xl flex-col justify-center px-4 py-16 sm:px-6 lg:px-8">
