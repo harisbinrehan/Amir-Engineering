@@ -4,6 +4,7 @@ import { CheckIcon } from "lucide-react";
 import { Section } from "@/components/layout/section";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { PlaceholderImage } from "@/components/common/placeholder-image";
+import { BackgroundVideo } from "@/components/common/background-video";
 import { StatsCounter } from "@/components/home/stats-counter";
 import { aboutContent } from "@/lib/content/placeholder-copy";
 import { trustStats } from "@/lib/content/placeholder-copy";
@@ -24,15 +25,11 @@ export default function AboutPage() {
       </Section>
 
       <Section className="pt-0">
-        <div className="relative aspect-21/9 overflow-hidden rounded-xl">
-          <Image
-            src="/brand/amir-engineering-facility.jpg"
-            alt="Amir Engineering facility"
-            fill
-            priority
-            sizes="(min-width: 1280px) 1200px, 100vw"
-            className="object-cover"
-          />
+        {/* The source video is vertical (9:16) — sized to its native ratio
+            here, instead of the wide 21:9 crop, so the full frame shows
+            uncropped rather than trimming it down to a thin sliver. */}
+        <div className="relative mx-auto aspect-9/16 w-full max-w-sm overflow-hidden rounded-xl sm:max-w-md">
+          <BackgroundVideo />
         </div>
       </Section>
 

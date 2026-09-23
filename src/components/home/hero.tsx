@@ -4,39 +4,14 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import { ArrowRightIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { PlaceholderImage } from "@/components/common/placeholder-image";
+import { BackgroundVideo } from "@/components/common/background-video";
 import { homeHero } from "@/lib/content/placeholder-copy";
-
-const HERO_VIDEO_POSTER = "/video/hero-poster.jpg";
 
 export function Hero() {
   return (
     <section className="bg-surface-dark text-surface-dark-foreground relative overflow-hidden">
       <div className="absolute inset-0">
-        {/* Poster sits behind the video at all times: it's what shows when
-            prefers-reduced-motion hides the video below, and what paints
-            before the video has buffered enough to render. */}
-        <PlaceholderImage
-          src={HERO_VIDEO_POSTER}
-          seed="amir-hero-video-poster"
-          alt="Amir Engineering facility and production machinery"
-          fill
-          priority
-          loading="eager"
-          className="object-cover object-top"
-        />
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster={HERO_VIDEO_POSTER}
-          aria-hidden="true"
-          className="motion-reduce:hidden absolute inset-0 h-full w-full object-cover object-top"
-        >
-          <source src="/video/hero-background.mp4" type="video/mp4" />
-        </video>
+        <BackgroundVideo priority />
         {/* One moderate flat tint (not a stack of them) — enough for the
             video's own baked-in captions to recede behind the headline and
             keep text readable, without hiding the video itself. Heavier
