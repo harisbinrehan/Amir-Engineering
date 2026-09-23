@@ -85,7 +85,7 @@ export default async function ProductionLineDetailPage(props: PageProps<"/produc
       </Section>
 
       {line.stages.length > 0 && (
-        <Section variant="dark">
+        <Section variant="muted">
           <h2 className="font-heading text-2xl font-bold tracking-tight">Production Process</h2>
           <div className="mt-8">
             <ProcessFlow stages={line.stages} />

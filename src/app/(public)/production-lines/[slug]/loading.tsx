@@ -28,11 +28,11 @@ export default function ProductionLineDetailLoading() {
         </div>
       </Section>
 
-      <Section variant="dark">
-        <Skeleton className="h-6 w-48 bg-white/10" />
+      <Section variant="muted">
+        <Skeleton className="bg-foreground/10 h-6 w-48" />
         <div className="mt-8 flex gap-4 overflow-hidden">
           {Array.from({ length: 5 }).map((_, i) => (
-            <Skeleton key={i} className="h-24 w-32 shrink-0 rounded-lg bg-white/10" />
+            <Skeleton key={i} className="bg-foreground/10 h-24 w-32 shrink-0 rounded-lg" />
           ))}
         </div>
       </Section>
