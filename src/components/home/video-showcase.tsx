@@ -21,7 +21,7 @@ export function VideoShowcase() {
   };
 
   return (
-    <Section variant="dark" className="border-surface-dark-foreground/10 border-b">
+    <Section variant="muted" className="border-border border-b">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -35,7 +35,7 @@ export function VideoShowcase() {
         <h2 className="font-heading mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
           See Amir Engineering Machinery in Operation
         </h2>
-        <p className="text-surface-dark-foreground/80 mt-4 text-lg leading-relaxed">
+        <p className="text-muted-foreground mt-4 text-lg leading-relaxed">
           Real machines, running in real production environments — as featured in independent industry
           coverage across Pakistan.
         </p>
@@ -56,7 +56,7 @@ export function VideoShowcase() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.35, ease: "easeOut" }}
-              className="bg-background/5 relative aspect-video overflow-hidden rounded-xl"
+              className="bg-muted relative aspect-video overflow-hidden rounded-xl"
             >
               {playingId === active.id ? (
                 <iframe
@@ -93,7 +93,7 @@ export function VideoShowcase() {
           {playingId !== active.id && (
             <div className="mt-3">
               <p className="line-clamp-1 text-sm font-medium">{active.title}</p>
-              <p className="text-surface-dark-foreground/60 text-xs">Featured by {active.channel} on YouTube</p>
+              <p className="text-muted-foreground text-xs">Featured by {active.channel} on YouTube</p>
             </div>
           )}
         </div>
@@ -105,7 +105,7 @@ export function VideoShowcase() {
               type="button"
               onClick={() => selectVideo(video.id)}
               className={cn(
-                "group border-surface-dark-foreground/10 hover:border-industrial/60 relative aspect-video w-40 shrink-0 overflow-hidden rounded-lg border transition-colors lg:w-auto",
+                "group border-border hover:border-industrial/60 relative aspect-video w-40 shrink-0 overflow-hidden rounded-lg border transition-colors lg:w-auto",
               )}
             >
               <Image

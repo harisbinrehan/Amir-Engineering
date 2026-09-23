@@ -6,44 +6,44 @@ import { siteConfig } from "@/lib/content/site-config";
 
 export function SiteFooter() {
   return (
-    <footer className="bg-surface-dark text-surface-dark-foreground mt-auto">
+    <footer className="bg-muted text-foreground mt-auto">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-6 sm:px-6 lg:grid-cols-5 lg:px-8">
         <div className="lg:col-span-2">
-          <p className="text-surface-dark-foreground/70 max-w-sm text-sm leading-relaxed">
+          <p className="text-muted-foreground max-w-sm text-sm leading-relaxed">
             {siteConfig.description}
           </p>
-          <div className="text-surface-dark-foreground/70 mt-6 space-y-2 text-sm">
+          <div className="text-muted-foreground mt-6 space-y-2 text-sm">
             <div className="flex items-center gap-2">
               <MapPinIcon className="size-4 shrink-0" />
-              <a href={siteConfig.contact.mapsUrl} target="_blank" rel="noopener noreferrer" className="hover:text-surface-dark-foreground">
+              <a href={siteConfig.contact.mapsUrl} target="_blank" rel="noopener noreferrer" className="hover:text-foreground">
                 {siteConfig.contact.address.line1}, {siteConfig.contact.address.line2},{" "}
                 {siteConfig.contact.address.city}
               </a>
             </div>
             <div className="flex items-center gap-2">
               <PhoneIcon className="size-4 shrink-0" />
-              <a href={`tel:${siteConfig.contact.phone}`} className="hover:text-surface-dark-foreground">
+              <a href={`tel:${siteConfig.contact.phone}`} className="hover:text-foreground">
                 {siteConfig.contact.phone}
               </a>
             </div>
             <div className="flex items-center gap-2">
               <MailIcon className="size-4 shrink-0" />
-              <a href={`mailto:${siteConfig.contact.email}`} className="hover:text-surface-dark-foreground">
+              <a href={`mailto:${siteConfig.contact.email}`} className="hover:text-foreground">
                 {siteConfig.contact.email}
               </a>
             </div>
           </div>
           <div className="mt-6 flex items-center gap-4">
-            <a href={siteConfig.social.facebook} aria-label="Facebook" className="text-surface-dark-foreground/70 hover:text-surface-dark-foreground">
+            <a href={siteConfig.social.facebook} aria-label="Facebook" className="text-muted-foreground hover:text-foreground">
               <FacebookIcon className="size-5" />
             </a>
-            <a href={siteConfig.social.linkedin} aria-label="LinkedIn" className="text-surface-dark-foreground/70 hover:text-surface-dark-foreground">
+            <a href={siteConfig.social.linkedin} aria-label="LinkedIn" className="text-muted-foreground hover:text-foreground">
               <LinkedinIcon className="size-5" />
             </a>
-            <a href={siteConfig.social.youtube} aria-label="YouTube" className="text-surface-dark-foreground/70 hover:text-surface-dark-foreground">
+            <a href={siteConfig.social.youtube} aria-label="YouTube" className="text-muted-foreground hover:text-foreground">
               <YoutubeIcon className="size-5" />
             </a>
-            <a href={siteConfig.social.instagram} aria-label="Instagram" className="text-surface-dark-foreground/70 hover:text-surface-dark-foreground">
+            <a href={siteConfig.social.instagram} aria-label="Instagram" className="text-muted-foreground hover:text-foreground">
               <InstagramIcon className="size-5" />
             </a>
           </div>
@@ -55,7 +55,7 @@ export function SiteFooter() {
             <ul className="mt-4 space-y-2.5">
               {column.links.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-surface-dark-foreground/70 hover:text-surface-dark-foreground text-sm">
+                  <Link href={link.href} className="text-muted-foreground hover:text-foreground text-sm">
                     {link.label}
                   </Link>
                 </li>
@@ -65,8 +65,8 @@ export function SiteFooter() {
         ))}
       </div>
 
-      <div className="border-surface-dark-foreground/10 border-t">
-        <div className="text-surface-dark-foreground/60 mx-auto flex max-w-7xl flex-col gap-2 px-4 py-6 text-xs sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+      <div className="border-border border-t">
+        <div className="text-muted-foreground mx-auto flex max-w-7xl flex-col gap-2 px-4 py-6 text-xs sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
           <p>
             &copy; {new Date().getFullYear()} {siteConfig.legalName}. All rights reserved.
           </p>
