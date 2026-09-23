@@ -23,7 +23,7 @@ export function Hero() {
           fill
           priority
           loading="eager"
-          className="object-cover"
+          className="object-cover object-top"
         />
         <video
           autoPlay
@@ -33,7 +33,7 @@ export function Hero() {
           preload="metadata"
           poster={HERO_VIDEO_POSTER}
           aria-hidden="true"
-          className="motion-reduce:hidden absolute inset-0 h-full w-full object-cover"
+          className="motion-reduce:hidden absolute inset-0 h-full w-full object-cover object-top"
         >
           <source src="/video/hero-background.mp4" type="video/mp4" />
         </video>
