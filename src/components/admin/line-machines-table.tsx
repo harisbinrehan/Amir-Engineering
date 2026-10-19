@@ -23,50 +23,83 @@ export function LineMachinesTable({
   }
 
   return (
-    <div className="overflow-x-auto rounded-lg border">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Machine</TableHead>
-            <TableHead className="hidden sm:table-cell">Stage</TableHead>
-            <TableHead className="text-right">Qty</TableHead>
-            <TableHead className="w-20" />
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {machines.map((entry) => (
-            <TableRow key={entry.id} className="hover:bg-muted/50">
-              <TableCell className="font-medium">{entry.machinery?.name ?? "—"}</TableCell>
-              <TableCell className="hidden sm:table-cell">
-                {entry.stage ? (
-                  <Badge variant="secondary" className="font-normal">
-                    {entry.stage.name}
-                  </Badge>
-                ) : (
-                  "—"
-                )}
-              </TableCell>
-              <TableCell className="text-right">{entry.quantity}</TableCell>
-              <TableCell>
-                <div className="flex items-center justify-end gap-1">
-                  <LineMachineFormDialog
-                    lineId={lineId}
-                    stages={stages}
-                    machineryOptions={machineryOptions}
-                    entry={entry}
-                    trigger={
-                      <Button type="button" variant="ghost" size="icon">
-                        <PencilIcon className="size-4" />
-                      </Button>
-                    }
-                  />
-                  <DeleteLineMachineButton entryId={entry.id} lineId={lineId} />
-                </div>
-              </TableCell>
+    <>
+      <div className="grid grid-cols-1 gap-3 sm:hidden">
+        {machines.map((entry) => (
+          <div key={entry.id} className="rounded-lg border p-4">
+            <div className="flex items-start justify-between gap-2">
+              <p className="font-medium">{entry.machinery?.name ?? "—"}</p>
+              <span className="text-muted-foreground text-sm">Qty {entry.quantity}</span>
+            </div>
+            {entry.stage && (
+              <Badge variant="secondary" className="mt-2 font-normal">
+                {entry.stage.name}
+              </Badge>
+            )}
+            <div className="mt-3 flex items-center gap-1 border-t pt-3">
+              <LineMachineFormDialog
+                lineId={lineId}
+                stages={stages}
+                machineryOptions={machineryOptions}
+                entry={entry}
+                trigger={
+                  <Button type="button" variant="ghost" size="sm" className="gap-1.5">
+                    <PencilIcon className="size-3.5" />
+                    Edit
+                  </Button>
+                }
+              />
+              <DeleteLineMachineButton entryId={entry.id} lineId={lineId} />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="hidden rounded-lg border sm:block">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Machine</TableHead>
+              <TableHead>Stage</TableHead>
+              <TableHead className="text-right">Qty</TableHead>
+              <TableHead className="w-20" />
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
+          </TableHeader>
+          <TableBody>
+            {machines.map((entry) => (
+              <TableRow key={entry.id} className="hover:bg-muted/50">
+                <TableCell className="font-medium">{entry.machinery?.name ?? "—"}</TableCell>
+                <TableCell>
+                  {entry.stage ? (
+                    <Badge variant="secondary" className="font-normal">
+                      {entry.stage.name}
+                    </Badge>
+                  ) : (
+                    "—"
+                  )}
+                </TableCell>
+                <TableCell className="text-right">{entry.quantity}</TableCell>
+                <TableCell>
+                  <div className="flex items-center justify-end gap-1">
+                    <LineMachineFormDialog
+                      lineId={lineId}
+                      stages={stages}
+                      machineryOptions={machineryOptions}
+                      entry={entry}
+                      trigger={
+                        <Button type="button" variant="ghost" size="icon">
+                          <PencilIcon className="size-4" />
+                        </Button>
+                      }
+                    />
+                    <DeleteLineMachineButton entryId={entry.id} lineId={lineId} />
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    </>
   );
 }

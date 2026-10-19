@@ -124,7 +124,69 @@ export function CatalogTable({
         />
       )}
 
-      <div className="overflow-x-auto rounded-lg border">
+      <div className="grid grid-cols-1 gap-3 sm:hidden">
+        {rows.map((row) => {
+          const stockInfo = STOCK_BADGE[row.stock_status ?? "no_variants"];
+          const priceLabel =
+            row.price_from === row.price_to
+              ? formatCurrency(Number(row.price_from))
+              : `${formatCurrency(Number(row.price_from))}–${formatCurrency(Number(row.price_to))}`;
+
+          return (
+            <div key={row.id} className="rounded-lg border p-4">
+              <div className="flex items-start gap-3">
+                <Checkbox
+                  checked={selected.has(row.id)}
+                  onCheckedChange={() => toggleOne(row.id)}
+                  aria-label={`Select ${row.name}`}
+                  className="mt-1"
+                />
+                <div className="bg-muted relative size-10 shrink-0 overflow-hidden rounded-md">
+                  {row.image_url ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={row.image_url} alt="" className="size-full object-cover" />
+                  ) : (
+                    <div className="text-muted-foreground flex size-full items-center justify-center">
+                      <ImageIcon className="size-4" />
+                    </div>
+                  )}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate font-medium">{row.name}</p>
+                  <p className="text-muted-foreground truncate text-xs">
+                    {row.category_name ?? "—"} &middot; {row.variant_count} variant{row.variant_count === 1 ? "" : "s"}
+                  </p>
+                </div>
+                <Button asChild type="button" variant="ghost" size="icon" className="shrink-0">
+                  <Link href={`/admin/products/${row.id}`}>
+                    <PencilIcon className="size-4" />
+                  </Link>
+                </Button>
+              </div>
+              <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t pt-3">
+                <div className="flex flex-wrap gap-1">
+                  <Badge variant={row.is_active ? "default" : "secondary"} className="font-normal">
+                    {row.is_active ? "Active" : "Inactive"}
+                  </Badge>
+                  {row.is_featured && (
+                    <Badge variant="secondary" className="font-normal">
+                      Featured
+                    </Badge>
+                  )}
+                  {row.stock_status !== "in_stock" && (
+                    <Badge className={`font-normal ${stockInfo.className}`} variant={stockInfo.className ? "default" : "secondary"}>
+                      {stockInfo.label}
+                    </Badge>
+                  )}
+                </div>
+                <span className="font-medium">{priceLabel}</span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="hidden rounded-lg border sm:block">
         <Table>
           <TableHeader>
             <TableRow>
