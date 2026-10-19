@@ -6,28 +6,39 @@ import { QuoteStatusBadge } from "@/components/common/status-badge";
 import { EmptyState } from "@/components/common/empty-state";
 import { formatDate } from "@/lib/utils/format";
 import { createClient } from "@/lib/supabase/server";
-import { getQuotes } from "@/lib/data/quotes";
+import { getQuotes, getMonthlyQuoteVolume, getQuotePipelineBreakdown } from "@/lib/data/quotes";
+import { QuoteTrendChart } from "@/components/admin/overview/quote-trend-chart";
+import { QuotePipelineChart } from "@/components/admin/overview/quote-pipeline-chart";
 
 export const metadata: Metadata = { title: "Overview" };
 
 export default async function AdminDashboardPage() {
   const supabase = await createClient();
 
-  const [{ count: totalQuotes }, { count: newQuotes }, { count: machineryCount }, { count: productCount }, recentQuotes] =
-    await Promise.all([
-      supabase.from("quotes").select("*", { count: "exact", head: true }),
-      supabase.from("quotes").select("*", { count: "exact", head: true }).eq("status", "new"),
-      supabase.from("machinery").select("*", { count: "exact", head: true }).eq("is_active", true),
-      supabase.from("products").select("*", { count: "exact", head: true }).eq("is_active", true),
-      getQuotes(),
-    ]);
+  const [
+    { count: totalQuotes },
+    { count: newQuotes },
+    { count: machineryCount },
+    { count: productCount },
+    recentQuotes,
+    monthlyQuoteVolume,
+    pipelineBreakdown,
+  ] = await Promise.all([
+    supabase.from("quotes").select("*", { count: "exact", head: true }),
+    supabase.from("quotes").select("*", { count: "exact", head: true }).eq("status", "new"),
+    supabase.from("machinery").select("*", { count: "exact", head: true }).eq("is_active", true),
+    supabase.from("products").select("*", { count: "exact", head: true }).eq("is_active", true),
+    getQuotes(),
+    getMonthlyQuoteVolume(),
+    getQuotePipelineBreakdown(),
+  ]);
 
   return (
     <div className="space-y-6">
       <div>
         <h1 className="font-heading text-2xl font-bold tracking-tight">Overview</h1>
         <p className="text-muted-foreground mt-1 text-sm">
-          Round-1 foundation dashboard — financial reporting and full analytics ship in a later module.
+          A snapshot of quote activity, pipeline health, and recent requests.
         </p>
       </div>
 
@@ -36,6 +47,15 @@ export default async function AdminDashboardPage() {
         <StatCard label="New Quotes" value={newQuotes ?? 0} icon={ClockIcon} hint="Awaiting review" />
         <StatCard label="Active Machinery" value={machineryCount ?? 0} icon={WrenchIcon} />
         <StatCard label="Active Products" value={productCount ?? 0} icon={PackageIcon} />
+      </div>
+
+      <div className="grid min-w-0 gap-4 lg:grid-cols-5">
+        <div className="lg:col-span-3">
+          <QuoteTrendChart data={monthlyQuoteVolume} />
+        </div>
+        <div className="lg:col-span-2">
+          <QuotePipelineChart data={pipelineBreakdown} />
+        </div>
       </div>
 
       <Card>
