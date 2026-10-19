@@ -4,16 +4,22 @@ import { StatCard } from "@/components/admin/stat-card";
 import { VendorsTable } from "@/components/admin/vendors-table";
 import { VendorFormDialog } from "@/components/admin/vendor-form-dialog";
 import { requireRole } from "@/lib/auth/require-role";
-import { getFinanceSummary } from "@/lib/data/admin-finance";
+import { getFinanceSummary, getMonthlyFinanceTrend } from "@/lib/data/admin-finance";
 import { getVendors } from "@/lib/data/expenses";
 import { formatCurrency } from "@/lib/utils/format";
+import { RevenueExpenseChart } from "@/components/admin/finance/revenue-expense-chart";
+import { NetIncomeChart } from "@/components/admin/finance/net-income-chart";
 
 export const metadata: Metadata = { title: "Finance" };
 
 export default async function AdminFinancePage() {
   await requireRole(["super_admin", "admin", "finance"]);
 
-  const [summary, vendors] = await Promise.all([getFinanceSummary(), getVendors()]);
+  const [summary, vendors, monthlyTrend] = await Promise.all([
+    getFinanceSummary(),
+    getVendors(),
+    getMonthlyFinanceTrend(),
+  ]);
 
   return (
     <div className="space-y-8">
@@ -38,6 +44,11 @@ export default async function AdminFinancePage() {
           <StatCard label="Expenses" value={formatCurrency(summary.expenses.totalAllTime)} icon={TrendingDownIcon} />
           <StatCard label="Net" value={formatCurrency(summary.netAllTime)} icon={ScaleIcon} />
         </div>
+      </div>
+
+      <div className="grid gap-4 lg:grid-cols-2">
+        <RevenueExpenseChart data={monthlyTrend} />
+        <NetIncomeChart data={monthlyTrend} />
       </div>
 
       <div className="space-y-4">
