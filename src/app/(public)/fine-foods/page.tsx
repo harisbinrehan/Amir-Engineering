@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 export default function FineFoodsPage() {
   return (
     <>
-      <Section containerClassName="max-w-3xl" className="pb-8">
+      <Section className="pb-8">
         <Breadcrumbs items={[{ label: "Fine Foods Industries" }]} />
         <span className="text-industrial mt-4 inline-block text-sm font-semibold tracking-wide uppercase">
           {businesses.fineFoods.sinceLabel}
@@ -25,7 +25,7 @@ export default function FineFoodsPage() {
           {businesses.fineFoods.name}
         </h1>
         <p className="mt-2 text-lg font-medium">{businesses.fineFoods.tagline}</p>
-        <p className="text-muted-foreground mt-4 text-lg leading-relaxed">{businesses.fineFoods.description}</p>
+        <p className="text-muted-foreground mt-4 max-w-3xl text-lg leading-relaxed">{businesses.fineFoods.description}</p>
       </Section>
 
       <Section className="pt-0">

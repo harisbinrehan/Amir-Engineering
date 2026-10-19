@@ -7,13 +7,15 @@ export function PublicStubPage({
   title,
   description,
   breadcrumbs,
+  containerClassName = "max-w-3xl",
 }: {
   title: string;
   description: string;
   breadcrumbs: BreadcrumbEntry[];
+  containerClassName?: string;
 }) {
   return (
-    <Section containerClassName="max-w-3xl">
+    <Section containerClassName={containerClassName}>
       <Breadcrumbs items={breadcrumbs} />
       <h1 className="font-heading mt-4 text-3xl font-bold tracking-tight sm:text-4xl">{title}</h1>
       <p className="text-muted-foreground mt-3 text-lg">{description}</p>

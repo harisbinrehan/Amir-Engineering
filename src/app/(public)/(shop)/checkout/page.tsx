@@ -7,7 +7,7 @@ export const metadata: Metadata = { title: "Checkout" };
 
 export default function CheckoutPage() {
   return (
-    <Section containerClassName="max-w-5xl">
+    <Section>
       <Breadcrumbs items={[{ label: "Cart", href: "/cart" }, { label: "Checkout" }]} />
       <h1 className="font-heading mt-4 text-3xl font-bold tracking-tight sm:text-4xl">Checkout</h1>
       <div className="mt-8">

@@ -12,6 +12,7 @@ export default function ProjectsPage() {
       title="Projects"
       description="Detailed case studies of completed installations — client, capacity, machinery supplied and results — are coming soon."
       breadcrumbs={[{ label: "Projects" }]}
+      containerClassName="max-w-7xl"
     />
   );
 }

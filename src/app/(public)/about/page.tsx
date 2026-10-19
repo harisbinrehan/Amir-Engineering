@@ -18,10 +18,10 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <>
-      <Section containerClassName="max-w-3xl" className="pb-8">
+      <Section className="pb-8">
         <Breadcrumbs items={[{ label: "About Us" }]} />
         <h1 className="font-heading mt-4 text-3xl font-bold tracking-tight sm:text-4xl">About Amir Engineering</h1>
-        <p className="text-muted-foreground mt-4 text-lg leading-relaxed">{aboutContent.intro}</p>
+        <p className="text-muted-foreground mt-4 max-w-3xl text-lg leading-relaxed">{aboutContent.intro}</p>
       </Section>
 
       <Section className="pt-0">

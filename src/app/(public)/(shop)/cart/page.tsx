@@ -15,7 +15,7 @@ export default function CartPage() {
   const { lines, subtotal, hydrated, updateQuantity, removeLine } = useCart();
 
   return (
-    <Section containerClassName="max-w-4xl">
+    <Section>
       <Breadcrumbs items={[{ label: "Cart" }]} />
       <h1 className="font-heading mt-4 text-3xl font-bold tracking-tight sm:text-4xl">Your Cart</h1>
 

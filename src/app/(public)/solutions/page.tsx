@@ -12,6 +12,7 @@ export default function SolutionsPage() {
       title="Solutions"
       description="Tailored solutions by production capacity, budget and facility size — this section is being built out."
       breadcrumbs={[{ label: "Solutions" }]}
+      containerClassName="max-w-7xl"
     />
   );
 }

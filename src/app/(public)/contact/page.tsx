@@ -44,14 +44,14 @@ const contactCards = [
 export default function ContactPage() {
   return (
     <>
-      <Section containerClassName="max-w-3xl" className="pb-8">
+      <Section className="pb-8">
         <Breadcrumbs items={[{ label: "Contact" }]} />
         <h1 className="font-heading mt-4 text-3xl font-bold tracking-tight sm:text-4xl">Contact Us</h1>
-        <p className="text-muted-foreground mt-4 text-lg leading-relaxed">
+        <p className="text-muted-foreground mt-4 max-w-3xl text-lg leading-relaxed">
           Reach out for machinery inquiries, production line consultations, or food product orders — our team
           typically responds within one business day.
         </p>
-        <div className="mt-8 relative overflow-hidden rounded-xl border border-border bg-card p-6 shadow-sm">
+        <div className="mt-8 relative max-w-3xl overflow-hidden rounded-xl border border-border bg-card p-6 shadow-sm">
           <div className="absolute inset-y-0 right-0 w-64 bg-gradient-to-l from-[#25D366]/10 to-transparent pointer-events-none" />
           <div className="relative z-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
             <div>

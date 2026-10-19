@@ -11,6 +11,7 @@ export default async function ProjectDetailPage(props: PageProps<"/projects/[slu
       title="Project Case Study"
       description={`The case study for "${slug}" is coming soon.`}
       breadcrumbs={[{ label: "Projects", href: "/projects" }, { label: slug }]}
+      containerClassName="max-w-7xl"
     />
   );
 }
