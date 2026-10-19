@@ -80,13 +80,13 @@
   --chart-4: oklch(0.65 0.02 260);
   --chart-5: oklch(0.4 0.01 260);
   --radius: 0.5rem;
-  --sidebar: oklch(0.2 0.012 260);
-  --sidebar-foreground: oklch(0.94 0.006 85);
+  --sidebar: oklch(0.97 0.004 90);
+  --sidebar-foreground: oklch(0.2 0.012 260);
   --sidebar-primary: oklch(0.72 0.16 55);
   --sidebar-primary-foreground: oklch(0.2 0.012 260);
-  --sidebar-accent: oklch(0.27 0.014 260);
-  --sidebar-accent-foreground: oklch(0.94 0.006 85);
-  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-accent: oklch(0.92 0.006 85);
+  --sidebar-accent-foreground: oklch(0.2 0.012 260);
+  --sidebar-border: oklch(0.89 0.007 85);
   --sidebar-ring: oklch(0.72 0.16 55);
 
   /* Dual-track accent: amber for machinery/B2B, wheat-green for food products */
