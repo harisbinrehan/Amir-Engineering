@@ -8,8 +8,10 @@ import { ProductEditForm } from "@/components/admin/product-edit-form";
 import { VariantsTable } from "@/components/admin/variants-table";
 import { VariantFormDialog } from "@/components/admin/variant-form-dialog";
 import { DeleteProductButton } from "@/components/admin/delete-product-button";
+import { ProductActivityHistory } from "@/components/admin/catalog/product-activity-history";
 import { requireRole } from "@/lib/auth/require-role";
 import { getAdminProductById, getAdminProductCategories } from "@/lib/data/admin-products";
+import { getProductAuditHistory } from "@/lib/data/admin-catalog";
 
 export const metadata: Metadata = { title: "Product Detail" };
 
@@ -17,7 +19,11 @@ export default async function AdminProductDetailPage(props: PageProps<"/admin/pr
   await requireRole(["super_admin", "admin"]);
 
   const { id } = await props.params;
-  const [product, categories] = await Promise.all([getAdminProductById(id), getAdminProductCategories()]);
+  const [product, categories, history] = await Promise.all([
+    getAdminProductById(id),
+    getAdminProductCategories(),
+    getProductAuditHistory(id),
+  ]);
   if (!product) notFound();
 
   return (
@@ -53,6 +59,8 @@ export default async function AdminProductDetailPage(props: PageProps<"/admin/pr
               <VariantsTable productId={product.id} variants={product.variants} />
             </CardContent>
           </Card>
+
+          <ProductActivityHistory history={history} />
         </div>
       </div>
     </div>

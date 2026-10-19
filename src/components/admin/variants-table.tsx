@@ -1,4 +1,3 @@
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/common/empty-state";
@@ -20,54 +19,50 @@ export function VariantsTable({
   }
 
   return (
-    <div className="overflow-x-auto rounded-lg border">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>SKU</TableHead>
-            <TableHead className="hidden md:table-cell">Label</TableHead>
-            <TableHead className="text-right">Price</TableHead>
-            <TableHead className="text-right">Stock</TableHead>
-            <TableHead className="hidden sm:table-cell">Status</TableHead>
-            <TableHead className="w-20" />
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {variants.map((variant) => (
-            <TableRow key={variant.id} className="hover:bg-muted/50">
-              <TableCell className="font-medium">{variant.sku}</TableCell>
-              <TableCell className="hidden text-muted-foreground md:table-cell">{variant.label ?? "—"}</TableCell>
-              <TableCell className="text-right">
+    <div className="space-y-3">
+      {variants.map((variant) => (
+        <div key={variant.id} className="rounded-lg border p-4">
+          <div className="mb-3 flex items-center justify-between gap-2">
+            <span className="truncate text-sm font-semibold">{variant.sku}</span>
+            <Badge variant={variant.is_active ? "default" : "secondary"} className="shrink-0 font-normal">
+              {variant.is_active ? "Active" : "Inactive"}
+            </Badge>
+          </div>
+
+          {variant.label && (
+            <p className="text-muted-foreground mb-2 text-sm">{variant.label}</p>
+          )}
+
+          <div className="mb-3 flex gap-6">
+            <div>
+              <p className="text-muted-foreground text-xs">Price</p>
+              <p className="text-sm font-medium">
                 {variant.price !== null ? formatCurrency(Number(variant.price)) : "—"}
-              </TableCell>
-              <TableCell className="text-right">
-                <span className={variant.stock_quantity <= variant.low_stock_threshold ? "text-destructive font-medium" : ""}>
-                  {variant.stock_quantity}
-                </span>
-              </TableCell>
-              <TableCell className="hidden sm:table-cell">
-                <Badge variant={variant.is_active ? "default" : "secondary"} className="font-normal">
-                  {variant.is_active ? "Active" : "Inactive"}
-                </Badge>
-              </TableCell>
-              <TableCell>
-                <div className="flex items-center justify-end gap-1">
-                  <VariantFormDialog
-                    productId={productId}
-                    variant={variant}
-                    trigger={
-                      <Button type="button" variant="ghost" size="icon">
-                        <PencilIcon className="size-4" />
-                      </Button>
-                    }
-                  />
-                  <DeleteVariantButton variantId={variant.id} productId={productId} />
-                </div>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+              </p>
+            </div>
+            <div>
+              <p className="text-muted-foreground text-xs">Stock</p>
+              <p className={`text-sm font-medium ${variant.stock_quantity <= variant.low_stock_threshold ? "text-destructive" : ""}`}>
+                {variant.stock_quantity}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-1 border-t pt-3">
+            <VariantFormDialog
+              productId={productId}
+              variant={variant}
+              trigger={
+                <Button type="button" variant="ghost" size="sm" className="gap-1.5">
+                  <PencilIcon className="size-3.5" />
+                  Edit
+                </Button>
+              }
+            />
+            <DeleteVariantButton variantId={variant.id} productId={productId} />
+          </div>
+        </div>
+      ))}
     </div>
   );
 }

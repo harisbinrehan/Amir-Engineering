@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getCurrentProfile, isStaffRole } from "@/lib/auth/get-profile";
 import { AdminSidebar } from "@/components/admin/admin-sidebar";
 import { AdminTopbar } from "@/components/admin/admin-topbar";
+import { SidebarProvider } from "@/components/admin/sidebar-context";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await getCurrentProfile();
@@ -13,12 +14,14 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const role = session.profile.role;
 
   return (
-    <div className="flex min-h-screen">
-      <AdminSidebar role={role} />
-      <div className="flex min-w-0 flex-1 flex-col">
-        <AdminTopbar fullName={session.profile.full_name ?? session.user.email ?? "Admin"} role={role} />
-        <main className="bg-secondary/30 flex-1 min-w-0 overflow-x-hidden p-4 sm:p-6 lg:p-8">{children}</main>
+    <SidebarProvider>
+      <div className="flex min-h-screen">
+        <AdminSidebar role={role} />
+        <div className="flex min-w-0 flex-1 flex-col">
+          <AdminTopbar fullName={session.profile.full_name ?? session.user.email ?? "Admin"} role={role} />
+          <main className="bg-secondary/30 flex-1 min-w-0 overflow-x-hidden p-4 sm:p-6 lg:p-8">{children}</main>
+        </div>
       </div>
-    </div>
+    </SidebarProvider>
   );
 }

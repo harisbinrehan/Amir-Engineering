@@ -967,6 +967,13 @@ export type Database = {
             foreignKeyName: "product_images_product_id_fkey"
             columns: ["product_id"]
             isOneToOne: false
+            referencedRelation: "admin_product_catalog"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_images_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
             referencedRelation: "products"
             referencedColumns: ["id"]
           },
@@ -1013,6 +1020,13 @@ export type Database = {
           weight_grams?: number | null
         }
         Relationships: [
+          {
+            foreignKeyName: "product_variants_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "admin_product_catalog"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "product_variants_product_id_fkey"
             columns: ["product_id"]
@@ -1664,7 +1678,37 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      admin_product_catalog: {
+        Row: {
+          base_price: number | null
+          category_id: string | null
+          category_name: string | null
+          created_at: string | null
+          currency: string | null
+          id: string | null
+          image_url: string | null
+          is_active: boolean | null
+          is_featured: boolean | null
+          name: string | null
+          price_from: number | null
+          price_to: number | null
+          sku_search: string | null
+          slug: string | null
+          stock_status: string | null
+          total_stock: number | null
+          updated_at: string | null
+          variant_count: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "product_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       adjust_variant_stock: {

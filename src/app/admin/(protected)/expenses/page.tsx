@@ -9,8 +9,17 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { StatCard } from "@/components/admin/stat-card";
 import { ExpensesTable } from "@/components/admin/expenses-table";
 import { ExpenseFormDialog } from "@/components/admin/expense-form-dialog";
+import { ExpenseTrendChart } from "@/components/admin/expenses/expense-trend-chart";
+import { ExpenseCategoryChart } from "@/components/admin/expenses/expense-category-chart";
 import { requireRole } from "@/lib/auth/require-role";
-import { getExpenses, getExpenseCategories, getVendors, getExpenseSummary } from "@/lib/data/expenses";
+import {
+  getExpenses,
+  getExpenseCategories,
+  getVendors,
+  getExpenseSummary,
+  getMonthlyExpensesByDepartment,
+  getExpensesByCategory,
+} from "@/lib/data/expenses";
 import { EXPENSE_DEPARTMENTS } from "@/lib/validation/expense-schema";
 import { formatCurrency } from "@/lib/utils/format";
 import { cn } from "@/lib/utils";
@@ -39,10 +48,12 @@ export default async function AdminExpensesPage(props: PageProps<"/admin/expense
   const department = typeof params.department === "string" ? params.department : "all";
   const search = typeof params.q === "string" ? params.q : "";
 
-  const [categories, vendors, summary] = await Promise.all([
+  const [categories, vendors, summary, monthlyByDepartment, byCategory] = await Promise.all([
     getExpenseCategories(),
     getVendors(),
     getExpenseSummary(),
+    getMonthlyExpensesByDepartment(),
+    getExpensesByCategory(),
   ]);
 
   return (
@@ -61,6 +72,11 @@ export default async function AdminExpensesPage(props: PageProps<"/admin/expense
         <StatCard label="This Month" value={formatCurrency(summary.totalThisMonth)} icon={CalendarIcon} />
         <StatCard label="All Time" value={formatCurrency(summary.totalAllTime)} icon={WalletIcon} />
         <StatCard label="Total Records" value={summary.countAllTime} icon={ReceiptIcon} />
+      </div>
+
+      <div className="grid gap-4 lg:grid-cols-2">
+        <ExpenseTrendChart data={monthlyByDepartment} />
+        <ExpenseCategoryChart data={byCategory} />
       </div>
 
       <form className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between" method="get">

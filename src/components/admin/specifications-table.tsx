@@ -1,4 +1,3 @@
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/common/empty-state";
 import { SpecificationFormDialog } from "@/components/admin/specification-form-dialog";
@@ -18,40 +17,33 @@ export function SpecificationsTable({
   }
 
   return (
-    <div className="overflow-x-auto rounded-lg border">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Group</TableHead>
-            <TableHead>Label</TableHead>
-            <TableHead>Value</TableHead>
-            <TableHead className="w-20" />
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {specifications.map((spec) => (
-            <TableRow key={spec.id} className="hover:bg-muted/50">
-              <TableCell className="text-muted-foreground">{spec.spec_group}</TableCell>
-              <TableCell className="font-medium">{spec.label}</TableCell>
-              <TableCell>{spec.value}</TableCell>
-              <TableCell>
-                <div className="flex items-center justify-end gap-1">
-                  <SpecificationFormDialog
-                    machineryId={machineryId}
-                    specification={spec}
-                    trigger={
-                      <Button type="button" variant="ghost" size="icon">
-                        <PencilIcon className="size-4" />
-                      </Button>
-                    }
-                  />
-                  <DeleteSpecificationButton specId={spec.id} machineryId={machineryId} />
-                </div>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+    <div className="space-y-3">
+      {specifications.map((spec) => (
+        <div key={spec.id} className="rounded-lg border p-4">
+          <div className="mb-1 flex items-center justify-between gap-2">
+            <span className="truncate text-sm font-semibold">{spec.label}</span>
+            {spec.spec_group && (
+              <span className="text-muted-foreground shrink-0 text-xs">{spec.spec_group}</span>
+            )}
+          </div>
+
+          <p className="text-sm">{spec.value}</p>
+
+          <div className="flex items-center gap-1 border-t pt-3 mt-3">
+            <SpecificationFormDialog
+              machineryId={machineryId}
+              specification={spec}
+              trigger={
+                <Button type="button" variant="ghost" size="sm" className="gap-1.5">
+                  <PencilIcon className="size-3.5" />
+                  Edit
+                </Button>
+              }
+            />
+            <DeleteSpecificationButton specId={spec.id} machineryId={machineryId} />
+          </div>
+        </div>
+      ))}
     </div>
   );
 }

@@ -1,4 +1,3 @@
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/common/empty-state";
 import { StageFormDialog } from "@/components/admin/stage-form-dialog";
@@ -18,40 +17,30 @@ export function StagesTable({
   }
 
   return (
-    <div className="overflow-x-auto rounded-lg border">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead className="hidden sm:table-cell">Description</TableHead>
-            <TableHead className="w-20" />
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {stages.map((stage) => (
-            <TableRow key={stage.id} className="hover:bg-muted/50">
-              <TableCell className="font-medium">{stage.name}</TableCell>
-              <TableCell className="hidden text-muted-foreground sm:table-cell">
-                {stage.description ?? "—"}
-              </TableCell>
-              <TableCell>
-                <div className="flex items-center justify-end gap-1">
-                  <StageFormDialog
-                    lineId={lineId}
-                    stage={stage}
-                    trigger={
-                      <Button type="button" variant="ghost" size="icon">
-                        <PencilIcon className="size-4" />
-                      </Button>
-                    }
-                  />
-                  <DeleteStageButton stageId={stage.id} lineId={lineId} />
-                </div>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+    <div className="space-y-3">
+      {stages.map((stage) => (
+        <div key={stage.id} className="rounded-lg border p-4">
+          <p className="text-sm font-semibold">{stage.name}</p>
+
+          {stage.description && (
+            <p className="text-muted-foreground mt-1 text-sm">{stage.description}</p>
+          )}
+
+          <div className="flex items-center gap-1 border-t pt-3 mt-3">
+            <StageFormDialog
+              lineId={lineId}
+              stage={stage}
+              trigger={
+                <Button type="button" variant="ghost" size="sm" className="gap-1.5">
+                  <PencilIcon className="size-3.5" />
+                  Edit
+                </Button>
+              }
+            />
+            <DeleteStageButton stageId={stage.id} lineId={lineId} />
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
