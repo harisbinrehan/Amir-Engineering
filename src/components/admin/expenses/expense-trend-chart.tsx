@@ -13,7 +13,7 @@ import {
 import { EXPENSE_DEPARTMENTS } from "@/lib/validation/expense-schema";
 import type { getMonthlyExpensesByDepartment } from "@/lib/data/expenses";
 
-// Validated against this app's light (card #fff) and dark (card #191d23)
+// Validated against this app's light (card #fff) and dark (card #26292d)
 // surfaces with scripts/validate_palette.js from the dataviz skill — all
 // checks pass; the amber/green pair sits in the 6–8 CVD floor band, which is
 // legal here because the chart ships a legend + direct value labels + a
